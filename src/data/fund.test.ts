@@ -17,6 +17,7 @@ import {
   oxygenProgramme,
   pmnrfComparison,
   popularCulture,
+  relatedFundsNote,
   sources,
   timeline,
   totalReceiptsCrore,
@@ -312,5 +313,16 @@ describe('completeness pass — content added from the full-article audit', () =
     const allTimeline = timeline.map((e) => e.event).join(' ')
     expect(allTimeline).toContain('Praveen Kumar')
     expect(allTimeline).toContain('Prabhakar Shinde')
+  })
+
+  it('captures the four final-audit sub-clauses (DUTA channels, PMO RTI denial, IPC glosses, PMNRF disclosure)', () => {
+    const allTimeline = timeline.map((e) => e.event).join(' ')
+    expect(allTimeline).toContain('Staff Associations')
+    expect(allTimeline).toContain('Vice Chancellor’s Relief Fund')
+    expect(allTimeline).toMatch(/intent to cause riots/)
+    expect(allTimeline).toMatch(/fear or alarm/)
+    const psuNote = institutionalDonations.find((d) => d.label === '32 PSUs')!.note
+    expect(psuNote).toMatch(/Prime Minister’s Office was denied/)
+    expect(relatedFundsNote).toMatch(/disclosing details of funding and spending/)
   })
 })

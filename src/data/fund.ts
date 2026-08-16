@@ -146,7 +146,7 @@ export const institutionalDonations: Donation[] = [
   {
     label: '32 PSUs',
     amountCrore: 2105,
-    note: 'Reported August 2020 (The Indian Express) — primarily from CSR budget allocations for 2019-20 and 2020-21; do not sum with the 101-PSU figure. Per the RTI replies, in one case the CSR allocation had been exceeded, and in others the allocation had not been finally decided when the transfer was made.',
+    note: 'Reported August 2020 (The Indian Express) — primarily from CSR budget allocations for 2019-20 and 2020-21; do not sum with the 101-PSU figure. Per the RTI replies, in one case the CSR allocation had been exceeded, and in others the allocation had not been finally decided when the transfer was made. A petition for the same information made to the Prime Minister’s Office was denied, the government stating the fund was not a public authority and did not have to account for the funds under the RTI Act.',
   },
   {
     label: 'Banks & financial institutions',
@@ -412,7 +412,7 @@ export const timeline: TimelineEvent[] = [
     date: '2020-04-20',
     dateDisplay: '20 Apr 2020',
     event:
-      'Delhi University is criticised after funds collected for the National Disaster Relief Fund are redirected to PM CARES without disclosing it to donors — on orders of the Ministry of Human Resources Development; DUTA calls it "a betrayal of trust", noting the university had traditionally supported the NDRF or the Chief Minister’s Relief Fund.',
+      'Delhi University is criticised after funds collected for the National Disaster Relief Fund are redirected to PM CARES without disclosing it to donors — on orders of the Ministry of Human Resources Development; DUTA calls it "a betrayal of trust", noting the university had traditionally supported the NDRF or the Chief Minister’s Relief Fund, through local Staff Associations or the Vice Chancellor’s Relief Fund.',
     category: 'money',
   },
   {
@@ -454,7 +454,7 @@ export const timeline: TimelineEvent[] = [
     date: '2020-05-22',
     dateDisplay: '22 May 2020',
     event:
-      'Bengaluru lawyer Praveen Kumar files a criminal complaint against Sonia Gandhi and other opposition leaders over tweets criticising the fund — under IPC sections 153 and 505(1)(b).',
+      'Bengaluru lawyer Praveen Kumar files a criminal complaint against Sonia Gandhi and other opposition leaders over tweets criticising the fund — under IPC section 153 (provocations with intent to cause riots) and section 505(1)(b) (intent to cause fear or alarm in the public).',
     category: 'legal',
   },
   {
@@ -753,7 +753,8 @@ export const litigation: LitigationCase[] = [
     case: 'Criminal complaint against opposition leaders over fund-critical tweets',
     forum: 'Bengaluru (police complaint)',
     dateDisplay: '22 May 2020',
-    outcome: 'Filed under IPC sections 153 and 505(1)(b)',
+    outcome:
+      'Filed under IPC section 153 (provocations with intent to cause riots) and 505(1)(b) (intent to cause fear or alarm in the public)',
   },
   {
     case: 'Petition seeking fund totals and audit details',
@@ -836,7 +837,7 @@ export const pmnrfComparison = [
 
 /** Context the article adds about related funds (Existing relief funds section). */
 export const relatedFundsNote =
-  'The article adds: the PMNRF (1948) provides relief for natural disasters, calamities and riots, and its donations are income-tax exempt; it has complied with audits questioning its spending (e.g., the 2013 Uttarakhand floods). Chief Ministers of several states questioned the preference for PM CARES over state relief funds, and activists suggested the PMNRF could instead be restructured under parliamentary oversight. The National Disaster Response Fund (Disaster Management Act, 2005) is publicly funded and does not accept private donations — the government distinguished PM CARES on exactly that basis. The article also notes the precise PM CARES–PMNRF distinction is itself unclear, since PM CARES’ trust deed and other governing documents were not publicly disclosed.'
+  'The article adds: the PMNRF (1948) provides relief for natural disasters, calamities and riots, and its donations are income-tax exempt; it has complied with audits questioning its spending (e.g., the 2013 Uttarakhand floods). Chief Ministers of several states questioned the preference for PM CARES over state relief funds, and activists suggested the PMNRF could instead be restructured — bringing it under parliamentary oversight and disclosing details of funding and spending. The National Disaster Response Fund (Disaster Management Act, 2005) is publicly funded and does not accept private donations — the government distinguished PM CARES on exactly that basis. The article also notes the precise PM CARES–PMNRF distinction is itself unclear, since PM CARES’ trust deed and other governing documents were not publicly disclosed.'
 
 // ---------------------------------------------------------------------------
 // FAQ (answers based solely on the Wikipedia article)
