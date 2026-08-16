@@ -1,4 +1,4 @@
-import { criticism, defence, pmnrfComparison, type DebatePoint } from '../data/fund'
+import { criticism, defence, pmnrfComparison, popularCulture, relatedFundsNote, type DebatePoint } from '../data/fund'
 
 function PointList({ points, tone }: { points: DebatePoint[]; tone: 'concern' | 'response' }) {
   const titleClass =
@@ -74,6 +74,17 @@ export function Debate() {
             </tbody>
           </table>
         </div>
+        <p className="px-4 pb-4 text-sm leading-relaxed text-secondary sm:px-6">
+          {relatedFundsNote}
+        </p>
+      </div>
+
+      <div className="rounded-xl border border-border bg-surface p-4 shadow-sm sm:p-6">
+        <h3 className="text-lg font-semibold text-primary">In popular culture</h3>
+        <p className="mt-2 text-sm leading-relaxed text-foreground">
+          <span className="tnum font-semibold">{popularCulture.monthDisplay}</span> —{' '}
+          {popularCulture.summary}
+        </p>
       </div>
     </div>
   )

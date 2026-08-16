@@ -10,12 +10,15 @@ export function IdentityCard() {
     ['Ex-officio trustees', identity.exOfficioTrustees.join(' · ')],
     ['Other trustees', identity.additionalTrustees],
     ['Advisory board', identity.advisoryBoard],
+    ['Trustee list disclosure', identity.trusteesPublicNote],
     ['Auditor', `${identity.auditor} — ${identity.auditorNote}`],
+    ['Stated purpose', identity.purposeScope],
     ['Website', identity.website],
     [
       'Minimum donation',
       `₹${identity.minimumDonationINR} (any citizen could donate)`,
     ],
+    ['Law Ministry petitions', identity.lawMinistryNote],
   ]
 
   return (

@@ -1,5 +1,8 @@
 import { About } from './components/About'
+import { AuditCard } from './components/AuditCard'
 import { Debate } from './components/Debate'
+import { Litigation } from './components/Litigation'
+import { References } from './components/References'
 import { StructuredData } from './components/StructuredData'
 import { Donations } from './components/Donations'
 import { Faq } from './components/Faq'
@@ -32,7 +35,10 @@ export default function App() {
           title="Overview"
           lead="The essentials: what the PM CARES Fund is, who runs it, and its headline numbers — exactly as documented on Wikipedia."
         >
-          <IdentityCard />
+          <div className="flex flex-col gap-6">
+            <IdentityCard />
+            <AuditCard />
+          </div>
         </Section>
 
         <Section
@@ -78,6 +84,14 @@ export default function App() {
         </Section>
 
         <Section
+          id="litigation"
+          title="Litigation"
+          lead="Court cases and orders concerning the fund, as documented in the article — including several still pending."
+        >
+          <Litigation />
+        </Section>
+
+        <Section
           id="faq"
           title="Frequently asked questions"
           lead="Quick answers, each drawn from the source article."
@@ -91,6 +105,14 @@ export default function App() {
           lead="Where every figure comes from, and what to keep in mind when reading it."
         >
           <Sources />
+        </Section>
+
+        <Section
+          id="references"
+          title="References"
+          lead="The complete citation list of the Wikipedia article behind this site."
+        >
+          <References />
         </Section>
 
         <Section

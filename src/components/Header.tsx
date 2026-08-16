@@ -5,8 +5,10 @@ const NAV_ITEMS = [
   { id: 'spending', label: 'Spending' },
   { id: 'timeline', label: 'Timeline' },
   { id: 'debate', label: 'Debate' },
+  { id: 'litigation', label: 'Litigation' },
   { id: 'faq', label: 'FAQ' },
   { id: 'sources', label: 'Sources' },
+  { id: 'references', label: 'References' },
   { id: 'about', label: 'About' },
 ]
 

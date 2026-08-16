@@ -11,7 +11,9 @@ import {
 import {
   institutionalDonations,
   militaryBreakdown,
+  militaryNotes,
   salaryDeductionExamples,
+  voluntaryDonors,
 } from '../data/fund'
 import { formatCrore } from '../lib/format'
 import { ChartCard } from './ChartCard'
@@ -91,6 +93,7 @@ export function Donations() {
               </li>
             ))}
           </ul>
+          <p className="mt-3 text-xs leading-relaxed text-secondary">{militaryNotes}</p>
         </div>
 
         <div className="rounded-xl border border-border bg-surface p-4 shadow-sm sm:p-6">
@@ -103,6 +106,48 @@ export function Donations() {
               <li key={s.slice(0, 24)}>{s}</li>
             ))}
           </ul>
+        </div>
+
+        <div className="rounded-xl border border-border bg-surface p-4 shadow-sm sm:p-6">
+          <h3 className="text-lg font-semibold text-primary">Who pledged support</h3>
+          <p className="mt-1 text-sm text-secondary">
+            Donors named in the article body text (no amounts given there):
+          </p>
+          <p className="mt-3 text-xs font-semibold uppercase tracking-wide text-secondary">
+            Corporations &amp; foundations
+          </p>
+          <ul className="mt-2 flex flex-wrap gap-2 text-sm">
+            {voluntaryDonors.corporations.map((c) => (
+              <li key={c} className="rounded-full bg-muted px-3 py-1 text-foreground">
+                {c}
+              </li>
+            ))}
+          </ul>
+          <p className="mt-4 text-xs font-semibold uppercase tracking-wide text-secondary">
+            Individuals
+          </p>
+          <ul className="mt-2 flex flex-wrap gap-2 text-sm">
+            {voluntaryDonors.individuals.map((i) => (
+              <li key={i} className="rounded-full bg-muted px-3 py-1 text-foreground">
+                {i}
+              </li>
+            ))}
+          </ul>
+          <p className="mt-4 text-xs font-semibold uppercase tracking-wide text-secondary">
+            Headline-only amounts — never stated in the article body
+          </p>
+          <ul className="mt-2 divide-y divide-border/60 text-sm">
+            {voluntaryDonors.titleOnlyAmounts.map((t) => (
+              <li key={t.label} className="flex flex-wrap items-baseline justify-between gap-2 py-1.5">
+                <span className="text-foreground">{t.label}</span>
+                <span className="tnum text-secondary">{t.amount}</span>
+              </li>
+            ))}
+          </ul>
+          <p className="mt-3 text-xs leading-relaxed text-secondary">
+            These figures appear only in cited headlines and are not treated as facts elsewhere on
+            this site.
+          </p>
         </div>
       </div>
     </div>

@@ -120,8 +120,37 @@ export function Spending() {
           promised={oxygenProgramme.delhiSanctioned}
           delivered={oxygenProgramme.delhiBuilt}
           deliveredLabel={`${oxygenProgramme.delhiBuilt} built`}
-          note={`Told to the Delhi High Court on 22 April 2021. Later, on 26 April 2021, 551 plants + 1,00,000 concentrators were announced.`}
+          note={`Told to the Delhi High Court on 22 April 2021. Later, on 26 April 2021, 551 plants + 1,00,000 concentrators were announced. ${oxygenProgramme.cmssNote}`}
         />
+      </div>
+
+      <div className="grid gap-6 lg:grid-cols-2">
+        <div className="rounded-xl border border-border bg-surface p-4 shadow-sm sm:p-6">
+          <h3 className="text-lg font-semibold text-primary">
+            State-wise ventilator deliveries (24 June 2020)
+          </h3>
+          <p className="mt-1 text-sm text-secondary">{ventilatorProgramme.stateDeliveriesNote}</p>
+          <ul className="mt-4 divide-y divide-border/60 text-sm">
+            {ventilatorProgramme.stateDeliveries.map((s) => (
+              <li key={s.state} className="flex items-center justify-between gap-4 py-2.5">
+                <span className="text-secondary">{s.state}</span>
+                <span className="tnum font-semibold text-primary">{s.units}</span>
+              </li>
+            ))}
+          </ul>
+          <p className="mt-3 text-sm leading-relaxed text-secondary">
+            <span className="font-semibold text-foreground">{ventilatorProgramme.claim60000.dateDisplay}:</span>{' '}
+            {ventilatorProgramme.claim60000.note}
+          </p>
+        </div>
+
+        <div className="rounded-xl border border-border bg-surface p-4 shadow-sm sm:p-6">
+          <h3 className="text-lg font-semibold text-primary">Ventilators in hospitals</h3>
+          <p className="mt-2 text-sm leading-relaxed text-foreground">
+            {ventilatorProgramme.hospitalEpisodes}
+          </p>
+          <p className="mt-3 text-sm leading-relaxed text-secondary">{oxygenProgramme.slowdownNote}</p>
+        </div>
       </div>
     </div>
   )

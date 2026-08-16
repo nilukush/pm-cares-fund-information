@@ -2,6 +2,7 @@ import { describe, expect, it } from 'vitest'
 import {
   WIKIPEDIA_URL,
   about,
+  audit,
   criticism,
   dataCaveats,
   defence,
@@ -11,13 +12,16 @@ import {
   firstAllocation,
   identity,
   institutionalDonations,
+  litigation,
   militaryBreakdown,
   oxygenProgramme,
   pmnrfComparison,
+  popularCulture,
   sources,
   timeline,
   totalReceiptsCrore,
   ventilatorProgramme,
+  voluntaryDonors,
 } from './fund'
 
 describe('identity — fund basics', () => {
@@ -219,5 +223,80 @@ describe('about — site methodology metadata', () => {
       'https://github.com/nilukush/pm-cares-fund-information/issues',
     )
     expect(about.repoUrl).toBe('https://github.com/nilukush/pm-cares-fund-information')
+  })
+})
+
+describe('completeness pass — content added from the full-article audit', () => {
+  it('timeline covers at least 30 events and stays chronological', () => {
+    expect(timeline.length).toBeGreaterThanOrEqual(30)
+    for (let i = 1; i < timeline.length; i++) {
+      expect(timeline[i].date >= timeline[i - 1].date).toBe(true)
+    }
+  })
+
+  it('captures the hospital salary-deduction reversal episode (AIIMS + 3 Delhi hospitals)', () => {
+    const text = timeline.map((e) => e.event).join(' ')
+    expect(text).toContain('AIIMS')
+    expect(text).toContain('Safdarjung')
+    expect(text).toContain('Lady Hardinge')
+    expect(text).toMatch(/withdraw/i)
+  })
+
+  it('captures the 60,000-ventilator claim and state-wise deliveries', () => {
+    expect(ventilatorProgramme.claim60000.dateDisplay).toBe('21 Jun 2020')
+    expect(ventilatorProgramme.stateDeliveries.length).toBeGreaterThanOrEqual(5)
+    expect(ventilatorProgramme.stateDeliveries.find((s) => s.state === 'Maharashtra')!.units).toBe(275)
+    expect(ventilatorProgramme.stateDeliveries.find((s) => s.state === 'Rajasthan')!.units).toBe(75)
+  })
+
+  it('exposes the full SARC & Associates detail from the article', () => {
+    expect(audit.firm).toContain('SARC')
+    expect(audit.details.join(' ')).toContain('Sunil Kumar Gupta')
+    expect(audit.details.join(' ')).toContain('Make in India')
+    expect(audit.details.join(' ')).toMatch(/selection and appointment process[^.]*not been made public/i)
+    expect(audit.details.join(' ')).toMatch(/replacing another private firm/i)
+  })
+
+  it('lists the litigation cases with dates and outcomes', () => {
+    expect(litigation.length).toBeGreaterThanOrEqual(9)
+    for (const c of litigation) {
+      expect(c.case.length).toBeGreaterThan(10)
+      expect(c.dateDisplay.length).toBeGreaterThan(3)
+      expect(c.outcome.length).toBeGreaterThan(5)
+    }
+    const all = litigation.map((c) => `${c.case} ${c.outcome}`).join(' ')
+    expect(all).toContain('CPIL')
+    expect(all).toContain('Gangwal')
+    expect(all).toContain('APTEL')
+    expect(all).toContain('Sharma')
+  })
+
+  it('lists voluntary donors from the body text and clearly labels headline-only amounts', () => {
+    expect(voluntaryDonors.corporations.length).toBeGreaterThanOrEqual(7)
+    expect(voluntaryDonors.individuals.length).toBeGreaterThanOrEqual(4)
+    expect(voluntaryDonors.corporations.join(' ')).toContain('TATA Trust')
+    expect(voluntaryDonors.individuals).toContain('Shah Rukh Khan')
+    expect(voluntaryDonors.titleOnlyAmounts.length).toBeGreaterThanOrEqual(6)
+    for (const t of voluntaryDonors.titleOnlyAmounts) {
+      expect(t.note.toLowerCase()).toContain('headline')
+    }
+  })
+
+  it('captures the satirical game and oxygen-programme responsibility', () => {
+    expect(popularCulture.domain).toBe('pmcares.fund')
+    expect(popularCulture.summary).toContain('Reddit')
+    expect(oxygenProgramme.cmssNote).toContain('Central Medical Services Society')
+  })
+
+  it('criticism now covers hospital reversals, CSR asymmetry and undisclosed spending rules', () => {
+    expect(criticism.length).toBeGreaterThanOrEqual(9)
+    const all = criticism.map((c) => `${c.title} ${c.detail}`).join(' ')
+    expect(all).toContain('AIIMS')
+    expect(all).toMatch(/regressive incentive/i)
+    expect(all).toMatch(/spending or procurement guidelines/i)
+  })
+
+  it('defence reflects the fund’s stated purpose beyond COVID-19', () => {
+    expect(defence.map((d) => d.detail).join(' ')).toContain('distressing situations')
   })
 })

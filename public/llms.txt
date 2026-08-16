@@ -2,7 +2,7 @@
 
 > Independent, non-commercial public-information page about India's PM CARES Fund.
 > Every figure is sourced from the English Wikipedia article
-> (https://en.wikipedia.org/wiki/PM_CARES_Fund, accessed 15 August 2026).
+> (https://en.wikipedia.org/wiki/PM_CARES_Fund, accessed 16 August 2026).
 > Criticism and the government's defence are presented side by side; no editorial verdict.
 
 URL: https://pm-cares-fund-information.vercel.app/

@@ -17,9 +17,10 @@ export function Sources() {
       </div>
 
       <div className="rounded-xl border border-border bg-surface p-4 shadow-sm sm:p-6">
-        <h3 className="text-lg font-semibold text-primary">References</h3>
+        <h3 className="text-lg font-semibold text-primary">Key sources</h3>
         <p className="mt-1 text-sm text-secondary">
-          All content on this page is summarized from the following sources:
+          All content on this page is summarized from the following sources (the complete
+          citation list follows in the References section):
         </p>
         <ul className="mt-4 flex flex-col gap-3 text-sm">
           {sources.map((s) => (

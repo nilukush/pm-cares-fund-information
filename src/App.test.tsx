@@ -32,8 +32,10 @@ describe('App shell — landmarks and navigation', () => {
       'spending',
       'timeline',
       'debate',
+      'litigation',
       'faq',
       'sources',
+      'references',
       'about',
     ]) {
       const link = document.querySelector(`header nav a[href="#${id}"]`)
@@ -102,8 +104,46 @@ describe('Sources and neutrality', () => {
       name: /PM CARES Fund — Wikipedia/i,
     })
     expect(wiki.length).toBeGreaterThanOrEqual(1)
-    expect(screen.getAllByText(/accessed 15 August 2026/i).length).toBeGreaterThanOrEqual(1)
+    expect(screen.getAllByText(/accessed 16 August 2026/i).length).toBeGreaterThanOrEqual(1)
     expect(screen.getByText(/not affiliated/i)).toBeInTheDocument()
+  })
+})
+
+describe('References section — full Wikipedia citation list', () => {
+  it('renders the citation count and sample citations as links', () => {
+    render(<App />)
+    expect(screen.getByRole('heading', { name: /^references$/i, level: 2 })).toBeInTheDocument()
+    expect(screen.getAllByText(/citations? as cited by/i).length).toBeGreaterThan(0)
+    const official = screen.getAllByRole('link', { name: /about pm cares fund/i })
+    expect(official.length).toBeGreaterThan(0)
+    expect(official[0]).toHaveAttribute('href', expect.stringContaining('pmcares.gov.in'))
+  })
+
+  it('lists the article’s see-also entries', () => {
+    render(<App />)
+    expect(screen.getAllByText(/COVID-Crypto Relief Fund/i).length).toBeGreaterThan(0)
+  })
+})
+
+describe('Completeness pass — new sections and enriched content', () => {
+  it('renders the litigation section with its cases', () => {
+    render(<App />)
+    expect(screen.getByRole('heading', { name: /^litigation/i, level: 2 })).toBeInTheDocument()
+    expect(screen.getAllByText(/APTEL/i).length).toBeGreaterThan(0)
+    expect(screen.getAllByText(/Gangwal/i).length).toBeGreaterThan(0)
+  })
+
+  it('renders the audit card with SARC & Associates detail', () => {
+    render(<App />)
+    expect(screen.getAllByText(/Sunil Kumar Gupta/).length).toBeGreaterThan(0)
+    expect(screen.getAllByText(/SARC & Associates/).length).toBeGreaterThan(0)
+  })
+
+  it('renders voluntary donors and the satirical-game card', () => {
+    render(<App />)
+    expect(screen.getByRole('heading', { name: /who pledged support/i })).toBeInTheDocument()
+    expect(screen.getAllByText('Shah Rukh Khan').length).toBeGreaterThan(0)
+    expect(screen.getAllByText(/pmcares\.fund/).length).toBeGreaterThan(0)
   })
 })
 

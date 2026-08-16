@@ -1,9 +1,28 @@
 # MEMORY.md — Project Memory (compacted 2026-08-16)
 
-## Status: v1.3 DEPLOYED · LIVE · SEO/GEO optimized · Search consoles registered
+## Status: v1.4 DEPLOYED · FULL-ARTICLE COMPLETENESS · LIVE
 
-Public-information website about India's PM CARES Fund, built 15 Aug 2026 from
-https://en.wikipedia.org/wiki/PM_CARES_Fund (accessed 15 Aug 2026).
+Public-information website about India's PM CARES Fund, sourced from
+https://en.wikipedia.org/wiki/PM_CARES_Fund (accessed 16 August 2026).
+
+**v1.4 (16 Aug 2026) — completeness pass** (user asked: capture EVERY detail incl. SARC points,
+references, external links): completeness-audit agent diffed all 25 article sections vs fund.ts
+(~65 gaps found). Added: 22 new timeline events (42 total — AIIMS/3-hospital salary reversal,
+Sharma PIL, Bombay/Delhi HC cases, Praveen Kumar complaint, Nadda 60k claim, state ventilator
+deliveries, Jyoti/AMTZ failed trials, Trivitron, corpus statement, pmcares.fund game, APTEL,
+emblem application, embassies RTI, Apr-2021 faults); new sections: **Litigation** (11-case
+table), **Audit & auditors** card (full SARC/Gupta detail), **Who pledged support** card
+(voluntary donors + 9 clearly-labeled headline-only amounts), **In popular culture** card,
+**References** section (ALL 119 citations via `scripts/parse-references.mjs` — reusable parser
+from raw wikitext; article has no External-links section, See-also = PMNRF + COVID-Crypto);
+enriched criticism (10 items incl. CSR asymmetry/Kulbe, undisclosed spending rules), defence
+quotes, litigation FAQ, relatedFundsNote, PSU/military/education/salary detail, first-allocation
+notes, oxygen CMSS/Vipun Nayak. Tests 56 → 73. Prerendered HTML 77 KB → 173 KB.
+**Verifier gate**: 31/34 OK initially; fixed 1 ERROR (CSR-exceeded detail belonged to 32-PSU
+Aug-2020 RTI, not 101-PSU) + 2 unsupported ("registered by NIC" → RTI filed with NIC allotted
+gov-domain; Sharma sort-key aligned to cited report) + 4 nuances (ToI referent, scare quotes,
+"wrote to the PM" not "open letter", PhonePe "alleged"). DATA_AS_OF → 16 Aug 2026 (footer,
+About, llms.txt, tests updated).
 
 **Search engine registration (16 Aug 2026, user-performed steps + agent support)**:
 - Google Search Console: URL-prefix property `https://pm-cares-fund-information.vercel.app/`
