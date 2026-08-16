@@ -1,9 +1,22 @@
 # MEMORY.md — Project Memory (compacted 2026-08-16)
 
-## Status: v1.5 DEPLOYED · RE-AUDIT CLEAN · LIVE
+## Status: v1.6 DEPLOYED · UI/UX AUDIT IMPLEMENTED · LIVE
 
 Public-information website about India's PM CARES Fund, sourced from
 https://en.wikipedia.org/wiki/PM_CARES_Fund (accessed 16 August 2026).
+
+**v1.6 (16 Aug 2026) — UI/UX & graphic-design pass** (audit agent + visual screenshot review;
+scores before → after: beauty 7→8.5, friendliness 7→9, clarity 7.5→9, a11y 6→9): fixed
+invisible Debate headings (navy-on-navy WCAG failure) + white point cards; scrollspy nav
+(IntersectionObserver + aria-current, guarded for jsdom) + 44px targets + scroll-snap;
+Finances KPI strip (received/balance/auditor tiles); timeline year-grouping with sticky
+headers (2020·38 / 2021·4 / 2022·1); ScrollChrome (progress bar + back-to-top);
+`accessibilityLayer` on all charts; responsive Donations axis + compact mobile labels; FAQ h3
+questions; sr-only table captions; Debate count chips; 11 inline SVG icons (icons.tsx);
+section permalinks; footer mini-nav; text-wrap balance/pretty; dropped font weight 300.
+ZERO information removed — 79 tests (74→79, +5 UI). Screenshot loop: headless Chrome
+(qlmanage-style crops via sips; anchor URLs don't settle under smooth-scroll — crop a
+full-page capture instead).
 
 **v1.5 (16 Aug 2026) — dual re-audit + fixes**: two independent auditors (source-side clause
 sweep of wikitext; live-site HTML check of the deployed page) cross-validated residual gaps —
