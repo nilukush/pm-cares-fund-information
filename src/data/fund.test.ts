@@ -1,6 +1,7 @@
 import { describe, expect, it } from 'vitest'
 import {
   WIKIPEDIA_URL,
+  about,
   criticism,
   dataCaveats,
   defence,
@@ -189,5 +190,29 @@ describe('faq, sources and caveats', () => {
     expect(WIKIPEDIA_URL).toBe('https://en.wikipedia.org/wiki/PM_CARES_Fund')
     expect(sources.some((s) => s.url === WIKIPEDIA_URL)).toBe(true)
     expect(dataCaveats.length).toBeGreaterThanOrEqual(3)
+  })
+})
+
+describe('about — site methodology metadata', () => {
+  it('describes what the site is with substance', () => {
+    expect(about.what.length).toBeGreaterThan(80)
+    expect(about.funding.length).toBeGreaterThan(20)
+  })
+
+  it('states at least 3 editorial principles and 3 verification steps', () => {
+    expect(about.principles.length).toBeGreaterThanOrEqual(3)
+    expect(about.methodology.length).toBeGreaterThanOrEqual(3)
+    for (const p of [...about.principles, ...about.methodology]) {
+      expect(p.title.length).toBeGreaterThan(5)
+      expect(p.detail.length).toBeGreaterThan(40)
+    }
+  })
+
+  it('discloses known limitations and a working feedback channel', () => {
+    expect(about.limitations.length).toBeGreaterThanOrEqual(2)
+    expect(about.feedbackUrl).toBe(
+      'https://github.com/nilukush/pm-cares-fund-information/issues',
+    )
+    expect(about.repoUrl).toBe('https://github.com/nilukush/pm-cares-fund-information')
   })
 })

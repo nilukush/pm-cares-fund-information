@@ -1,7 +1,7 @@
 import { render, screen } from '@testing-library/react'
 import { describe, expect, it } from 'vitest'
 import App from './App'
-import { faq, timeline } from './data/fund'
+import { about, faq, timeline } from './data/fund'
 
 describe('App shell — landmarks and navigation', () => {
   it('renders a skip-to-content link', () => {
@@ -29,6 +29,7 @@ describe('App shell — landmarks and navigation', () => {
       'debate',
       'faq',
       'sources',
+      'about',
     ]) {
       const link = document.querySelector(`header nav a[href="#${id}"]`)
       expect(link, `nav link to #${id}`).not.toBeNull()
@@ -96,7 +97,29 @@ describe('Sources and neutrality', () => {
       name: /PM CARES Fund — Wikipedia/i,
     })
     expect(wiki.length).toBeGreaterThanOrEqual(1)
-    expect(screen.getByText(/accessed 15 August 2026/i)).toBeInTheDocument()
+    expect(screen.getAllByText(/accessed 15 August 2026/i).length).toBeGreaterThanOrEqual(1)
     expect(screen.getByText(/not affiliated/i)).toBeInTheDocument()
+  })
+})
+
+describe('About & methodology section', () => {
+  it('renders with a heading and the site mission', () => {
+    render(<App />)
+    expect(screen.getByRole('heading', { name: /about this site/i })).toBeInTheDocument()
+    expect(screen.getByText(about.what, { exact: false })).toBeInTheDocument()
+  })
+
+  it('shows all editorial principles and methodology steps', () => {
+    render(<App />)
+    for (const p of [...about.principles, ...about.methodology]) {
+      expect(screen.getByText(p.title)).toBeInTheDocument()
+    }
+  })
+
+  it('offers a feedback link to GitHub issues and names the limitations', () => {
+    render(<App />)
+    const feedback = screen.getByRole('link', { name: /report an error/i })
+    expect(feedback).toHaveAttribute('href', about.feedbackUrl)
+    expect(screen.getByText(/snapshot of one article/i)).toBeInTheDocument()
   })
 })

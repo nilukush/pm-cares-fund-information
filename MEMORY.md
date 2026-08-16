@@ -1,9 +1,11 @@
 # MEMORY.md — Project Memory (compacted 2026-08-16)
 
-## Status: v1.0 DEPLOYED · LIVE · 3-agent consensus achieved
+## Status: v1.1 DEPLOYED · LIVE · 3-agent consensus achieved
 
 Public-information website about India's PM CARES Fund, built 15 Aug 2026 from
-https://en.wikipedia.org/wiki/PM_CARES_Fund (accessed 15 Aug 2026). No pending work.
+https://en.wikipedia.org/wiki/PM_CARES_Fund (accessed 15 Aug 2026).
+
+**v1.1 (16 Aug 2026)**: Added "About this site" section (`src/components/About.tsx`, `about` export in fund.ts) — mission, editorial principles (single source / labeled uncertainty / both sides no verdict / no tracking), 3-step verification methodology, known limitations, GitHub-issues feedback button. Nav now has 9 items. Tests 44→50 (TDD: 3 about-data + 3 App tests). No domain purchase per user constraint — stays on GitHub Pages.
 
 - **Live URL**: https://nilukush.github.io/pm-cares-fund-information/ (HTTP 200 verified; robots.txt + sitemap.xml serve; asset bundle loads under the Pages base path)
 - **Repo**: github.com/nilukush/pm-cares-fund-information (public, `main`). Git initialized 16 Aug 2026; gh CLI used (`nilukush`, scopes repo+workflow).

@@ -7,6 +7,7 @@ const NAV_ITEMS = [
   { id: 'debate', label: 'Debate' },
   { id: 'faq', label: 'FAQ' },
   { id: 'sources', label: 'Sources' },
+  { id: 'about', label: 'About' },
 ]
 
 /** Sticky header with anchor navigation to every section. */

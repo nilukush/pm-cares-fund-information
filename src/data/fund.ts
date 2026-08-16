@@ -546,3 +546,57 @@ export const dataCaveats = [
   'The final outcome of the Delhi High Court RTI case is not stated in the article; no verdict is claimed here.',
   'Naming follows the source article verbatim: where Wikipedia writes "Press Bureau of India" (the government agency is formally the Press Information Bureau), this site keeps the article\'s wording.',
 ]
+
+// ---------------------------------------------------------------------------
+// About this site — mission, methodology, limitations, feedback
+// ---------------------------------------------------------------------------
+
+export const about = {
+  what: 'An independent, non-commercial public-information page about India’s PM CARES Fund, built for citizens who want the documented facts — money in, money out, and the debate around transparency — presented graphically and quick to scan.',
+  funding: 'This project has no funding, no sponsors and no revenue.',
+  repoUrl: 'https://github.com/nilukush/pm-cares-fund-information',
+  feedbackUrl: 'https://github.com/nilukush/pm-cares-fund-information/issues',
+  principles: [
+    {
+      title: 'Single source',
+      detail:
+        'Every fact on this site comes from one source: the English Wikipedia article on the PM CARES Fund (accessed 15 August 2026). Nothing is added from memory, opinion or other outlets.',
+    },
+    {
+      title: 'Labeled uncertainty',
+      detail:
+        'Estimates are marked "estimate", arithmetic-derived numbers are marked "derived", and where the article gives only a month, the site shows only a month — dates are never invented.',
+    },
+    {
+      title: 'Both sides, no verdict',
+      detail:
+        'Criticism and the government’s defence appear side by side, exactly as documented in the source. The site itself draws no conclusion and takes no position.',
+    },
+    {
+      title: 'No money, no tracking',
+      detail:
+        'The site is unaffiliated with the Government of India and the PM CARES Fund. It carries no advertising, no analytics and no tracking cookies — there is nothing to sell and nothing measured.',
+    },
+  ] as DebatePoint[],
+  methodology: [
+    {
+      title: '1 · Extraction',
+      detail:
+        'Every figure, date, name and quotation was extracted from the article into a single typed data file. The website renders exclusively from that file — no facts are hard-coded in pages or charts.',
+    },
+    {
+      title: '2 · Independent cross-check',
+      detail:
+        'The extracted facts were verified against the article’s raw source text (wikitext) by an independent reviewer over three rounds. Seven factual errors and a number of unsupported statements found in earlier drafts were corrected; the final review confirmed every figure, date, actor and quote is supported by the article.',
+    },
+    {
+      title: '3 · Automated checks',
+      detail:
+        'An automated test suite (44 tests) verifies data integrity — allocation totals add up, the timeline is chronological, amounts are positive, pages render correct structure and formatting — and runs on every change and before every deployment.',
+    },
+  ] as DebatePoint[],
+  limitations: [
+    'The Wikipedia article is itself tagged "needs update (July 2026)"; some statements (for example, how much of the corpus remains unspent) reflect the article’s state as of 2022.',
+    'This page is a snapshot of one article. Developments after the access date may not be reflected, and figures are shown as the article reports them, with their attributions.',
+  ],
+}

@@ -1,3 +1,4 @@
+import { About } from './components/About'
 import { Debate } from './components/Debate'
 import { Donations } from './components/Donations'
 import { Faq } from './components/Faq'
@@ -88,6 +89,15 @@ export default function App() {
           lead="Where every figure comes from, and what to keep in mind when reading it."
         >
           <Sources />
+        </Section>
+
+        <Section
+          id="about"
+          title="About this site"
+          lead="Who maintains this page, how its facts are sourced and verified, and how to report an error."
+          dark
+        >
+          <About />
         </Section>
       </main>
       <Footer />
