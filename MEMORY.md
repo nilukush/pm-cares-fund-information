@@ -1,117 +1,42 @@
-# MEMORY.md — Project Memory (compacted 2026-08-16)
+# MEMORY.md — Project Memory (compacted 2026-08-16, end of session)
 
-## Status: v1.7 DEPLOYED · FINAL AUDIT: COMPLETE · LIVE
+## Status: v1.7 · DEPLOYED · FINAL AUDIT: COMPLETE · No pending work
 
-Public-information website about India's PM CARES Fund, sourced from
-https://en.wikipedia.org/wiki/PM_CARES_Fund (accessed 16 August 2026).
+Public-information website about India's PM CARES Fund, sourced from the English Wikipedia
+article https://en.wikipedia.org/wiki/PM_CARES_Fund (accessed 16 Aug 2026; verified
+byte-identical across all audits that day).
 
-**v1.7 (16 Aug 2026) — FINAL completeness audit**: independent auditor walked the article
-clause-by-clause against the deployed HTML; article byte-identical to all prior audits.
-Verdict: clause-complete except 4 minor sub-clauses — all added verbatim (DUTA channels
-'Staff Associations / Vice Chancellor's Relief Fund'; PMO denial of the PSU-transfer RTI
-petition; IPC section glosses s.153 riots / s.505(1)(b) fear-or-alarm; activists' full PMNRF
-recommendation incl. 'disclosing details of funding and spending'). 82 tests (+1 locking
-test); all six strings grep-verified in live HTML (198 KB). Every figure, date, name, quote,
-event and qualifier of the article's body text is now on the deployed page; headline-only
-citation figures appear only in the labeled list. Also this day: v1.6 UI/UX audit (20 additive
-fixes — invisible Debate headings, scrollspy, KPI strip, year-grouped timeline, scroll chrome,
-a11y layers, icons) and table-readability fix (mono font on numeric columns only).
-
-**v1.6 (16 Aug 2026) — UI/UX & graphic-design pass** (audit agent + visual screenshot review;
-scores before → after: beauty 7→8.5, friendliness 7→9, clarity 7.5→9, a11y 6→9): fixed
-invisible Debate headings (navy-on-navy WCAG failure) + white point cards; scrollspy nav
-(IntersectionObserver + aria-current, guarded for jsdom) + 44px targets + scroll-snap;
-Finances KPI strip (received/balance/auditor tiles); timeline year-grouping with sticky
-headers (2020·38 / 2021·4 / 2022·1); ScrollChrome (progress bar + back-to-top);
-`accessibilityLayer` on all charts; responsive Donations axis + compact mobile labels; FAQ h3
-questions; sr-only table captions; Debate count chips; 11 inline SVG icons (icons.tsx);
-section permalinks; footer mini-nav; text-wrap balance/pretty; dropped font weight 300.
-ZERO information removed — 79 tests (74→79, +5 UI). Screenshot loop: headless Chrome
-(qlmanage-style crops via sips; anchor URLs don't settle under smooth-scroll — crop a
-full-page capture instead).
-
-**v1.5 (16 Aug 2026) — dual re-audit + fixes**: two independent auditors (source-side clause
-sweep of wikitext; live-site HTML check of the deployed page) cross-validated residual gaps —
-all fixed: Ahmedabad hospital episode; Karnataka 640/2,025 ventilator counts; expert-advisors
-defence argument; "disaster management and research" purpose; supplier no-standards quote;
-restored names (Praveen Kumar, Prabhakar Shinde, Sujatha Rao title); ~15 qualifiers (FCRA
-registration, Navy Apr–Oct, PSU fiscal years, ToI "could exceed", Chinese-ban context, DU
-traditional funds, CMRF objection, district hospitals, activist attribution, PM CARES–PMNRF
-distinction unclear, "used government infrastructure"). Parser bug fixed: {{!}} escaped pipes
-truncated 8 citation titles (lazy template-capture regex hit the inner "}}") — normalized at
-wikitext level before parsing. llms.txt gained #litigation/#references; ₹28,000 added to
-headline-only list; twoMonthEstimateNote now rendered. `.idea` gitignored. Tests 74; prerendered
-HTML 182 KB; both hosts verified; IndexNow pinged. Both auditors confirmed zero factual errors
-in prior content; every article body-text clause now represented.
-
-**v1.4 (16 Aug 2026) — completeness pass** (user asked: capture EVERY detail incl. SARC points,
-references, external links): completeness-audit agent diffed all 25 article sections vs fund.ts
-(~65 gaps found). Added: 22 new timeline events (42 total — AIIMS/3-hospital salary reversal,
-Sharma PIL, Bombay/Delhi HC cases, Praveen Kumar complaint, Nadda 60k claim, state ventilator
-deliveries, Jyoti/AMTZ failed trials, Trivitron, corpus statement, pmcares.fund game, APTEL,
-emblem application, embassies RTI, Apr-2021 faults); new sections: **Litigation** (11-case
-table), **Audit & auditors** card (full SARC/Gupta detail), **Who pledged support** card
-(voluntary donors + 9 clearly-labeled headline-only amounts), **In popular culture** card,
-**References** section (ALL 119 citations via `scripts/parse-references.mjs` — reusable parser
-from raw wikitext; article has no External-links section, See-also = PMNRF + COVID-Crypto);
-enriched criticism (10 items incl. CSR asymmetry/Kulbe, undisclosed spending rules), defence
-quotes, litigation FAQ, relatedFundsNote, PSU/military/education/salary detail, first-allocation
-notes, oxygen CMSS/Vipun Nayak. Tests 56 → 73. Prerendered HTML 77 KB → 173 KB.
-**Verifier gate**: 31/34 OK initially; fixed 1 ERROR (CSR-exceeded detail belonged to 32-PSU
-Aug-2020 RTI, not 101-PSU) + 2 unsupported ("registered by NIC" → RTI filed with NIC allotted
-gov-domain; Sharma sort-key aligned to cited report) + 4 nuances (ToI referent, scare quotes,
-"wrote to the PM" not "open letter", PhonePe "alleged"). DATA_AS_OF → 16 Aug 2026 (footer,
-About, llms.txt, tests updated).
-
-**Search engine registration (16 Aug 2026, user-performed steps + agent support)**:
-- Google Search Console: URL-prefix property `https://pm-cares-fund-information.vercel.app/`
-  verified via HTML file (`public/googled3cc5e1274fa98d4.html`); sitemap submitted. (Note:
-  Domain-property verification is impossible for a vercel.app subdomain — no DNS control.)
-- Bing Webmaster Tools: imported from GSC (covers Yahoo + DuckDuckGo).
-- IndexNow enabled: key file `public/0e7c80d58618f01b8673e21f543f7f13.txt`, first ping
-  accepted (HTTP 202). Re-ping after notable content updates:
-  `curl -X POST https://api.indexnow.org/indexnow -H "Content-Type: application/json" -d '{"host":"pm-cares-fund-information.vercel.app","key":"0e7c80d58618f01b8673e21f543f7f13","keyLocation":"https://pm-cares-fund-information.vercel.app/0e7c80d58618f01b8673e21f543f7f13.txt","urlList":["https://pm-cares-fund-information.vercel.app/"]}'`
-  (POST needs a JSON body — bare GET-style params on POST return HTTP 411.)
-
-**v1.3 (16 Aug 2026) — SEO + GEO**: prerender full page to static HTML at build (`scripts/prerender.mjs`, esbuild CJS bundle + react-dom/server renderToString injected into dist/index.html — ~73 KB of content, crawlers/LLM bots without JS now see everything); schema.org JSON-LD (WebSite/WebPage/FAQPage 11 Q&As/Dataset, `src/components/StructuredData.tsx`); question-format H1; keyword-front-loaded title+description; Twitter card + vision-verified 1200×630 og-image.png; robots.txt explicitly welcomes AI crawlers (GPTBot/ClaudeBot/PerplexityBot/CCBot/Google-Extended/etc.); `public/llms.txt` GEO convention file; noscript fallback. Tests 50 → 56. Deploy lessons: (1) esbuild must be an explicit devDependency — Vite 8 uses rolldown, esbuild isn't hoisted in CI; (2) qlmanage SVG thumbnails are square-letterboxed (center-crop with sips) and cached by input filename (use unique names); (3) esbuild bundling CJS react-dom/server into ESM breaks `require('util')` — emit CJS format instead.
-
-**v1.2 (16 Aug 2026)**: PRIMARY host moved to **Vercel** — https://pm-cares-fund-information.vercel.app/ (free Hobby tier, project-named subdomain chosen for credibility; NO domain purchase per user constraint). Vercel CLI 54.15.0, authed as `nilukush` via GitHub device flow; GitHub repo connected to the Vercel project (push to main = auto-deploy). GitHub Pages kept as MIRROR. Key config: Vite base prefix keys off `GITHUB_ACTIONS` (NOT `CI` — Vercel also sets CI=true); canonical/og:url/robots/sitemap point to the vercel.app domain.
-
-**v1.1 (16 Aug 2026)**: Added "About this site" section (`src/components/About.tsx`, `about` export in fund.ts) — mission, editorial principles (single source / labeled uncertainty / both sides no verdict / no tracking), 3-step verification methodology, known limitations, GitHub-issues feedback button. Nav now has 9 items. Tests 44→50 (TDD: 3 about-data + 3 App tests). No domain purchase per user constraint — stays on GitHub Pages.
-
-- **Live URL**: https://nilukush.github.io/pm-cares-fund-information/ (HTTP 200 verified; robots.txt + sitemap.xml serve; asset bundle loads under the Pages base path)
-- **Repo**: github.com/nilukush/pm-cares-fund-information (public, `main`). Git initialized 16 Aug 2026; gh CLI used (`nilukush`, scopes repo+workflow).
-- **CI/CD**: `.github/workflows/deploy.yml` — on push to main: npm ci → npm test (44) → build (CI=true sets Vite `base` to `/pm-cares-fund-information/`) → upload-pages-artifact → deploy-pages. Pages enabled via `gh api .../pages -f build_type=workflow`.
-- **Deploy lesson**: `process.env.CI` in vite.config.ts required an explicit `@types/node` devDependency (transitive types weren't hoisted in clean CI) — fixed in commit "fix(ci)".
+- **Primary URL**: https://pm-cares-fund-information.vercel.app/ · **Mirror**: https://nilukush.github.io/pm-cares-fund-information/ (canonical → Vercel)
+- **Repo**: github.com/nilukush/pm-cares-fund-information (public, main; NO domain purchase per user constraint)
+- **Content**: every body-text clause of the article is on the page (6 audit rounds, final independent clause-by-clause audit = COMPLETE). Headline-only citation figures appear only in a clearly-labeled list, never as facts.
 
 ## Run / verify
-- `npm run dev` → http://localhost:5199 · `npm run preview` → http://localhost:4199 (strictPort, non-standard by constraint)
-- `npm test` → 44/44 (format 14 · fund data 20 · App integration 10) · `npx tsc --noEmit` clean · `npm run build` OK (~183 KB gzip; Recharts dominates — accepted)
+- `npm run dev` → :5199 · `npm run preview` → :4199 (strictPort, non-standard by constraint)
+- `npm test` → 82/82 (fund data 34 · App 24 · format 14 · references 3 · StructuredData 4 · ChartCard 2 · about 1)
+- `npx tsc --noEmit` clean · `npm run build` = tsc + vite build + **prerender** (`scripts/prerender.mjs`, esbuild CJS bundle + renderToString injected into dist/index.html ≈ 198 KB content)
 
 ## Stack & architecture (decided — do not re-litigate)
-Vite 8 + React 19 + TypeScript strict + Tailwind 4 (`@theme` tokens in `src/index.css`) + Recharts 3 + Vitest 4/RTL (jsdom, `globals:false`, cleanup wired in `src/test/setup.ts`). No router/backend.
-- `src/data/fund.ts` — single source of truth for ALL content/figures (typed; estimates/derived flagged)
-- `src/lib/format.ts` — `formatCrore`/`formatINR` (Indian grouping, 10,990.17 → "₹10,990.17 cr")/`formatPercent`; invalid → "—"
-- `src/components/*` — one file per section; `ChartCard` = chart + aria-label + visible data table; notes go in the `note` prop, never inside `role="img"` (screen-reader rule)
-- Design: "Accessible & Ethical" (ui-ux-pro-max skill) — navy #0F172A / blue #0369A1, bento stat cards, WCAG-AA
+Vite 8 + React 19 + TS strict + Tailwind v4 (`@theme` tokens in src/index.css) + Recharts 3 + Vitest 4/RTL (globals:false; cleanup in src/test/setup.ts). No router/backend.
+- `src/data/fund.ts` — ALL content (identity+audit, finances, donations incl. voluntaryDonors+headline-only, military, salary examples, firstAllocation, oxygen+ventilator programmes incl. state deliveries/hospital episodes, popularCulture, 42-event timeline, criticism 10 / defence 4, PMNRF table + relatedFundsNote, litigation 11, faq 12, caveats 9, about)
+- `src/data/references.ts` — AUTO-GENERATED (119 citations + seeAlso) by `scripts/parse-references.mjs` (re-run against fresh wikitext; never hand-edit). Parser gotchas fixed: first-param pipe, apostrophe-safe JSON output, `{{!}}` escaped pipes (normalize in wikitext BEFORE parsing or the lazy `}}` capture truncates titles).
+- `src/components/*` — per-section; ChartCard (chart + aria-label + numericColumns mono-only table + note slot OUTSIDE role="img"); icons.tsx (11 hand-drawn SVGs); ScrollChrome (progress bar + back-to-top); Header (NAV_ITEMS export + scrollspy IntersectionObserver, guarded for jsdom).
+- Design system: "Accessible & Ethical" — navy #0F172A / blue #0369A1, Fira Sans + Fira Code (.tnum figures only), WCAG 2.1 AA.
 
-## Content invariants (hard rules)
-1. Every figure traceable to the Wikipedia article; estimates labeled "estimate", arithmetic labeled "derived" (e.g. ventilator ₹2,000 cr = 3,100−1,000−100).
-2. Never sum overlapping PSU figures (32 PSUs ₹2,105 cr Aug 2020 vs 101 PSUs ₹2,400 cr + ₹155 cr Dec 2020).
-3. Month-level dates where the article gives no day; never invent a day.
-4. Article contains NO Vande Bharat / PM CARES-for-Children / Tata ₹1,500 cr figures — deliberately excluded.
-5. Key verified figures: FY19-20 receipts 3,076.62; FY20-21 receipts 10,990.17, balance 7,013.99; donor mix 53/42/5 (ToI estimate); first allocation 13 May 2020 = 3,100 (2,000 derived + 1,000 migrants + 100 vaccine); ventilators 50,000→2,923; oxygen 162→11 (Scroll) / 33 (govt) / Delhi 8→1.
-6. No derived "spent" chart figure — FY21 spend is ambiguous (receipts−balance vs opening+receipts−balance); site shows exact table figures + quotes The Hindu "one-third spent" headline.
+## Hard rules (unchanged)
+1. Every fact traceable to the article; estimates labeled "estimate", arithmetic labeled "derived", month-level dates when article gives no day. 2. Never sum 32-PSU vs 101-PSU figures. 3. Charts never color-only: labels + legend + table + aria-label. 4. TDD mandatory; agent-gate (Analyzer/Debugger/Verifier-style) for content or release changes; wikitext (action=raw) is the fact authority, conservative phrasing wins disputes. 5. Excluded-by-absence: Vande Bharat, PM CARES-for-Children, Tata ₹1,500 cr (not in article).
 
-## Agent team (3-agent consensus gate — history)
-- Round 1: Debugger HOLD (2 majors: timeline chip 2.65:1 contrast → fixed to text-chart-1; notes inside role="img" → ChartCard note slot). Verifier FAIL (7 ERRORs, 8 UNSUPPORTED — mostly Analyzer-brief hallucinations vs wikitext: invented IIT breakdown, wrong bank list, 3 wrong dates, misattributed "stone-hearted", unsupported defence quotes, PMNRF rows). All fixed.
-- Round 2: Debugger SHIP. Verifier caught 1 new ERROR (fake-UPI clarification credited to PM; article says "Press Bureau of India") — fixed verbatim. Analyzer partial dissent → moot (its 2 contested PMNRF facts were already present).
-- Round 3 FINAL: **Analyzer CONSENSUS · Debugger SHIP · Verifier PASS.** Every figure/date/actor/quote verified against live wikitext. Analyzer's non-blocking caveat applied ("Press Bureau of India" kept verbatim; real agency is PIB — noted in dataCaveats).
-- Process rule proven: wikitext (`action=raw`) is the fact authority; conservative phrasing wins disputes.
+## Audit & verification history (2026-08-15/16)
+1. Analyzer brief → build; 2. Verifier rounds 1-3 (killed 7 ERROR-class hallucinations incl. wrong bank list/invented IIT breakdown; final consensus Analyzer/Debugger/Verifier). 3. v1.4 completeness pass (+65 items; new Litigation/Audit/Voluntary-donors/Popular-culture/References sections; 2 more Verifier fixes). 4. v1.5 dual re-audit (source-side + live-site; 22 fixes incl. Ahmedabad/Karnataka counts, expert-advisors defence, SARC Gupta detail, parser pipe bug). 5. v1.6 UI/UX audit (agent + screenshots; 20 additive fixes — invisible Debate headings WCAG failure, scrollspy, KPI strip, year-grouped timeline, scroll chrome, accessibilityLayer, icons; zero info removed). 6. Table readability fix (user-reported: mono font only on numeric columns). 7. v1.7 FINAL audit: clause-complete except 4 sub-clauses → added verbatim (DUTA channels, PMO PSU-RTI denial, IPC glosses, PMNRF disclosure), grep-verified live.
 
-## Docs
-`docs/ANALYSIS.md` + `docs/PLAN.md` (process artifacts) · `CLAUDE.md` (project context/invariants) · `AGENTS.md` (TDD + a11y + agent-gate rules) · `README.md` (public) · env files: `.env.local|.dev|.staging|.production` (VITE_SITE_NAME, VITE_ENV, VITE_DATA_AS_OF).
+## SEO / GEO (v1.3+)
+Prerendered full HTML (crawlers/LLM bots without JS see everything); JSON-LD (WebSite/WebPage/FAQPage 12/Dataset); question-format H1; keyword title/description; Twitter card + og-image.png 1200×630; robots.txt explicitly welcomes AI crawlers (GPTBot/ClaudeBot/PerplexityBot/CCBot/Google-Extended/etc.); llms.txt (11 sections); noscript. Registered: GSC URL-prefix property (HTML-file verified, sitemap submitted), Bing imported from GSC, IndexNow (key 0e7c80d58618f01b8673e21f543f7f13; re-ping command in git history/MEMORY v1.3 note — POST with JSON body; GET-style params on POST = HTTP 411).
+
+## Ops notes
+- Deploy = `git push` → Vercel (auto, primary) + GitHub Actions → Pages mirror (runs tests). Vite base = `GITHUB_ACTIONS ? '/pm-cares-fund-information/' : '/'` (NOT `CI` — Vercel sets CI too).
+- esbuild and @types/node are EXPLICIT devDeps (not hoisted in clean CI).
+- macOS tooling gotchas: qlmanage SVG thumbnails are square-letterboxed (center-crop with sips) and cached by input filename (use unique names); headless-Chrome anchor-URL screenshots don't settle under smooth-scroll — capture full-page tall window and crop with sips.
+- Env files: .env.local|.dev|.staging|.production (VITE_SITE_NAME, VITE_ENV, VITE_DATA_AS_OF). .idea/ gitignored.
 
 ## Maintenance / next-session quickstarts
-- **Refresh data when Wikipedia changes**: edit only `src/data/fund.ts` + sync exact-value assertions in `fund.test.ts` → `npm test && npm run build`. Re-run the Verifier-style wikitext cross-check first.
-- **Possible future work** (none requested): code-split Recharts below the fold; add dark mode pairing; deploy to a static host; screenshot-based visual QA.
+- **Wikipedia changed**: diff fresh wikitext (`curl 'https://en.wikipedia.org/w/index.php?title=PM_CARES_Fund&action=raw'`) vs data → edit `fund.ts` (+ `node scripts/parse-references.mjs` if refs changed) → sync exact-value tests → `npm test && npm run build` → push → re-run an audit-agent clause sweep → IndexNow re-ping.
+- **Optional future work** (none requested): custom domain if constraints change; dark mode; code-split Recharts; periodic (monthly) article-diff check could be a scheduled CI job.
