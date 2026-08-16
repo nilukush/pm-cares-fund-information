@@ -299,4 +299,18 @@ describe('completeness pass — content added from the full-article audit', () =
   it('defence reflects the fund’s stated purpose beyond COVID-19', () => {
     expect(defence.map((d) => d.detail).join(' ')).toContain('distressing situations')
   })
+
+  it('captures the re-audit cross-validated gaps (Ahmedabad, Karnataka counts, experts, purpose)', () => {
+    expect(ventilatorProgramme.hospitalEpisodes).toContain('Ahmedabad')
+    expect(ventilatorProgramme.hospitalEpisodes).toContain('2,025')
+    expect(ventilatorProgramme.hospitalEpisodes).toContain('640')
+    expect(identity.purposeScope).toContain('disaster management and research')
+    expect(identity.expertsNote).toContain('advisory panel of ten members')
+    expect(defence.map((d) => d.detail).join(' ')).toContain('authorisation processes')
+    expect(ventilatorProgramme.qualityNote).toContain('no guidelines or standards')
+    expect(voluntaryDonors.titleOnlyAmounts.length).toBeGreaterThanOrEqual(10)
+    const allTimeline = timeline.map((e) => e.event).join(' ')
+    expect(allTimeline).toContain('Praveen Kumar')
+    expect(allTimeline).toContain('Prabhakar Shinde')
+  })
 })

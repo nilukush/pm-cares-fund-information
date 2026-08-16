@@ -20,6 +20,11 @@ if (process.argv[2]) {
   ).then((r) => r.text())
 }
 
+// Wikipedia escapes literal pipes inside template parameters as {{!}} — and its
+// "}}" would end the lazy template-capture regex early, truncating titles.
+// Normalize to an em dash BEFORE any parsing.
+wiki = wiki.replace(/\s*\{\{!\}\}\s*/g, ' — ')
+
 function clean(value) {
   return value
     .replace(/\[\[([^\]|]*\|)?([^\]]*)\]\]/g, '$2')

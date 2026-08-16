@@ -26,8 +26,10 @@ URL: https://pm-cares-fund-information.vercel.app/
 - Spending: https://pm-cares-fund-information.vercel.app/#spending
 - Timeline: https://pm-cares-fund-information.vercel.app/#timeline
 - Debate (criticism vs government defence, PM CARES vs PMNRF): https://pm-cares-fund-information.vercel.app/#debate
+- Litigation: https://pm-cares-fund-information.vercel.app/#litigation
 - FAQ: https://pm-cares-fund-information.vercel.app/#faq
 - Sources & caveats: https://pm-cares-fund-information.vercel.app/#sources
+- References (all 119 citations): https://pm-cares-fund-information.vercel.app/#references
 - About & methodology: https://pm-cares-fund-information.vercel.app/#about
 
 ## Data caveats

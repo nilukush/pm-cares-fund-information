@@ -10,6 +10,7 @@ export function IdentityCard() {
     ['Ex-officio trustees', identity.exOfficioTrustees.join(' · ')],
     ['Other trustees', identity.additionalTrustees],
     ['Advisory board', identity.advisoryBoard],
+    ['Expert advisors (Apr 2020 reports)', identity.expertsNote],
     ['Trustee list disclosure', identity.trusteesPublicNote],
     ['Auditor', `${identity.auditor} — ${identity.auditorNote}`],
     ['Stated purpose', identity.purposeScope],

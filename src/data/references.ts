@@ -90,11 +90,11 @@ export const references: Reference[] = [
     "accessDate": "2020-12-18"
   },
   {
-    "title": "PM-CARES {{!",
-    "url": "",
-    "work": "",
+    "title": "PM-CARES — Centre sends conflicting signals on foreign donations",
+    "url": "https://www.thehindu.com/news/national/pm-cares-centre-sends-conflicting-signals-on-foreign-donations/article31245203.ece",
+    "work": "The Hindu",
     "date": "2020-04-03",
-    "accessDate": ""
+    "accessDate": "2020-07-30"
   },
   {
     "title": "New Delhi to accept foreign aid to deal with covid-19 pandemic crisis",
@@ -293,11 +293,11 @@ export const references: Reference[] = [
     "accessDate": "2020-07-30"
   },
   {
-    "title": "Coronavirus {{!",
-    "url": "",
-    "work": "",
+    "title": "Coronavirus — President, V-P to donate a month's salary to PM-CARES Fund",
+    "url": "https://www.thehindu.com/news/national/coronavirus-president-v-p-to-donate-a-months-salary-to-pm-cares-fund/article31201652.ece",
+    "work": "The Hindu",
     "date": "2020-03-30",
-    "accessDate": ""
+    "accessDate": "2020-07-30"
   },
   {
     "title": "EPFO employees contribute ₹2.5 crore to PM CARES",
@@ -342,11 +342,11 @@ export const references: Reference[] = [
     "accessDate": "2020-07-30"
   },
   {
-    "title": "Coronavirus {{!",
-    "url": "",
-    "work": "",
+    "title": "Coronavirus — Russian arms firm to donate $2 million to PM CARES Fund",
+    "url": "https://www.thehindu.com/news/national/russian-arms-firm-to-donate-2-mn-to-pm-cares-fund/article31350622.ece",
+    "work": "The Hindu",
     "date": "2020-04-15",
-    "accessDate": ""
+    "accessDate": "2020-07-30"
   },
   {
     "title": "Indian missions didn't approach any potential donor for PM-CARES in Islamabad, Beijing: RTI",
@@ -426,11 +426,11 @@ export const references: Reference[] = [
     "accessDate": "2020-08-22"
   },
   {
-    "title": "Coronavirus {{!",
-    "url": "",
-    "work": "",
+    "title": "Coronavirus — PM-CARES donations cut from government staff salaries",
+    "url": "https://www.thehindu.com/news/national/coronavirus-pm-cares-donations-cut-from-government-staff-salaries/article31383279.ece",
+    "work": "The Hindu",
     "date": "2020-04-19",
-    "accessDate": ""
+    "accessDate": "2020-07-30"
   },
   {
     "title": "PM CARES and the Paradox of Mandatory Contributions",
@@ -489,11 +489,11 @@ export const references: Reference[] = [
     "accessDate": "2020-07-30"
   },
   {
-    "title": "Coronavirus {{!",
-    "url": "",
-    "work": "",
+    "title": "Coronavirus — PM CARES makes first allocations",
+    "url": "https://www.thehindu.com/news/national/coronavirus-pm-cares-makes-first-allocations/article31576545.ece",
+    "work": "The Hindu",
     "date": "2020-05-13",
-    "accessDate": ""
+    "accessDate": "2020-05-15"
   },
   {
     "title": "Rs 3,100 Crore From PM CARES Fund Allocated For Ventilators, Migrants",
@@ -538,11 +538,11 @@ export const references: Reference[] = [
     "accessDate": "2020-07-30"
   },
   {
-    "title": "Coronavirus {{!",
-    "url": "",
-    "work": "",
+    "title": "Coronavirus — Ventilators from firms funded by PM CARES fail trials",
+    "url": "https://www.thehindu.com/news/national/coronavirus-ventilators-from-firms-funded-by-pm-cares-fail-trials/article32416810.ece",
+    "work": "The Hindu",
     "date": "2020-08-21",
-    "accessDate": ""
+    "accessDate": "2020-08-22"
   },
   {
     "title": "Company With No Ventilator Model Got Rs 373 Cr PM CARES Order To Make 10,000 Ventilators",
@@ -636,11 +636,11 @@ export const references: Reference[] = [
     "accessDate": "2021-04-29"
   },
   {
-    "title": "Coronavirus {{!",
-    "url": "",
-    "work": "",
+    "title": "Coronavirus — PM CARES to fund 1 lakh portable oxygen concentrators",
+    "url": "https://www.thehindu.com/news/national/covid-19-govt-to-procure-1-lakh-portable-oxygen-concentrators-from-pm-cares-fund/article34431100.ece",
+    "work": "The Hindu",
     "date": "2021-04-28",
-    "accessDate": ""
+    "accessDate": "2021-04-29"
   },
   {
     "title": "PM CARES Fund Not A Public Authority Under RTI Act : Affirms Appellate Authority In PMO",

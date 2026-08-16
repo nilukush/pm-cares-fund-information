@@ -31,6 +31,7 @@ export interface Identity {
   auditor: string
   auditorNote: string
   purposeScope: string
+  expertsNote: string
   trusteesPublicNote: string
   lawMinistryNote: string
 }
@@ -42,7 +43,7 @@ export const identity: Identity = {
   formedOn: '2020-03-27',
   formedOnDisplay: '27 March 2020',
   registration:
-    'Registered public charitable trust in New Delhi under the Registration Act, 1908; the trust deed (published December 2020) describes it as "a private trust"',
+    'Registered public charitable trust in New Delhi under the Registration Act, 1908; the trust deed (published December 2020) describes it as "a private trust". It is used at the discretion of the Prime Minister and the fund’s trustees, and does not form part of the Government of India’s accounts.',
   address: "Prime Minister's Office, South Block, New Delhi",
   chairperson: 'Narendra Modi',
   exOfficioTrustees: ['Rajnath Singh (Defence)', 'Amit Shah (Home)', 'Nirmala Sitharaman (Finance)'],
@@ -55,7 +56,9 @@ export const identity: Identity = {
   auditorNote:
     'Appointed June 2020 for three years. The fund is not audited by the Comptroller and Auditor General (CAG) of India.',
   purposeScope:
-    'Created amid the COVID-19 pandemic; the Prime Minister stated it would also cater to future "distressing situations". Enables micro-donations.',
+    'The Prime Minister said the PMO had received many requests to help in the war against COVID-19, and that the fund would be used for disaster management and research — also catering to future "distressing situations". Enables micro-donations.',
+  expertsNote:
+    'April 2020 reports: the fund "could have" 3 experts appointed by the Prime Minister to advise on spending, and an advisory panel of ten members to provide similar advice.',
   trusteesPublicNote: 'A complete list of trustees of the fund is not publicly available.',
   lawMinistryNote:
     'Petitions to the Ministry of Law and Justice for information on the fund’s establishment have not been answered.',
@@ -109,7 +112,7 @@ export const finances = {
   /** Times of India estimate, 19 May 2020 — NOT an audited figure. */
   twoMonthEstimateCrore: 10600,
   twoMonthEstimateNote:
-    'Times of India estimate (19 May 2020): ₹10,600 crore (US$1.4 billion) received in the first two months — an estimate, not audited accounts.',
+    'Times of India estimate (19 May 2020): ₹10,600 crore (US$1.4 billion) received in the first two months — an estimate, not audited accounts; ToI noted the undisclosed total could potentially exceed this amount.',
   estimateNote: 'Donor mix is a Times of India estimate (19 May 2020), not audited accounts.',
   corpusStatementNote:
     'A statement uploaded to the fund’s website in September 2020 disclosed ₹30.76 billion received between 27 and 31 March 2020 — already below The Times of India’s ₹10,600 crore two-month estimate — but not the names or identities of donors.',
@@ -143,7 +146,7 @@ export const institutionalDonations: Donation[] = [
   {
     label: '32 PSUs',
     amountCrore: 2105,
-    note: 'Reported August 2020 (The Indian Express); do not sum with the 101-PSU figure. Per the RTI replies, in one case the CSR allocation had been exceeded, and in others the allocation had not been finally decided when the transfer was made.',
+    note: 'Reported August 2020 (The Indian Express) — primarily from CSR budget allocations for 2019-20 and 2020-21; do not sum with the 101-PSU figure. Per the RTI replies, in one case the CSR allocation had been exceeded, and in others the allocation had not been finally decided when the transfer was made.',
   },
   {
     label: 'Banks & financial institutions',
@@ -175,7 +178,7 @@ export const militaryBreakdown = [
 ]
 
 export const militaryNotes =
-  'The Army shared its figure on Twitter (May 2020) but did not reply to a later RTI petition; the Navy declined to disclose contributions made under any other heads of accounts.'
+  'The Army shared its figure on Twitter (May 2020) but did not reply to a later RTI petition; the Navy declined to disclose contributions made under any other heads of accounts. The Navy’s ₹12.41 crore was contributed between April and October 2020.'
 
 // ---------------------------------------------------------------------------
 // Voluntary donations — pledges named in the article body text
@@ -216,13 +219,18 @@ export const voluntaryDonors = {
       amount: '₹1,125 crore (broader COVID-19 commitment, not solely PM CARES)',
       note: 'Headline figure only — not stated in the article body',
     },
+    {
+      label: 'Navi Mumbai PhonePe fraud victim',
+      amount: '₹28,000',
+      note: 'Headline figure only — not stated in the article body',
+    },
   ],
 }
 
 /** Salary-deduction practices described in the article (non-₹-figure examples). */
 export const salaryDeductionExamples = [
   'Supreme Court registry: 3 days’ salary (officers), 2 (non-gazetted), 1 (Group C) — resolution of 19 April 2020; the circular gave employees one day to opt out, and silence counted as consent',
-  'Revenue Department staff: 1 day’s salary per month, April 2020–March 2021 — initially opt-out (“default”), opt-in from 30 April 2020 after criticism; critics noted it amounted to 12% of a month’s salary, and a former Comptroller-General of Defence Accounts said the opt-out design left employees vulnerable to professional consequences',
+  'Revenue Department staff: 1 day’s salary per month, April 2020–March 2021 — initially opt-out (“default”), opt-in from 30 April 2020 after criticism; critics noted it amounted to 12% of a month’s salary, a former Comptroller-General of Defence Accounts said the opt-out design left employees vulnerable to professional consequences, and employees objected it crowded out donations to other relief funds such as state Chief Ministers’ Relief Funds',
   'AIIMS and three other Delhi hospitals (Safdarjung, ABVIMS-RML and Lady Hardinge) issued salary-deduction circulars; after protests from doctors’ associations all were withdrawn, with donations becoming opt-in and voluntary',
   'Defence Ministry sought ~₹500 crore (one day’s salary) from the armed forces; ₹203.67 crore was received',
 ]
@@ -264,7 +272,7 @@ export const firstAllocation = {
 
 export const oxygenProgramme = {
   sanctionedPlants: 162,
-  sanctionedNote: 'PSA oxygen plants tendered October 2020 (150 plants), later increased by 12 more',
+  sanctionedNote: 'PSA oxygen plants for district hospitals tendered October 2020 (150 plants), later increased by 12 more',
   installedScroll: 11,
   operationalScroll: 5,
   scrollNote: 'Scroll.in, April 2021: 11 installed, only 5 operational',
@@ -275,7 +283,7 @@ export const oxygenProgramme = {
   delhiNote: 'Told to the Delhi High Court, 22 April 2021',
   april2021Announcement: '26 April 2021 (PMO): 551 oxygen plants + 100,000 portable oxygen concentrators',
   cmssNote:
-    'Responsibility for constructing the plants lay with the Central Medical Services Society, an autonomous institution under the Central Health Ministry — not with state governments.',
+    'Responsibility for constructing the plants lay with the Central Medical Services Society, an autonomous institution under the Central Health Ministry — not with state governments, as was reported by a number of political activists.',
   slowdownNote:
     'Joint Secretary (Health) Vipun Nayak told the Delhi High Court that a decline in COVID-19 cases during January–February 2021 had slowed construction.',
 }
@@ -300,9 +308,9 @@ export const ventilatorProgramme = {
   stateDeliveriesNote:
     'Ventilators allocated to states/UTs facing a high number of cases, as of 24 June 2020.',
   qualityNote:
-    'Ventilators purchased under PM CARES drew quality criticism: two government clinical-evaluation committees (16 May and 1 June 2020) flagged sub-standard units, recommending use only with a back-up ventilator available. Several hospitals returned units as unusable, and some manufacturers had no prior ventilator experience.',
+    'Ventilators purchased under PM CARES drew quality criticism: two government clinical-evaluation committees (16 May and 1 June 2020) flagged sub-standard units, recommending use only with a back-up ventilator available. The units were purchased from Indian medical start-ups; one supplier stated there were no guidelines or standards it was required to comply with to be eligible for government procurement. Several hospitals returned units as unusable, and some manufacturers had no prior ventilator experience.',
   hospitalEpisodes:
-    'Lok Nayak Hospital (Delhi) found ventilators usable for only 10–15% of patients; PGI Chandigarh declined to use 10 units found faulty; Karnataka’s loan scheme was unsuccessful as ventilators did not meet updated oxygen-treatment protocols; Pimpri-Chinchwad (Maharashtra) reported 17 of 72 units broken down and unrepaired (April 2021); Rajasthan formally complained to the Centre about faulty units (April 2021).',
+    'Lok Nayak Hospital (Delhi) found ventilators usable for only 10–15% of patients; PGI Chandigarh declined to use 10 units found faulty; Ahmedabad civil hospital wrote to the Central Government (May 2020) that its ventilators were not functioning as required; Karnataka said it would deploy 640 units only after testing confirmed specifications, and later received 2,025 units but clarified they were unnecessary for its government hospitals — its loan scheme was unsuccessful as ventilators did not meet updated oxygen-treatment protocols; Pimpri-Chinchwad (Maharashtra) reported 17 of 72 units broken down and unrepaired (April 2021); Rajasthan formally complained to the Centre about faulty units (April 2021).',
 }
 
 // ---------------------------------------------------------------------------
@@ -404,7 +412,7 @@ export const timeline: TimelineEvent[] = [
     date: '2020-04-20',
     dateDisplay: '20 Apr 2020',
     event:
-      'Delhi University is criticised after funds collected for the National Disaster Relief Fund are redirected to PM CARES without disclosing it to donors — officials say this was on orders of the Ministry of Human Resources Development; DUTA calls it "a betrayal of trust".',
+      'Delhi University is criticised after funds collected for the National Disaster Relief Fund are redirected to PM CARES without disclosing it to donors — on orders of the Ministry of Human Resources Development; DUTA calls it "a betrayal of trust", noting the university had traditionally supported the NDRF or the Chief Minister’s Relief Fund.',
     category: 'money',
   },
   {
@@ -446,7 +454,7 @@ export const timeline: TimelineEvent[] = [
     date: '2020-05-22',
     dateDisplay: '22 May 2020',
     event:
-      'A Bengaluru lawyer files a criminal complaint against Sonia Gandhi and other opposition leaders over tweets criticising the fund — under IPC sections 153 and 505(1)(b).',
+      'Bengaluru lawyer Praveen Kumar files a criminal complaint against Sonia Gandhi and other opposition leaders over tweets criticising the fund — under IPC sections 153 and 505(1)(b).',
     category: 'legal',
   },
   {
@@ -474,7 +482,7 @@ export const timeline: TimelineEvent[] = [
     date: '2020-06-15',
     dateDisplay: 'Jun 2020',
     event:
-      'Opposition leaders criticise the acceptance of donations from Chinese-owned companies after the 2020 China–India skirmishes; Punjab CM Amarinder Singh says such donations ought to be returned.',
+      'Opposition leaders criticise the acceptance of donations from Chinese-owned companies after the 2020 China–India skirmishes — amid the Government of India’s own bans on Chinese products, including mobile applications; Punjab CM Amarinder Singh says such donations ought to be returned.',
     category: 'legal',
   },
   {
@@ -502,7 +510,7 @@ export const timeline: TimelineEvent[] = [
     date: '2020-07-16',
     dateDisplay: 'Jul 2020',
     event:
-      'Hospital ventilator problems mount: Lok Nayak Hospital (Delhi) finds units deliver insufficient oxygen for all but 10–15% of patients; PGI Chandigarh declines to use 10 faulty units; a BJP leader urges Mumbai’s Municipal Commissioner to act against officials leaving PM CARES ventilators unused.',
+      'Hospital ventilator problems mount: Lok Nayak Hospital (Delhi) finds units deliver insufficient oxygen for all but 10–15% of patients; PGI Chandigarh declines to use 10 faulty units; BJP leader Prabhakar Shinde urges Mumbai’s Municipal Commissioner to act against officials leaving PM CARES ventilators unused.',
     category: 'spend',
   },
   {
@@ -586,7 +594,7 @@ export const timeline: TimelineEvent[] = [
     date: '2021-01-01',
     dateDisplay: 'Jan 2021',
     event:
-      '100 retired civil servants — including A.S. Dulat (former R&AW chief), K. Sujatha Rao and S.C. Behar — write to the Prime Minister, flagging concerns about the fund’s refusal to disclose information under the RTI Act.',
+      '100 retired civil servants — including A.S. Dulat (former R&AW chief), K. Sujatha Rao (former Secretary, Family Health) and S.C. Behar — write to the Prime Minister, flagging concerns about the fund’s refusal to disclose information under the RTI Act.',
     category: 'legal',
   },
   {
@@ -644,7 +652,7 @@ export const criticism: DebatePoint[] = [
   {
     title: '"Private trust" vs government character',
     detail:
-      'The trust deed states the fund "is neither intended to be or is in fact owned, controlled or substantially financed by any government or any instrumentality of the government" — yet an RTI reply once described it as "owned by, controlled by and established by the Government of India". It uses the national emblem, is chaired by the PM with three ministers as trustees, and even holds a government domain name (pmcares.gov.in — revealed by an RTI filed with the National Informatics Centre) that can only be granted to government entities.',
+      'The trust deed states the fund "is neither intended to be or is in fact owned, controlled or substantially financed by any government or any instrumentality of the government", describing it as a private entity "although it bore the national emblem, and used government infrastructure" — yet an RTI reply once described it as "owned by, controlled by and established by the Government of India". It is chaired by the PM with three ministers as trustees, and even holds a government domain name (pmcares.gov.in — revealed by an RTI filed with the National Informatics Centre) that can only be granted to government entities.',
   },
   {
     title: 'No CAG audit',
@@ -654,7 +662,7 @@ export const criticism: DebatePoint[] = [
   {
     title: 'FCRA exemption without CAG audit',
     detail:
-      'The fund was exempted from all FCRA 2010 provisions — even though Home Ministry orders of 2011 and January 2020 tie FCRA exemptions to compulsory CAG audit. India also set aside its 15-year policy of declining foreign aid and directed ambassadors to mobilise donations; the Home Ministry declined to comment on Russian state-owned Rosoboronexport’s pledge, a departure from the prior policy of accepting foreign donations only from NRIs, PIOs and international organisations.',
+      'The fund was exempted from all FCRA 2010 provisions — a law that otherwise requires organisations to register and regularly document foreign funds received — even though Home Ministry orders of 2011 and January 2020 tie FCRA exemptions to compulsory CAG audit. India also set aside its 15-year policy of declining foreign aid and directed ambassadors to mobilise donations; the Home Ministry declined to comment on Russian state-owned Rosoboronexport’s pledge, a departure from the prior policy of accepting foreign donations only from NRIs, PIOs and international organisations.',
   },
   {
     title: 'Default and coerced donations',
@@ -697,7 +705,7 @@ export const defence: DebatePoint[] = [
   {
     title: 'A dedicated emergency fund',
     detail:
-      'Officials differentiated PM CARES from the PMNRF, arguing that a dedicated fund for the COVID-19 emergency enabled faster, focused decisions.',
+      'Officials differentiated PM CARES from the PMNRF: its trust deed gives it a defined objective (unlike the PMNRF’s general relief aims) and allows the Prime Minister to appoint experts as advisors in allocating funds — and, not being government spending, it avoids the authorisation processes applicable to government spending.',
   },
   {
     title: 'Supreme Court on audit demands',
@@ -828,7 +836,7 @@ export const pmnrfComparison = [
 
 /** Context the article adds about related funds (Existing relief funds section). */
 export const relatedFundsNote =
-  'The article adds: the PMNRF (1948) provides relief for natural disasters, calamities and riots, and its donations are income-tax exempt; it has complied with audits questioning its spending (e.g., the 2013 Uttarakhand floods). Chief Ministers of several states questioned the preference for PM CARES over state relief funds, and activists suggested the PMNRF could instead be restructured under parliamentary oversight. The National Disaster Response Fund (Disaster Management Act, 2005) is publicly funded and does not accept private donations — the government distinguished PM CARES on exactly that basis.'
+  'The article adds: the PMNRF (1948) provides relief for natural disasters, calamities and riots, and its donations are income-tax exempt; it has complied with audits questioning its spending (e.g., the 2013 Uttarakhand floods). Chief Ministers of several states questioned the preference for PM CARES over state relief funds, and activists suggested the PMNRF could instead be restructured under parliamentary oversight. The National Disaster Response Fund (Disaster Management Act, 2005) is publicly funded and does not accept private donations — the government distinguished PM CARES on exactly that basis. The article also notes the precise PM CARES–PMNRF distinction is itself unclear, since PM CARES’ trust deed and other governing documents were not publicly disclosed.'
 
 // ---------------------------------------------------------------------------
 // FAQ (answers based solely on the Wikipedia article)

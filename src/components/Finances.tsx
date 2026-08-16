@@ -83,7 +83,11 @@ export function Finances() {
         subtitle="Estimated mix of the first two months of donations (Times of India, 19 May 2020)"
         badge="Estimate"
         ariaLabel="Donut chart: estimated donor mix of the first two months — private-sector corporations and employees 53 percent, PSUs and PSU employees 42 percent, individuals 5 percent. Based on a Times of India estimate, not audited accounts."
-        note={finances.estimateNote}
+        note={
+          <>
+            {finances.estimateNote} {finances.twoMonthEstimateNote}
+          </>
+        }
         tableHeaders={['Donor group', 'Share']}
         tableRows={donorMix.map((d) => [d.label, `${d.sharePercent}%`])}
       >
