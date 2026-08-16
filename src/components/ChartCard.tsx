@@ -12,12 +12,15 @@ interface ChartCardProps {
   /** Screen-reader caption for the data table. */
   tableCaption?: string
   tableHeaders: string[]
+  /** Column indices holding numbers — those alone get the tabular mono font. */
+  numericColumns?: number[]
   tableRows: (string | number)[][]
 }
 
 /**
  * Chart container with an accessible name and an always-available data table
- * alternative (open by default; users may collapse it).
+ * alternative (open by default; users may collapse it). Numeric columns use
+ * the tabular mono font; text columns stay in the readable sans face.
  */
 export function ChartCard({
   title,
@@ -28,6 +31,7 @@ export function ChartCard({
   note,
   tableCaption,
   tableHeaders,
+  numericColumns = [],
   tableRows,
 }: ChartCardProps) {
   return (
@@ -55,12 +59,16 @@ export function ChartCard({
           View data as table
         </summary>
         <div className="mt-3 overflow-x-auto">
-          <table className="w-full border-collapse text-left text-sm">
+          <table className="w-full min-w-96 border-collapse text-left text-sm">
             {tableCaption && <caption className="sr-only">{tableCaption}</caption>}
             <thead>
-              <tr className="border-b border-border text-secondary">
-                {tableHeaders.map((h) => (
-                  <th key={h} scope="col" className="py-2 pr-4 font-semibold">
+              <tr className="border-b-2 border-border text-secondary">
+                {tableHeaders.map((h, j) => (
+                  <th
+                    key={h}
+                    scope="col"
+                    className={`py-2 pr-6 font-semibold ${numericColumns.includes(j) ? 'tnum' : ''}`}
+                  >
                     {h}
                   </th>
                 ))}
@@ -68,9 +76,14 @@ export function ChartCard({
             </thead>
             <tbody>
               {tableRows.map((row, i) => (
-                <tr key={i} className="border-b border-border/60 last:border-0">
+                <tr key={i} className="border-b border-border/60 last:border-0 hover:bg-surface/70">
                   {row.map((cell, j) => (
-                    <td key={j} className="py-2 pr-4 tnum">
+                    <td
+                      key={j}
+                      className={`py-2.5 pr-6 align-top leading-relaxed text-foreground ${
+                        numericColumns.includes(j) ? 'tnum whitespace-nowrap' : ''
+                      }`}
+                    >
                       {cell}
                     </td>
                   ))}

@@ -72,6 +72,7 @@ export function Spending() {
         badge="Includes derived figure"
         ariaLabel="Bar chart of the 13 May 2020 first allocation in crore rupees: ventilators 2,000 crore (derived), migrant worker welfare 1,000 crore, vaccine development support 100 crore."
         tableHeaders={['Purpose', 'Amount (₹ cr)', 'Notes']}
+        numericColumns={[1]}
         tableRows={firstAllocation.items.map((i) => [
           i.label,
           i.amountCrore,

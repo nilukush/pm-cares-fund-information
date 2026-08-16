@@ -67,6 +67,7 @@ export function Finances() {
           </>
         }
         tableHeaders={['Fiscal year', 'Receipts (₹ cr)', 'Year-end balance (₹ cr)']}
+        numericColumns={[1, 2]}
         tableRows={finances.years.map((y) => [
           `${y.fiscalYear} (${y.period})`,
           formatINR(y.receiptsCrore),
@@ -129,6 +130,7 @@ export function Finances() {
           </>
         }
         tableHeaders={['Donor group', 'Share']}
+        numericColumns={[1]}
         tableRows={donorMix.map((d) => [d.label, `${d.sharePercent}%`])}
       >
         <ResponsiveContainer width="100%" height={300}>

@@ -60,6 +60,7 @@ export function Donations() {
           subtitle="Selected donation figures reported in the article body text, in ₹ crore. Periods differ — see notes; figures must not be summed."
           ariaLabel="Horizontal bar chart of institutional contributions in crore rupees: 101 PSUs CSR 2,400 crore; 32 PSUs 2,105 crore; banks and financial institutions 204.75 crore; Indian military 203.67 crore; PSU staff salaries 155 crore; educational institutions 21.81 crore."
           tableHeaders={['Source', 'Amount (₹ cr)', 'Notes']}
+          numericColumns={[1]}
           tableRows={sorted.map((d) => [d.label, d.amountCrore, d.note])}
         >
           <ResponsiveContainer width="100%" height={340}>
