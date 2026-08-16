@@ -1,9 +1,11 @@
 # MEMORY.md — Project Memory (compacted 2026-08-16)
 
-## Status: v1.1 DEPLOYED · LIVE · 3-agent consensus achieved
+## Status: v1.2 DEPLOYED · LIVE · 3-agent consensus achieved
 
 Public-information website about India's PM CARES Fund, built 15 Aug 2026 from
 https://en.wikipedia.org/wiki/PM_CARES_Fund (accessed 15 Aug 2026).
+
+**v1.2 (16 Aug 2026)**: PRIMARY host moved to **Vercel** — https://pm-cares-fund-information.vercel.app/ (free Hobby tier, project-named subdomain chosen for credibility; NO domain purchase per user constraint). Vercel CLI 54.15.0, authed as `nilukush` via GitHub device flow; GitHub repo connected to the Vercel project (push to main = auto-deploy). GitHub Pages kept as MIRROR. Key config: Vite base prefix keys off `GITHUB_ACTIONS` (NOT `CI` — Vercel also sets CI=true); canonical/og:url/robots/sitemap point to the vercel.app domain.
 
 **v1.1 (16 Aug 2026)**: Added "About this site" section (`src/components/About.tsx`, `about` export in fund.ts) — mission, editorial principles (single source / labeled uncertainty / both sides no verdict / no tracking), 3-step verification methodology, known limitations, GitHub-issues feedback button. Nav now has 9 items. Tests 44→50 (TDD: 3 about-data + 3 App tests). No domain purchase per user constraint — stays on GitHub Pages.
 

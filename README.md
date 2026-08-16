@@ -1,6 +1,7 @@
 # PM CARES Fund — Facts, Figures & Timeline
 
-**Live site: https://nilukush.github.io/pm-cares-fund-information/**
+**Live site: https://pm-cares-fund-information.vercel.app/**
+(mirror: https://nilukush.github.io/pm-cares-fund-information/)
 
 A single-page, citizen-friendly public-information website presenting India's PM CARES
 Fund graphically: what it is, how much was received, what was allocated, how delivery
@@ -55,12 +56,15 @@ tagged "needs update"). Figures reproduced from pmcares.gov.in, The Hindu and Ti
 India are as cited by that article. When the article changes, update
 `src/data/fund.ts` (and its exact-value tests) — no other file holds content.
 
-## Deployment (GitHub Pages)
+## Deployment
 
-Pushing to `main` triggers `.github/workflows/deploy.yml`: install → 44 tests →
-build → deploy to GitHub Pages. The Pages base path
-(`/pm-cares-fund-information/`) is applied automatically when `CI=true`; locally the
-dev/preview servers keep root paths. To redeploy, just `git push`.
+**Primary: Vercel** — https://pm-cares-fund-information.vercel.app/. The GitHub
+repository is connected to the Vercel project, so every push to `main` auto-deploys.
+**Mirror: GitHub Pages** — the same pushes run `.github/workflows/deploy.yml`
+(install → 50 tests → build → deploy) and keep the `github.io` URL live. The
+`/pm-cares-fund-information/` asset prefix applies only on GitHub Actions
+(`GITHUB_ACTIONS`, not `CI` — Vercel sets `CI=true` too); the canonical URL,
+`og:url`, `robots.txt` and `sitemap.xml` point to the Vercel domain.
 
 ## Note on neutrality
 
