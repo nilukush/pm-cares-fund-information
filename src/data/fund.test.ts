@@ -178,6 +178,11 @@ describe('debate — criticism and defence presented side by side', () => {
 })
 
 describe('faq, sources and caveats', () => {
+  it('answers the two highest-intent public queries (spent + PMNRF comparison)', () => {
+    expect(faq.some((f) => /how much of the money was spent/i.test(f.q))).toBe(true)
+    expect(faq.some((f) => /different from the PMNRF/i.test(f.q))).toBe(true)
+  })
+
   it('has at least 6 non-empty FAQ entries', () => {
     expect(faq.length).toBeGreaterThanOrEqual(6)
     for (const f of faq) {

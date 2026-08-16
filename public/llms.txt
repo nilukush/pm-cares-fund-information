@@ -1,0 +1,41 @@
+# PM CARES Fund — Facts, Figures & Timeline
+
+> Independent, non-commercial public-information page about India's PM CARES Fund.
+> Every figure is sourced from the English Wikipedia article
+> (https://en.wikipedia.org/wiki/PM_CARES_Fund, accessed 15 August 2026).
+> Criticism and the government's defence are presented side by side; no editorial verdict.
+
+URL: https://pm-cares-fund-information.vercel.app/
+
+## Key facts
+
+- Full name: Prime Minister's Citizen Assistance and Relief in Emergency Situations Fund; created 27 March 2020 during the COVID-19 pandemic; registered public charitable trust (New Delhi) whose trust deed describes it as a private trust.
+- Chaired by the Prime Minister (Narendra Modi); Defence, Home and Finance ministers are ex-officio trustees. Operates from the PMO, South Block. Minimum donation ₹10.
+- Money received: ₹3,076.62 crore in the last five days of FY2019-20 and ₹10,990.17 crore in FY2020-21; year-end balance 31 March 2021: ₹7,013.99 crore. The Hindu reported (per the 2020-21 audit) about one-third of ₹10,990 crore was spent; Wikipedia's lead notes roughly two-thirds of the corpus unspent as of 2022.
+- First allocation, 13 May 2020: ₹3,100 crore — 50,000 made-in-India ventilators (₹2,000 cr share is derived arithmetic), ₹1,000 crore for migrant-worker welfare via states, ₹100 crore for vaccine-development support.
+- Audit: private chartered accountants SARC & Associates (June 2020, three years); the CAG does not audit the fund.
+- RTI: the PMO refused RTI requests and told the Delhi High Court the fund is "not a public authority"; critics cite the national emblem and ministerial trustees to argue otherwise.
+- FCRA: exempted from all FCRA 2010 provisions, permitting foreign contributions; corporate donations counted as CSR; 80G income-tax exemption for donations before 30 June 2020.
+- Delivery gaps reported: only 2,923 of 50,000 ventilators made by 24 June 2020; of 162 sanctioned oxygen plants, 11 installed (5 operational) per Scroll (April 2021) vs a government claim of 33; for Delhi, 8 sanctioned, 1 built (told to the Delhi High Court, 22 April 2021).
+
+## Sections
+
+- Overview: https://pm-cares-fund-information.vercel.app/#overview
+- Finances: https://pm-cares-fund-information.vercel.app/#finances
+- Donations: https://pm-cares-fund-information.vercel.app/#donations
+- Spending: https://pm-cares-fund-information.vercel.app/#spending
+- Timeline: https://pm-cares-fund-information.vercel.app/#timeline
+- Debate (criticism vs government defence, PM CARES vs PMNRF): https://pm-cares-fund-information.vercel.app/#debate
+- FAQ: https://pm-cares-fund-information.vercel.app/#faq
+- Sources & caveats: https://pm-cares-fund-information.vercel.app/#sources
+- About & methodology: https://pm-cares-fund-information.vercel.app/#about
+
+## Data caveats
+
+Estimates (e.g., the ₹10,600 crore two-month total and 53/42/5 donor mix) are labeled as
+estimates; derived arithmetic is labeled as derived; month-level dates are shown where the
+article gives no day. The Wikipedia article is tagged "needs update (July 2026)".
+
+## Corrections
+
+Report errors: https://github.com/nilukush/pm-cares-fund-information/issues

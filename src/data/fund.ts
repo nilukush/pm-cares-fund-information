@@ -7,6 +7,8 @@
  */
 
 export const WIKIPEDIA_URL = 'https://en.wikipedia.org/wiki/PM_CARES_Fund'
+export const SITE_URL = 'https://pm-cares-fund-information.vercel.app/'
+export const SITE_NAME = 'PM CARES Fund — Facts, Figures & Timeline'
 export const DATA_AS_OF = 'Wikipedia, accessed 15 August 2026 (article tagged "needs update – July 2026")'
 
 // ---------------------------------------------------------------------------
@@ -492,6 +494,14 @@ export const faq = [
   {
     q: 'How much money did it receive?',
     a: '₹3,076.62 crore in the last five days of FY2019-20 and ₹10,990.17 crore in FY2020-21, leaving a year-end balance of ₹7,013.99 crore (figures from pmcares.gov.in via Wikipedia). The Times of India estimated ₹10,600 crore within the first two months.',
+  },
+  {
+    q: 'How much of the money was spent?',
+    a: 'Per the 2020-21 audit reported by The Hindu, about one-third of the ₹10,990 crore received in FY2020-21 was spent, leaving a year-end balance of ₹7,013.99 crore — Wikipedia’s lead notes roughly two-thirds of the corpus remained unspent as of 2022.',
+  },
+  {
+    q: 'How is PM CARES different from the PMNRF?',
+    a: 'Both are chaired by the Prime Minister, funded by voluntary donations, and receive no government budget money. The Prime Minister’s National Relief Fund (PMNRF) dates from 1948 and held ₹3,800 crore unspent when PM CARES was created. Donations to both are FCRA-exempted, and donor names and amounts are not disclosed for either fund.',
   },
   {
     q: 'Who audits it?',

@@ -11,6 +11,11 @@ describe('App shell — landmarks and navigation', () => {
     ).toHaveAttribute('href', '#main')
   })
 
+  it('embeds JSON-LD structured data for search engines and LLMs', () => {
+    render(<App />)
+    expect(document.querySelectorAll('script[type="application/ld+json"]').length).toBe(1)
+  })
+
   it('renders exactly one h1 naming the fund', () => {
     render(<App />)
     const h1 = screen.getAllByRole('heading', { level: 1 })

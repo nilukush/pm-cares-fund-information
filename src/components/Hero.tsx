@@ -11,7 +11,7 @@ export function Hero() {
           PUBLIC INFORMATION · SOURCED FROM WIKIPEDIA
         </p>
         <h1 className="mt-3 max-w-3xl text-3xl font-extrabold leading-tight tracking-tight sm:text-4xl md:text-5xl">
-          The PM CARES Fund, at a glance
+          What is the PM CARES Fund?
         </h1>
         <p className="mt-4 max-w-3xl text-base leading-relaxed text-primary-foreground/90 sm:text-lg">
           {identity.fullName} — created on{' '}

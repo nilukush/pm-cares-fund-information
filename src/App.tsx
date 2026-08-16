@@ -1,5 +1,6 @@
 import { About } from './components/About'
 import { Debate } from './components/Debate'
+import { StructuredData } from './components/StructuredData'
 import { Donations } from './components/Donations'
 import { Faq } from './components/Faq'
 import { Finances } from './components/Finances'
@@ -15,6 +16,7 @@ import { Timeline } from './components/Timeline'
 export default function App() {
   return (
     <>
+      <StructuredData />
       <a
         href="#main"
         className="sr-only z-50 rounded-md bg-accent px-4 py-2 font-semibold text-white focus:not-sr-only focus:absolute focus:left-4 focus:top-4"
