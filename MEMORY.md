@@ -1,9 +1,23 @@
 # MEMORY.md — Project Memory (compacted 2026-08-16)
 
-## Status: v1.4 DEPLOYED · FULL-ARTICLE COMPLETENESS · LIVE
+## Status: v1.5 DEPLOYED · RE-AUDIT CLEAN · LIVE
 
 Public-information website about India's PM CARES Fund, sourced from
 https://en.wikipedia.org/wiki/PM_CARES_Fund (accessed 16 August 2026).
+
+**v1.5 (16 Aug 2026) — dual re-audit + fixes**: two independent auditors (source-side clause
+sweep of wikitext; live-site HTML check of the deployed page) cross-validated residual gaps —
+all fixed: Ahmedabad hospital episode; Karnataka 640/2,025 ventilator counts; expert-advisors
+defence argument; "disaster management and research" purpose; supplier no-standards quote;
+restored names (Praveen Kumar, Prabhakar Shinde, Sujatha Rao title); ~15 qualifiers (FCRA
+registration, Navy Apr–Oct, PSU fiscal years, ToI "could exceed", Chinese-ban context, DU
+traditional funds, CMRF objection, district hospitals, activist attribution, PM CARES–PMNRF
+distinction unclear, "used government infrastructure"). Parser bug fixed: {{!}} escaped pipes
+truncated 8 citation titles (lazy template-capture regex hit the inner "}}") — normalized at
+wikitext level before parsing. llms.txt gained #litigation/#references; ₹28,000 added to
+headline-only list; twoMonthEstimateNote now rendered. `.idea` gitignored. Tests 74; prerendered
+HTML 182 KB; both hosts verified; IndexNow pinged. Both auditors confirmed zero factual errors
+in prior content; every article body-text clause now represented.
 
 **v1.4 (16 Aug 2026) — completeness pass** (user asked: capture EVERY detail incl. SARC points,
 references, external links): completeness-audit agent diffed all 25 article sections vs fund.ts
