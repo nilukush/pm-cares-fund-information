@@ -66,6 +66,20 @@ repository is connected to the Vercel project, so every push to `main` auto-depl
 (`GITHUB_ACTIONS`, not `CI` — Vercel sets `CI=true` too); the canonical URL,
 `og:url`, `robots.txt` and `sitemap.xml` point to the Vercel domain.
 
+## SEO & GEO (search engines + LLM visibility)
+
+- **Prerendered**: the build injects the fully-rendered page into `index.html`
+  (`scripts/prerender.mjs`), so crawlers and AI bots that don't run JavaScript
+  (GPTBot, ClaudeBot, PerplexityBot, …) see the complete content.
+- **Structured data**: schema.org JSON-LD — WebSite, WebPage, FAQPage (11 Q&As),
+  Dataset (financial figures).
+- **AI-crawler-friendly**: `robots.txt` explicitly welcomes AI crawlers;
+  `llms.txt` provides a machine-readable fact summary; question-format H1 and
+  FAQs match real public queries ("what is", "how much raised/spent",
+  "CAG audit", "RTI", "PM CARES vs PMNRF").
+- **Social preview**: 1200×630 `og-image.png`, Twitter summary_large_image card,
+  canonical URL pointing to the Vercel domain.
+
 ## Note on neutrality
 
 This is an independent, non-commercial public-information page. It is not affiliated with

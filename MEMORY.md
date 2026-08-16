@@ -1,9 +1,11 @@
 # MEMORY.md — Project Memory (compacted 2026-08-16)
 
-## Status: v1.2 DEPLOYED · LIVE · 3-agent consensus achieved
+## Status: v1.3 DEPLOYED · LIVE · SEO/GEO optimized
 
 Public-information website about India's PM CARES Fund, built 15 Aug 2026 from
 https://en.wikipedia.org/wiki/PM_CARES_Fund (accessed 15 Aug 2026).
+
+**v1.3 (16 Aug 2026) — SEO + GEO**: prerender full page to static HTML at build (`scripts/prerender.mjs`, esbuild CJS bundle + react-dom/server renderToString injected into dist/index.html — ~73 KB of content, crawlers/LLM bots without JS now see everything); schema.org JSON-LD (WebSite/WebPage/FAQPage 11 Q&As/Dataset, `src/components/StructuredData.tsx`); question-format H1; keyword-front-loaded title+description; Twitter card + vision-verified 1200×630 og-image.png; robots.txt explicitly welcomes AI crawlers (GPTBot/ClaudeBot/PerplexityBot/CCBot/Google-Extended/etc.); `public/llms.txt` GEO convention file; noscript fallback. Tests 50 → 56. Deploy lessons: (1) esbuild must be an explicit devDependency — Vite 8 uses rolldown, esbuild isn't hoisted in CI; (2) qlmanage SVG thumbnails are square-letterboxed (center-crop with sips) and cached by input filename (use unique names); (3) esbuild bundling CJS react-dom/server into ESM breaks `require('util')` — emit CJS format instead.
 
 **v1.2 (16 Aug 2026)**: PRIMARY host moved to **Vercel** — https://pm-cares-fund-information.vercel.app/ (free Hobby tier, project-named subdomain chosen for credibility; NO domain purchase per user constraint). Vercel CLI 54.15.0, authed as `nilukush` via GitHub device flow; GitHub repo connected to the Vercel project (push to main = auto-deploy). GitHub Pages kept as MIRROR. Key config: Vite base prefix keys off `GITHUB_ACTIONS` (NOT `CI` — Vercel also sets CI=true); canonical/og:url/robots/sitemap point to the vercel.app domain.
 
