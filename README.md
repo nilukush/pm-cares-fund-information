@@ -1,5 +1,7 @@
 # PM CARES Fund — Facts, Figures & Timeline
 
+**Live site: https://nilukush.github.io/pm-cares-fund-information/**
+
 A single-page, citizen-friendly public-information website presenting India's PM CARES
 Fund graphically: what it is, how much was received, what was allocated, how delivery
 tracked against promises, and the transparency debate — with every figure sourced from
@@ -52,6 +54,13 @@ All facts are summarized from Wikipedia (accessed 15 August 2026; the article it
 tagged "needs update"). Figures reproduced from pmcares.gov.in, The Hindu and Times of
 India are as cited by that article. When the article changes, update
 `src/data/fund.ts` (and its exact-value tests) — no other file holds content.
+
+## Deployment (GitHub Pages)
+
+Pushing to `main` triggers `.github/workflows/deploy.yml`: install → 44 tests →
+build → deploy to GitHub Pages. The Pages base path
+(`/pm-cares-fund-information/`) is applied automatically when `CI=true`; locally the
+dev/preview servers keep root paths. To redeploy, just `git push`.
 
 ## Note on neutrality
 

@@ -1,9 +1,14 @@
 # MEMORY.md — Project Memory (compacted 2026-08-16)
 
-## Status: v1.0 COMPLETE · SHIPPED · 3-agent consensus achieved
+## Status: v1.0 DEPLOYED · LIVE · 3-agent consensus achieved
 
 Public-information website about India's PM CARES Fund, built 15 Aug 2026 from
 https://en.wikipedia.org/wiki/PM_CARES_Fund (accessed 15 Aug 2026). No pending work.
+
+- **Live URL**: https://nilukush.github.io/pm-cares-fund-information/ (HTTP 200 verified; robots.txt + sitemap.xml serve; asset bundle loads under the Pages base path)
+- **Repo**: github.com/nilukush/pm-cares-fund-information (public, `main`). Git initialized 16 Aug 2026; gh CLI used (`nilukush`, scopes repo+workflow).
+- **CI/CD**: `.github/workflows/deploy.yml` — on push to main: npm ci → npm test (44) → build (CI=true sets Vite `base` to `/pm-cares-fund-information/`) → upload-pages-artifact → deploy-pages. Pages enabled via `gh api .../pages -f build_type=workflow`.
+- **Deploy lesson**: `process.env.CI` in vite.config.ts required an explicit `@types/node` devDependency (transitive types weren't hoisted in clean CI) — fixed in commit "fix(ci)".
 
 ## Run / verify
 - `npm run dev` → http://localhost:5199 · `npm run preview` → http://localhost:4199 (strictPort, non-standard by constraint)
