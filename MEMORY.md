@@ -1,9 +1,19 @@
 # MEMORY.md — Project Memory (compacted 2026-08-16)
 
-## Status: v1.3 DEPLOYED · LIVE · SEO/GEO optimized
+## Status: v1.3 DEPLOYED · LIVE · SEO/GEO optimized · Search consoles registered
 
 Public-information website about India's PM CARES Fund, built 15 Aug 2026 from
 https://en.wikipedia.org/wiki/PM_CARES_Fund (accessed 15 Aug 2026).
+
+**Search engine registration (16 Aug 2026, user-performed steps + agent support)**:
+- Google Search Console: URL-prefix property `https://pm-cares-fund-information.vercel.app/`
+  verified via HTML file (`public/googled3cc5e1274fa98d4.html`); sitemap submitted. (Note:
+  Domain-property verification is impossible for a vercel.app subdomain — no DNS control.)
+- Bing Webmaster Tools: imported from GSC (covers Yahoo + DuckDuckGo).
+- IndexNow enabled: key file `public/0e7c80d58618f01b8673e21f543f7f13.txt`, first ping
+  accepted (HTTP 202). Re-ping after notable content updates:
+  `curl -X POST https://api.indexnow.org/indexnow -H "Content-Type: application/json" -d '{"host":"pm-cares-fund-information.vercel.app","key":"0e7c80d58618f01b8673e21f543f7f13","keyLocation":"https://pm-cares-fund-information.vercel.app/0e7c80d58618f01b8673e21f543f7f13.txt","urlList":["https://pm-cares-fund-information.vercel.app/"]}'`
+  (POST needs a JSON body — bare GET-style params on POST return HTTP 411.)
 
 **v1.3 (16 Aug 2026) — SEO + GEO**: prerender full page to static HTML at build (`scripts/prerender.mjs`, esbuild CJS bundle + react-dom/server renderToString injected into dist/index.html — ~73 KB of content, crawlers/LLM bots without JS now see everything); schema.org JSON-LD (WebSite/WebPage/FAQPage 11 Q&As/Dataset, `src/components/StructuredData.tsx`); question-format H1; keyword-front-loaded title+description; Twitter card + vision-verified 1200×630 og-image.png; robots.txt explicitly welcomes AI crawlers (GPTBot/ClaudeBot/PerplexityBot/CCBot/Google-Extended/etc.); `public/llms.txt` GEO convention file; noscript fallback. Tests 50 → 56. Deploy lessons: (1) esbuild must be an explicit devDependency — Vite 8 uses rolldown, esbuild isn't hoisted in CI; (2) qlmanage SVG thumbnails are square-letterboxed (center-crop with sips) and cached by input filename (use unique names); (3) esbuild bundling CJS react-dom/server into ESM breaks `require('util')` — emit CJS format instead.
 
