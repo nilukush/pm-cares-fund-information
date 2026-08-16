@@ -1,0 +1,128 @@
+import {
+  Bar,
+  BarChart,
+  Cell,
+  LabelList,
+  ResponsiveContainer,
+  Tooltip,
+  XAxis,
+  YAxis,
+} from 'recharts'
+import { firstAllocation, oxygenProgramme, ventilatorProgramme } from '../data/fund'
+import { formatCrore } from '../lib/format'
+import { ChartCard } from './ChartCard'
+
+const BAR_COLORS = ['var(--color-chart-1)', 'var(--color-chart-2)', 'var(--color-chart-4)']
+
+function Progress({
+  label,
+  promised,
+  delivered,
+  deliveredLabel,
+  note,
+}: {
+  label: string
+  promised: number
+  delivered: number
+  deliveredLabel: string
+  note: string
+}) {
+  const pct = Math.min(100, Math.round((delivered / promised) * 100))
+  return (
+    <div className="rounded-xl border border-border bg-surface p-4 shadow-sm sm:p-6">
+      <h3 className="text-base font-semibold text-primary">{label}</h3>
+      <div className="mt-3 flex items-baseline justify-between gap-3 text-sm">
+        <span className="text-secondary">Promised</span>
+        <span className="tnum text-lg font-bold text-primary">{promised.toLocaleString('en-IN')}</span>
+      </div>
+      <div
+        className="mt-2 h-3 w-full overflow-hidden rounded-full bg-muted"
+        role="presentation"
+      >
+        <div
+          className="h-full rounded-full bg-accent transition-[width] duration-300"
+          style={{ width: `${pct}%` }}
+        />
+      </div>
+      <div className="mt-3 flex items-baseline justify-between gap-3 text-sm">
+        <span className="text-secondary">Delivered (reported)</span>
+        <span className="tnum text-lg font-bold text-accent-strong">{deliveredLabel}</span>
+      </div>
+      <p className="mt-2 text-xs leading-relaxed text-secondary">
+        {note} — {pct}% of the promised figure.
+      </p>
+    </div>
+  )
+}
+
+/** Spending: first allocation chart + promise-vs-delivery cards. */
+export function Spending() {
+  const SHORT_LABELS = ['Ventilators', 'Migrant welfare', 'Vaccine R&D']
+  const allocData = firstAllocation.items.map((i, idx) => ({
+    label: SHORT_LABELS[idx],
+    Amount: i.amountCrore,
+    amountLabel: formatCrore(i.amountCrore),
+  }))
+
+  return (
+    <div className="flex flex-col gap-6">
+      <ChartCard
+        title={firstAllocation.headline}
+        subtitle={`Announced ${firstAllocation.dateDisplay}. The ventilator share is derived arithmetic (₹3,100 cr total − ₹1,000 cr migrants − ₹100 cr vaccine); Wikipedia does not state it explicitly.`}
+        badge="Includes derived figure"
+        ariaLabel="Bar chart of the 13 May 2020 first allocation in crore rupees: ventilators 2,000 crore (derived), migrant worker welfare 1,000 crore, vaccine development support 100 crore."
+        tableHeaders={['Purpose', 'Amount (₹ cr)', 'Notes']}
+        tableRows={firstAllocation.items.map((i) => [
+          i.label,
+          i.amountCrore,
+          i.derived ? `${i.note} [derived]` : i.note,
+        ])}
+      >
+        <ResponsiveContainer width="100%" height={300}>
+          <BarChart data={allocData} margin={{ top: 24, right: 8, left: 8, bottom: 20 }}>
+            <XAxis dataKey="label" tick={{ fontSize: 12 }} stroke="var(--color-secondary)" interval={0} />
+            <YAxis tick={{ fontSize: 12 }} stroke="var(--color-secondary)" />
+            <Tooltip
+              formatter={(v) => formatCrore(Number(v))}
+              cursor={{ fill: 'var(--color-muted)' }}
+            />
+            <Bar dataKey="Amount" radius={[4, 4, 0, 0]} maxBarSize={90}>
+              <LabelList
+                dataKey="amountLabel"
+                position="top"
+                style={{ fontSize: 12, fill: 'var(--color-secondary)' }}
+              />
+              {allocData.map((entry, i) => (
+                <Cell key={entry.label} fill={BAR_COLORS[i % BAR_COLORS.length]} />
+              ))}
+            </Bar>
+          </BarChart>
+        </ResponsiveContainer>
+      </ChartCard>
+
+      <div className="grid gap-6 md:grid-cols-3">
+        <Progress
+          label="Ventilators"
+          promised={ventilatorProgramme.ordered}
+          delivered={ventilatorProgramme.madeByDate}
+          deliveredLabel={ventilatorProgramme.madeByDate.toLocaleString('en-IN')}
+          note={`Manufactured by 24 June 2020. ${ventilatorProgramme.qualityNote}`}
+        />
+        <Progress
+          label="Oxygen plants (Scroll report)"
+          promised={oxygenProgramme.sanctionedPlants}
+          delivered={oxygenProgramme.installedScroll}
+          deliveredLabel={`${oxygenProgramme.installedScroll} (only ${oxygenProgramme.operationalScroll} operational)`}
+          note={`Scroll.in, April 2021. ${oxygenProgramme.sanctionedNote}. The government claimed ${oxygenProgramme.governmentClaimInstalled} installed (18 Apr 2021).`}
+        />
+        <Progress
+          label="Oxygen plants for Delhi"
+          promised={oxygenProgramme.delhiSanctioned}
+          delivered={oxygenProgramme.delhiBuilt}
+          deliveredLabel={`${oxygenProgramme.delhiBuilt} built`}
+          note={`Told to the Delhi High Court on 22 April 2021. Later, on 26 April 2021, 551 plants + 1,00,000 concentrators were announced.`}
+        />
+      </div>
+    </div>
+  )
+}

@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://nilukush.github.io/pm-cares-fund-information/sitemap.xml
