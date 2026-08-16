@@ -1,9 +1,21 @@
 # MEMORY.md — Project Memory (compacted 2026-08-16)
 
-## Status: v1.6 DEPLOYED · UI/UX AUDIT IMPLEMENTED · LIVE
+## Status: v1.7 DEPLOYED · FINAL AUDIT: COMPLETE · LIVE
 
 Public-information website about India's PM CARES Fund, sourced from
 https://en.wikipedia.org/wiki/PM_CARES_Fund (accessed 16 August 2026).
+
+**v1.7 (16 Aug 2026) — FINAL completeness audit**: independent auditor walked the article
+clause-by-clause against the deployed HTML; article byte-identical to all prior audits.
+Verdict: clause-complete except 4 minor sub-clauses — all added verbatim (DUTA channels
+'Staff Associations / Vice Chancellor's Relief Fund'; PMO denial of the PSU-transfer RTI
+petition; IPC section glosses s.153 riots / s.505(1)(b) fear-or-alarm; activists' full PMNRF
+recommendation incl. 'disclosing details of funding and spending'). 82 tests (+1 locking
+test); all six strings grep-verified in live HTML (198 KB). Every figure, date, name, quote,
+event and qualifier of the article's body text is now on the deployed page; headline-only
+citation figures appear only in the labeled list. Also this day: v1.6 UI/UX audit (20 additive
+fixes — invisible Debate headings, scrollspy, KPI strip, year-grouped timeline, scroll chrome,
+a11y layers, icons) and table-readability fix (mono font on numeric columns only).
 
 **v1.6 (16 Aug 2026) — UI/UX & graphic-design pass** (audit agent + visual screenshot review;
 scores before → after: beauty 7→8.5, friendliness 7→9, clarity 7.5→9, a11y 6→9): fixed
