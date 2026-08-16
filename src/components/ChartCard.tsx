@@ -9,6 +9,8 @@ interface ChartCardProps {
   children: ReactNode
   /** Text note rendered OUTSIDE the role="img" region so screen readers reach it. */
   note?: ReactNode
+  /** Screen-reader caption for the data table. */
+  tableCaption?: string
   tableHeaders: string[]
   tableRows: (string | number)[][]
 }
@@ -24,6 +26,7 @@ export function ChartCard({
   ariaLabel,
   children,
   note,
+  tableCaption,
   tableHeaders,
   tableRows,
 }: ChartCardProps) {
@@ -53,6 +56,7 @@ export function ChartCard({
         </summary>
         <div className="mt-3 overflow-x-auto">
           <table className="w-full border-collapse text-left text-sm">
+            {tableCaption && <caption className="sr-only">{tableCaption}</caption>}
             <thead>
               <tr className="border-b border-border text-secondary">
                 {tableHeaders.map((h) => (

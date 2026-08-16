@@ -6,6 +6,9 @@ export function Litigation() {
     <div className="overflow-hidden rounded-xl border border-border bg-surface shadow-sm">
       <div className="overflow-x-auto">
         <table className="w-full border-collapse text-left text-sm">
+          <caption className="sr-only">
+            Court cases concerning the PM CARES Fund, as documented on Wikipedia
+          </caption>
           <thead>
             <tr className="border-b border-border bg-muted text-secondary">
               <th scope="col" className="px-4 py-3 font-semibold sm:px-6">

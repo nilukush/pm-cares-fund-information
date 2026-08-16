@@ -79,7 +79,11 @@ export function Spending() {
         ])}
       >
         <ResponsiveContainer width="100%" height={300}>
-          <BarChart data={allocData} margin={{ top: 24, right: 8, left: 8, bottom: 20 }}>
+          <BarChart
+            data={allocData}
+            margin={{ top: 24, right: 8, left: 8, bottom: 20 }}
+            accessibilityLayer
+          >
             <XAxis dataKey="label" tick={{ fontSize: 12 }} stroke="var(--color-secondary)" interval={0} />
             <YAxis tick={{ fontSize: 12 }} stroke="var(--color-secondary)" />
             <Tooltip

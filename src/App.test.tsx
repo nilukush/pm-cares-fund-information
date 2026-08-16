@@ -112,7 +112,7 @@ describe('Sources and neutrality', () => {
 describe('References section — full Wikipedia citation list', () => {
   it('renders the citation count and sample citations as links', () => {
     render(<App />)
-    expect(screen.getByRole('heading', { name: /^references$/i, level: 2 })).toBeInTheDocument()
+    expect(screen.getByRole('heading', { name: /^references\b/i, level: 2 })).toBeInTheDocument()
     expect(screen.getAllByText(/citations? as cited by/i).length).toBeGreaterThan(0)
     const official = screen.getAllByRole('link', { name: /about pm cares fund/i })
     expect(official.length).toBeGreaterThan(0)
@@ -144,6 +144,49 @@ describe('Completeness pass — new sections and enriched content', () => {
     expect(screen.getByRole('heading', { name: /who pledged support/i })).toBeInTheDocument()
     expect(screen.getAllByText('Shah Rukh Khan').length).toBeGreaterThan(0)
     expect(screen.getAllByText(/pmcares\.fund/).length).toBeGreaterThan(0)
+  })
+})
+
+describe('UI/UX audit pass — additive improvements', () => {
+  it('Finance KPI strip surfaces the headline story (total, balance, auditor)', () => {
+    render(<App />)
+    expect(screen.getAllByText('₹14,066.79 cr').length).toBeGreaterThanOrEqual(1)
+    expect(screen.getAllByText(/Audited by/i).length).toBeGreaterThanOrEqual(1)
+    expect(screen.getAllByText(/not the CAG/i).length).toBeGreaterThanOrEqual(1)
+  })
+
+  it('Timeline groups its 42 events by year with counts', () => {
+    render(<App />)
+    expect(screen.getAllByText(/2020/).length).toBeGreaterThan(0)
+    expect(screen.getByText(/\d+ events · 27 Mar 2020 – 7 Feb 2022/)).toBeInTheDocument()
+    const y2020 = screen.getByText((_, el) =>
+      el?.tagName === 'H3' ? el.textContent?.startsWith('2020') ?? false : false,
+    )
+    expect(y2020).toBeInTheDocument()
+  })
+
+  it('Debate shows visible headings with documented-count chips', () => {
+    render(<App />)
+    expect(
+      screen.getByText(/10 documented concerns/i, { exact: false }),
+    ).toBeInTheDocument()
+    expect(screen.getByText(/4 documented responses/i, { exact: false })).toBeInTheDocument()
+  })
+
+  it('FAQ questions are headings for screen-reader navigation', () => {
+    render(<App />)
+    expect(
+      screen.getByRole('heading', { name: faq[0].q, level: 3 }),
+    ).toBeInTheDocument()
+  })
+
+  it('Section headers carry SVG icons; footer has a section mini-nav', () => {
+    render(<App />)
+    const header = document.querySelector('header')
+    expect(header!.querySelectorAll('a[href^="#"]').length).toBeGreaterThanOrEqual(11)
+    const footer = document.querySelector('footer')
+    const footerLinks = footer!.querySelectorAll('a[href^="#"]')
+    expect(footerLinks.length).toBeGreaterThanOrEqual(11)
   })
 })
 

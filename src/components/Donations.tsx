@@ -1,3 +1,4 @@
+import { useEffect, useState } from 'react'
 import {
   Bar,
   BarChart,
@@ -18,11 +19,35 @@ import {
 import { formatCrore } from '../lib/format'
 import { ChartCard } from './ChartCard'
 
+/** Compact chart labels for narrow screens; full labels in the table below. */
+const COMPACT_LABELS: Record<string, string> = {
+  '101 PSUs — CSR funds': '101 PSUs',
+  '32 PSUs': '32 PSUs',
+  'Banks & financial institutions': 'Banks',
+  'Indian military (total)': 'Military',
+  'PSU staff salaries': 'PSU staff',
+  'Educational institutions': 'Education',
+}
+
+function useDesktop(): boolean {
+  const [desktop, setDesktop] = useState(true)
+  useEffect(() => {
+    if (typeof window.matchMedia === 'undefined') return
+    const mq = window.matchMedia('(min-width: 1024px)')
+    const update = () => setDesktop(mq.matches)
+    update()
+    mq.addEventListener('change', update)
+    return () => mq.removeEventListener('change', update)
+  }, [])
+  return desktop
+}
+
 /** Institutional donations: horizontal bars + military breakdown + salary examples. */
 export function Donations() {
+  const desktop = useDesktop()
   const sorted = [...institutionalDonations].sort((a, b) => b.amountCrore - a.amountCrore)
   const data = sorted.map((d) => ({
-    label: d.label,
+    label: desktop ? d.label : (COMPACT_LABELS[d.label] ?? d.label),
     Amount: d.amountCrore,
     amountLabel: formatCrore(d.amountCrore),
   }))
@@ -41,7 +66,8 @@ export function Donations() {
             <BarChart
               data={data}
               layout="vertical"
-              margin={{ top: 4, right: 76, left: 4, bottom: 4 }}
+              margin={{ top: 4, right: desktop ? 76 : 56, left: 4, bottom: 4 }}
+              accessibilityLayer
             >
               <CartesianGrid horizontal={false} stroke="var(--color-border)" />
               <XAxis
@@ -53,7 +79,7 @@ export function Donations() {
               <YAxis
                 type="category"
                 dataKey="label"
-                width={150}
+                width={desktop ? 150 : 96}
                 tick={{ fontSize: 11 }}
                 stroke="var(--color-secondary)"
               />

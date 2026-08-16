@@ -1,14 +1,11 @@
 import { criticism, defence, pmnrfComparison, popularCulture, relatedFundsNote, type DebatePoint } from '../data/fund'
 
 function PointList({ points, tone }: { points: DebatePoint[]; tone: 'concern' | 'response' }) {
-  const titleClass =
-    tone === 'concern'
-      ? 'border-l-4 border-chart-5 bg-muted/50'
-      : 'border-l-4 border-chart-1 bg-muted/50'
+  const accent = tone === 'concern' ? 'border-l-chart-5' : 'border-l-chart-1'
   return (
     <ul className="flex flex-col gap-4">
       {points.map((p) => (
-        <li key={p.title} className={`rounded-r-lg p-4 ${titleClass}`}>
+        <li key={p.title} className={`rounded-r-lg border border-border border-l-4 bg-surface p-4 shadow-sm ${accent}`}>
           <h4 className="text-base font-semibold text-primary">{p.title}</h4>
           <p className="mt-1.5 text-sm leading-relaxed text-foreground">{p.detail}</p>
         </li>
@@ -23,14 +20,20 @@ export function Debate() {
     <div className="flex flex-col gap-10">
       <div className="grid gap-8 lg:grid-cols-2">
         <div>
-          <h3 className="mb-4 flex items-center gap-2 text-xl font-bold text-primary">
+          <h3 className="mb-4 flex flex-wrap items-center gap-2 text-xl font-bold text-primary-foreground">
             Criticism &amp; controversies
+            <span className="rounded-full bg-white/10 px-2.5 py-0.5 text-xs font-bold text-primary-foreground/90">
+              {criticism.length} documented concerns
+            </span>
           </h3>
           <PointList points={criticism} tone="concern" />
         </div>
         <div>
-          <h3 className="mb-4 flex items-center gap-2 text-xl font-bold text-primary">
+          <h3 className="mb-4 flex flex-wrap items-center gap-2 text-xl font-bold text-primary-foreground">
             The government&rsquo;s defence
+            <span className="rounded-full bg-white/10 px-2.5 py-0.5 text-xs font-bold text-primary-foreground/90">
+              {defence.length} documented responses
+            </span>
           </h3>
           <PointList points={defence} tone="response" />
         </div>
@@ -48,6 +51,9 @@ export function Debate() {
         </div>
         <div className="overflow-x-auto">
           <table className="w-full border-collapse text-left text-sm">
+            <caption className="sr-only">
+              PM CARES Fund compared with the Prime Minister's National Relief Fund
+            </caption>
             <thead>
               <tr className="border-b border-border text-secondary">
                 <th scope="col" className="px-4 py-3 font-semibold sm:px-6">

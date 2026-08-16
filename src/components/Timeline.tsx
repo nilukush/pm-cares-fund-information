@@ -8,10 +8,22 @@ const CATEGORY_STYLES: Record<TimelineCategory, { dot: string; chip: string; lab
   spend: { dot: 'bg-chart-4', chip: 'text-chart-4', label: 'Spending' },
 }
 
-/** Vertical timeline with category-coded markers. */
+/** Vertical timeline with category-coded markers, grouped by year. */
 export function Timeline() {
+  const byYear = timeline.reduce<Record<string, typeof timeline>>((acc, e) => {
+    const year = e.date.slice(0, 4)
+    ;(acc[year] ??= []).push(e)
+    return acc
+  }, {})
+
   return (
     <div>
+      <p className="mb-4 text-sm text-secondary">
+        <span className="rounded-full bg-muted px-3 py-1 font-semibold text-primary">
+          {timeline.length} events · {timeline[0].dateDisplay} – {timeline[timeline.length - 1].dateDisplay}
+        </span>
+      </p>
+
       <ul className="mb-6 flex flex-wrap gap-4 text-sm" aria-label="Timeline category legend">
         {(Object.keys(CATEGORY_STYLES) as TimelineCategory[]).map((cat) => (
           <li key={cat} className="flex items-center gap-2 text-secondary">
@@ -24,28 +36,35 @@ export function Timeline() {
         ))}
       </ul>
 
-      <ol className="relative ml-3 border-l-2 border-border">
-        {timeline.map((e) => {
-          const style = CATEGORY_STYLES[e.category]
-          return (
-            <li key={e.date + e.dateDisplay} className="relative pb-8 pl-6 last:pb-0">
-              <span
-                aria-hidden="true"
-                className={`absolute -left-[0.45rem] top-1.5 h-3.5 w-3.5 rounded-full ring-4 ring-background ${style.dot}`}
-              />
-              <div className="flex flex-wrap items-center gap-x-3 gap-y-1">
-                <span className="tnum rounded-md bg-muted px-2 py-0.5 text-xs font-bold text-primary">
-                  {e.dateDisplay}
-                </span>
-                <span className={`text-xs font-semibold uppercase tracking-wide ${style.chip}`}>
-                  {style.label}
-                </span>
-              </div>
-              <p className="mt-2 max-w-3xl text-sm leading-relaxed text-foreground">{e.event}</p>
-            </li>
-          )
-        })}
-      </ol>
+      {Object.entries(byYear).map(([year, events]) => (
+        <section key={year} aria-label={`Events of ${year}`} className="mb-2">
+          <h3 className="sticky top-[64px] z-10 -mt-2 bg-background/95 py-2 text-sm font-bold text-primary backdrop-blur">
+            {year} <span className="font-normal text-secondary">· {events.length} events</span>
+          </h3>
+          <ol className="relative ml-3 border-l-2 border-border">
+            {events.map((e) => {
+              const style = CATEGORY_STYLES[e.category]
+              return (
+                <li key={e.date + e.dateDisplay} className="relative pb-8 pl-6 last:pb-0">
+                  <span
+                    aria-hidden="true"
+                    className={`absolute -left-[0.45rem] top-1.5 h-3.5 w-3.5 rounded-full ring-4 ring-background ${style.dot}`}
+                  />
+                  <div className="flex flex-wrap items-center gap-x-3 gap-y-1">
+                    <span className="tnum rounded-md bg-muted px-2 py-0.5 text-xs font-bold text-primary">
+                      {e.dateDisplay}
+                    </span>
+                    <span className={`text-xs font-semibold uppercase tracking-wide ${style.chip}`}>
+                      {style.label}
+                    </span>
+                  </div>
+                  <p className="mt-2 max-w-3xl text-sm leading-relaxed text-foreground">{e.event}</p>
+                </li>
+              )
+            })}
+          </ol>
+        </section>
+      ))}
     </div>
   )
 }

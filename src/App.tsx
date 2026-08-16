@@ -3,6 +3,7 @@ import { AuditCard } from './components/AuditCard'
 import { Debate } from './components/Debate'
 import { Litigation } from './components/Litigation'
 import { References } from './components/References'
+import { ScrollChrome } from './components/ScrollChrome'
 import { StructuredData } from './components/StructuredData'
 import { Donations } from './components/Donations'
 import { Faq } from './components/Faq'
@@ -20,6 +21,7 @@ export default function App() {
   return (
     <>
       <StructuredData />
+      <ScrollChrome />
       <a
         href="#main"
         className="sr-only z-50 rounded-md bg-accent px-4 py-2 font-semibold text-white focus:not-sr-only focus:absolute focus:left-4 focus:top-4"
@@ -32,6 +34,7 @@ export default function App() {
 
         <Section
           id="overview"
+          icon="overview"
           title="Overview"
           lead="The essentials: what the PM CARES Fund is, who runs it, and its headline numbers — exactly as documented on Wikipedia."
         >
@@ -43,6 +46,7 @@ export default function App() {
 
         <Section
           id="finances"
+          icon="finances"
           title="Finances — money in, money left"
           lead="Receipts and year-end balances as published on pmcares.gov.in and reproduced by Wikipedia, plus an estimate of who donated. The fund's accounts are audited privately (SARC & Associates), not by the CAG."
           dark
@@ -52,6 +56,7 @@ export default function App() {
 
         <Section
           id="donations"
+          icon="donations"
           title="Donations — who gave what"
           lead="Selected institutional donation figures reported in the article. Periods and donor counts differ between reports, so these figures are not additive."
         >
@@ -60,6 +65,7 @@ export default function App() {
 
         <Section
           id="spending"
+          icon="spending"
           title="Spending — allocations and delivery"
           lead="The fund's first allocation (13 May 2020) and what independent reports said about delivery of ventilators and oxygen plants."
         >
@@ -68,6 +74,7 @@ export default function App() {
 
         <Section
           id="timeline"
+          icon="timeline"
           title="Timeline — key events"
           lead="From creation on 27 March 2020 through allocations, court rulings and audit reporting."
         >
@@ -76,6 +83,7 @@ export default function App() {
 
         <Section
           id="debate"
+          icon="debate"
           title="The debate — transparency contested"
           lead="The fund's structure has been widely debated. Wikipedia documents both the criticism and the government's response; both are presented here without editorial verdict."
           dark
@@ -85,6 +93,7 @@ export default function App() {
 
         <Section
           id="litigation"
+          icon="litigation"
           title="Litigation"
           lead="Court cases and orders concerning the fund, as documented in the article — including several still pending."
         >
@@ -93,6 +102,7 @@ export default function App() {
 
         <Section
           id="faq"
+          icon="faq"
           title="Frequently asked questions"
           lead="Quick answers, each drawn from the source article."
         >
@@ -101,6 +111,7 @@ export default function App() {
 
         <Section
           id="sources"
+          icon="sources"
           title="Sources & caveats"
           lead="Where every figure comes from, and what to keep in mind when reading it."
         >
@@ -109,6 +120,7 @@ export default function App() {
 
         <Section
           id="references"
+          icon="references"
           title="References"
           lead="The complete citation list of the Wikipedia article behind this site."
         >
@@ -117,6 +129,7 @@ export default function App() {
 
         <Section
           id="about"
+          icon="about"
           title="About this site"
           lead="Who maintains this page, how its facts are sourced and verified, and how to report an error."
           dark

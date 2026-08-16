@@ -52,6 +52,16 @@ body {
   -webkit-font-smoothing: antialiased;
 }
 
+/* Nicer text rags on headings and paragraphs (progressive, ignored where unsupported) */
+h1,
+h2 {
+  text-wrap: balance;
+}
+
+p {
+  text-wrap: pretty;
+}
+
 /* Tabular figures for all data/amounts so digits align */
 .tnum {
   font-variant-numeric: tabular-nums;
