@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://nilukush.github.io/pm-cares-fund-information/sitemap.xml
+Sitemap: https://pm-cares-fund-information.vercel.app/sitemap.xml

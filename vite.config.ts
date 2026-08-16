@@ -3,9 +3,10 @@ import react from '@vitejs/plugin-react'
 import tailwindcss from '@tailwindcss/vite'
 
 // Non-standard ports per project constraint: dev 5199, preview 4199.
-// On GitHub Actions (CI=true) assets are served from /pm-cares-fund-information/.
+// GitHub Pages mirror serves under /pm-cares-fund-information/ (set via GITHUB_ACTIONS,
+// not CI, because Vercel also sets CI=true but serves at the domain root).
 export default defineConfig({
-  base: process.env.CI ? '/pm-cares-fund-information/' : '/',
+  base: process.env.GITHUB_ACTIONS ? '/pm-cares-fund-information/' : '/',
   plugins: [react(), tailwindcss()],
   server: {
     port: 5199,
