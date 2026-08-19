@@ -1,6 +1,6 @@
 # MEMORY.md — Project Memory (compacted 2026-08-16, end of session)
 
-## Status: v1.7 · DEPLOYED · FINAL AUDIT: COMPLETE · No pending work
+## Status: v1.8 · DEPLOYED · SEO/GEO audit PASS · No pending work
 
 Public-information website about India's PM CARES Fund, sourced from the English Wikipedia
 article https://en.wikipedia.org/wiki/PM_CARES_Fund (accessed 16 Aug 2026; verified
@@ -12,7 +12,7 @@ byte-identical across all audits that day).
 
 ## Run / verify
 - `npm run dev` → :5199 · `npm run preview` → :4199 (strictPort, non-standard by constraint)
-- `npm test` → 82/82 (fund data 34 · App 24 · format 14 · references 3 · StructuredData 4 · ChartCard 2 · about 1)
+- `npm test` → 85/85 (fund data 34 · App 24 · format 14 · references 3 · StructuredData 4 · ChartCard 2 · ChartSlot 2 · index-html 1 · about 1)
 - `npx tsc --noEmit` clean · `npm run build` = tsc + vite build + **prerender** (`scripts/prerender.mjs`, esbuild CJS bundle + renderToString injected into dist/index.html ≈ 198 KB content)
 
 ## Stack & architecture (decided — do not re-litigate)
@@ -36,6 +36,9 @@ Prerendered full HTML (crawlers/LLM bots without JS see everything); JSON-LD (We
 - esbuild and @types/node are EXPLICIT devDeps (not hoisted in clean CI).
 - macOS tooling gotchas: qlmanage SVG thumbnails are square-letterboxed (center-crop with sips) and cached by input filename (use unique names); headless-Chrome anchor-URL screenshots don't settle under smooth-scroll — capture full-page tall window and crop with sips.
 - Env files: .env.local|.dev|.staging|.production (VITE_SITE_NAME, VITE_ENV, VITE_DATA_AS_OF). .idea/ gitignored.
+
+## SEO/GEO audit (2026-08-19) — PASS, no content drift
+3-role audit (Analyzer/Debugger/Verifier run directly after subagent launches were interrupted twice). No MAJOR findings. Verified live: all endpoints 200 (robots/sitemap/llms.txt/og-image 1200×630/IndexNow key/GSC file), single valid JSON-LD @graph (WebSite+WebPage+FAQPage 12Q+Dataset), headings h1×1/h2×11/h3×40/h4×14 no skips, all 11 anchor ids in prerendered HTML, gzip+cache HIT, Pages mirror canonical→Vercel + correct base-path assets. Wikipedia last rev 2026-08-09 < data-as-of 16 Aug → facts intact (₹3,076.62/10,990.17/7,013.99 crore appear in raw wikitext as 3076.62/10990.17/7013.99 — format variance, not drift). Open items (optional): code-split Recharts (683 KB single JS bundle = only real flag); og/twitter title raw `&` → `&amp;`; PSI anonymous quota exhausted — retry with free API key; FAQ rich snippets unlikely post-2023 Google policy (schema kept for GEO value).
 
 ## Maintenance / next-session quickstarts
 - **Wikipedia changed**: diff fresh wikitext (`curl 'https://en.wikipedia.org/w/index.php?title=PM_CARES_Fund&action=raw'`) vs data → edit `fund.ts` (+ `node scripts/parse-references.mjs` if refs changed) → sync exact-value tests → `npm test && npm run build` → push → re-run an audit-agent clause sweep → IndexNow re-ping.

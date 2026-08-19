@@ -52,3 +52,22 @@ Rationale: purely static informational content; no server runtime needed; the da
   - Chart color-only meaning → mitigation: direct value labels + legends + text summaries (color is never the sole carrier).
   - Google Fonts unavailable → mitigation: `display=swap` + system font fallbacks.
   - jsdom chart rendering → mitigation: chart components wrapped with ResponsiveContainer (size-dependent) are smoke-tested by section heading/data-table presence, not pixel output.
+
+## 5. Post-launch performance analysis (2026-08-19, from SEO/GEO audit)
+
+**Problem:** the production build ships one 683 KB JS chunk (`index-*.js`) because three section components (`Finances`, `Donations`, `Spending`) import Recharts statically. Content visibility is protected by prerendering, but mobile users download + execute all of Recharts before the page is interactive (Total Blocking Time / INP cost).
+
+**Constraints that any fix must preserve:** prerendered HTML keeps every text/table fact (charts are already client-side by design — see `src/prerender-entry.tsx`); ChartCard's `role="img"` aria-label + data table + note stay server-rendered; no new runtime dependencies; tests stay deterministic in jsdom.
+
+**Options evaluated:**
+
+| | A — `manualChunks` split | B — `React.lazy` + `Suspense` | C — mount-time dynamic import (chosen) |
+|---|---|---|---|
+| Initial JS weight | Unchanged (chunk still fetched at startup — static import graph) | Reduced | **Reduced** |
+| Prerender behavior | Unchanged | `renderToString` renders fallbacks; lazy+Suspense semantics risk changing prerendered markup | Renders a static placeholder deterministically |
+| Test ergonomics in jsdom | Unchanged | Async boundary in every App test | Async boundary contained in one small component |
+| Complexity | Config-only but no real win | Medium | **Low — one ~30-line wrapper** |
+
+**Chosen: C.** A single `ChartSlot` component resolves a chart module via `import()` in `useEffect` and renders a placeholder until then. All four Recharts chart instances move to one `charts.tsx` module (one extra chunk). Sections lose their Recharts imports; tables/notes/aria-labels untouched. Side benefit: the esbuild prerender bundle stops carrying Recharts.
+
+**Bundled micro-fix (same release):** `og:title` / `twitter:title` in `index.html` contain raw `&` where `<title>` uses `&amp;` — encode for strict validity.

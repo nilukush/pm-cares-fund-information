@@ -87,3 +87,22 @@ Max 3 failed attempts per step, then STOP and ask the human.
 ---
 
 **Regression protection:** test suite grows cumulatively; every step ends with full `npm test` run. No existing tests (greenfield) — regressions impossible until first green, then suite is the guardrail.
+
+---
+
+## Release v1.8 — performance + markup validity (2026-08-19)
+
+**Step 15: Social-card title entity fix**
+├─ Objective: `og:title` / `twitter:title` encode `&` as `&amp;` (matches `<title>`).
+├─ Test First: unit (`src/index-html.test.ts`) — reads root `index.html`; og:title and twitter:title content contains `&amp;` and no raw ` & `. Expected: fails (raw `&` present).
+├─ Implementation: two-character edit in `index.html` lines 17/32.
+├─ Acceptance: new test passes; existing 82 unaffected (no runtime code).
+└─ Verification: `npm test`.
+
+**Step 16: Code-split Recharts via `ChartSlot`**
+├─ Objective: Recharts leaves the initial JS chunk; loads after hydration; zero change to prerendered facts/tables.
+├─ Test First: unit (`src/components/ChartSlot.test.tsx`) — (a) placeholder shows until the module resolves, then the chart renders; (b) resolution after unmount is ignored (no crash/leak). Expected: fails — component does not exist.
+├─ Implementation: new `ChartSlot` (dynamic import in `useEffect`, guarded by `alive` flag); move all four chart JSX trees to `src/components/charts.tsx`; `Finances`/`Donations`/`Spending` drop Recharts imports and pass `ChartSlot` as ChartCard children; prune newly-unused imports (strict tsc).
+├─ Acceptance: all tests pass; `tsc --noEmit` clean; `npm run build` succeeds; `dist/assets` shows a separate charts chunk with the entry chunk materially smaller; `dist/index.html` still contains all tables/figures and 4 placeholders instead of empty Recharts divs.
+├─ Verification: gates above + preview :4199 browser check (charts render, tables visible) + Debugger/Verifier consensus passes.
+└─ Stop/Go: consensus ⇒ deploy (`git push`), sitemap `lastmod` bump, live re-check, IndexNow re-ping.

@@ -1,18 +1,6 @@
-import {
-  Bar,
-  BarChart,
-  Cell,
-  LabelList,
-  ResponsiveContainer,
-  Tooltip,
-  XAxis,
-  YAxis,
-} from 'recharts'
 import { firstAllocation, oxygenProgramme, ventilatorProgramme } from '../data/fund'
-import { formatCrore } from '../lib/format'
 import { ChartCard } from './ChartCard'
-
-const BAR_COLORS = ['var(--color-chart-1)', 'var(--color-chart-2)', 'var(--color-chart-4)']
+import { ChartSlot } from './ChartSlot'
 
 function Progress({
   label,
@@ -57,12 +45,6 @@ function Progress({
 
 /** Spending: first allocation chart + promise-vs-delivery cards. */
 export function Spending() {
-  const SHORT_LABELS = ['Ventilators', 'Migrant welfare', 'Vaccine R&D']
-  const allocData = firstAllocation.items.map((i, idx) => ({
-    label: SHORT_LABELS[idx],
-    Amount: i.amountCrore,
-    amountLabel: formatCrore(i.amountCrore),
-  }))
 
   return (
     <div className="flex flex-col gap-6">
@@ -79,30 +61,7 @@ export function Spending() {
           i.derived ? `${i.note} [derived]` : i.note,
         ])}
       >
-        <ResponsiveContainer width="100%" height={300}>
-          <BarChart
-            data={allocData}
-            margin={{ top: 24, right: 8, left: 8, bottom: 20 }}
-            accessibilityLayer
-          >
-            <XAxis dataKey="label" tick={{ fontSize: 12 }} stroke="var(--color-secondary)" interval={0} />
-            <YAxis tick={{ fontSize: 12 }} stroke="var(--color-secondary)" />
-            <Tooltip
-              formatter={(v) => formatCrore(Number(v))}
-              cursor={{ fill: 'var(--color-muted)' }}
-            />
-            <Bar dataKey="Amount" radius={[4, 4, 0, 0]} maxBarSize={90}>
-              <LabelList
-                dataKey="amountLabel"
-                position="top"
-                style={{ fontSize: 12, fill: 'var(--color-secondary)' }}
-              />
-              {allocData.map((entry, i) => (
-                <Cell key={entry.label} fill={BAR_COLORS[i % BAR_COLORS.length]} />
-              ))}
-            </Bar>
-          </BarChart>
-        </ResponsiveContainer>
+        <ChartSlot load={() => import('./charts').then((m) => m.SpendingBarChart)} />
       </ChartCard>
 
       <div className="grid gap-6 md:grid-cols-3">

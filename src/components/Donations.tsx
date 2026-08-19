@@ -1,14 +1,3 @@
-import { useEffect, useState } from 'react'
-import {
-  Bar,
-  BarChart,
-  CartesianGrid,
-  LabelList,
-  ResponsiveContainer,
-  Tooltip,
-  XAxis,
-  YAxis,
-} from 'recharts'
 import {
   institutionalDonations,
   militaryBreakdown,
@@ -18,39 +7,11 @@ import {
 } from '../data/fund'
 import { formatCrore } from '../lib/format'
 import { ChartCard } from './ChartCard'
-
-/** Compact chart labels for narrow screens; full labels in the table below. */
-const COMPACT_LABELS: Record<string, string> = {
-  '101 PSUs — CSR funds': '101 PSUs',
-  '32 PSUs': '32 PSUs',
-  'Banks & financial institutions': 'Banks',
-  'Indian military (total)': 'Military',
-  'PSU staff salaries': 'PSU staff',
-  'Educational institutions': 'Education',
-}
-
-function useDesktop(): boolean {
-  const [desktop, setDesktop] = useState(true)
-  useEffect(() => {
-    if (typeof window.matchMedia === 'undefined') return
-    const mq = window.matchMedia('(min-width: 1024px)')
-    const update = () => setDesktop(mq.matches)
-    update()
-    mq.addEventListener('change', update)
-    return () => mq.removeEventListener('change', update)
-  }, [])
-  return desktop
-}
+import { ChartSlot } from './ChartSlot'
 
 /** Institutional donations: horizontal bars + military breakdown + salary examples. */
 export function Donations() {
-  const desktop = useDesktop()
   const sorted = [...institutionalDonations].sort((a, b) => b.amountCrore - a.amountCrore)
-  const data = sorted.map((d) => ({
-    label: desktop ? d.label : (COMPACT_LABELS[d.label] ?? d.label),
-    Amount: d.amountCrore,
-    amountLabel: formatCrore(d.amountCrore),
-  }))
 
   return (
     <div className="grid gap-6 lg:grid-cols-5">
@@ -63,45 +24,7 @@ export function Donations() {
           numericColumns={[1]}
           tableRows={sorted.map((d) => [d.label, d.amountCrore, d.note])}
         >
-          <ResponsiveContainer width="100%" height={340}>
-            <BarChart
-              data={data}
-              layout="vertical"
-              margin={{ top: 4, right: desktop ? 76 : 56, left: 4, bottom: 4 }}
-              accessibilityLayer
-            >
-              <CartesianGrid horizontal={false} stroke="var(--color-border)" />
-              <XAxis
-                type="number"
-                tick={{ fontSize: 12 }}
-                stroke="var(--color-secondary)"
-                tickFormatter={(v) => formatCrore(Number(v))}
-              />
-              <YAxis
-                type="category"
-                dataKey="label"
-                width={desktop ? 150 : 96}
-                tick={{ fontSize: 11 }}
-                stroke="var(--color-secondary)"
-              />
-              <Tooltip
-                formatter={(v) => formatCrore(Number(v))}
-                cursor={{ fill: 'var(--color-muted)' }}
-              />
-              <Bar
-                dataKey="Amount"
-                fill="var(--color-chart-1)"
-                radius={[0, 4, 4, 0]}
-                maxBarSize={26}
-              >
-                <LabelList
-                  dataKey="amountLabel"
-                  position="right"
-                  style={{ fontSize: 11, fill: 'var(--color-secondary)' }}
-                />
-              </Bar>
-            </BarChart>
-          </ResponsiveContainer>
+          <ChartSlot load={() => import('./charts').then((m) => m.DonationsBarChart)} />
         </ChartCard>
       </div>
 
