@@ -71,3 +71,11 @@ Rationale: purely static informational content; no server runtime needed; the da
 **Chosen: C.** A single `ChartSlot` component resolves a chart module via `import()` in `useEffect` and renders a placeholder until then. All four Recharts chart instances move to one `charts.tsx` module (one extra chunk). Sections lose their Recharts imports; tables/notes/aria-labels untouched. Side benefit: the esbuild prerender bundle stops carrying Recharts.
 
 **Bundled micro-fix (same release):** `og:title` / `twitter:title` in `index.html` contain raw `&` where `<title>` uses `&amp;` — encode for strict validity.
+
+## 6. Analytics decision (2026-08-21, from first GSC data)
+
+**Problem:** first Search Console data appeared (indexed ~18 Aug; 13 impressions, 0 clicks, position trending 70 → 27). GSC covers the search side only; there is no visibility into direct/AI-referral visits, and no real-user Core Web Vitals (the 19 Aug audit's open item — PSI quota blocked measurement).
+
+**Options evaluated:** Vercel Web Analytics + Speed Insights (free on Hobby — ~50K events/mo and 10K/mo one-project allowances, overage pauses rather than bills; ~1 KB async beacons, cookieless, no consent banner) vs Cloudflare Web Analytics (free, ~4.3 KB, but third-party to the stack) vs GA4 (free but ~135 KB client script + consent-mode/banner obligations — would surrender ~a third of the v1.8 bundle win and clash with the site's ethics positioning) vs self-hosted Umami-class tools (need a backend — violates the no-backend architecture decision).
+
+**Chosen: the Vercel pair.** Zero cost, negligible async-after-hydration weight (prerendered HTML and critical path untouched), no personal data collected (no banner, DPDP-friendly), and Speed Insights directly closes the real-user CWV gap. Known trade-off accepted: on a single-page site path analytics is trivial, so value = visits/referrers/countries/devices + CWV; section-level tracking (custom events via the existing scrollspy observer) noted as possible phase 2, deliberately not built now. Beacons run on both deployments (mirror traffic ≈ 0; canonical is Vercel). One manual prerequisite: Web Analytics and Speed Insights must be toggled on in the Vercel dashboard before data flows.

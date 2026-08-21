@@ -106,3 +106,11 @@ Max 3 failed attempts per step, then STOP and ask the human.
 ├─ Acceptance: all tests pass; `tsc --noEmit` clean; `npm run build` succeeds; `dist/assets` shows a separate charts chunk with the entry chunk materially smaller; `dist/index.html` still contains all tables/figures and 4 placeholders instead of empty Recharts divs.
 ├─ Verification: gates above + preview :4199 browser check (charts render, tables visible) + Debugger/Verifier consensus passes.
 └─ Stop/Go: consensus ⇒ deploy (`git push`), sitemap `lastmod` bump, live re-check, IndexNow re-ping.
+
+**Step 17: Analytics + real-user CWV beacons**
+├─ Objective: mount Vercel Web Analytics and Speed Insights without perf/prerender/privacy regressions.
+├─ Test First: integration (`src/analytics.test.tsx`) — App renders both beacons (packages mocked — the assertion is our wiring, not their internals) and the shell still mounts (h1 present). Expected: fails — beacons not wired.
+├─ Implementation: `npm i @vercel/analytics @vercel/speed-insights` (runtime deps); render `<Analytics />` + `<SpeedInsights />` in App's fragment; no other changes.
+├─ Acceptance: new test + all 85 existing tests pass; `tsc --noEmit` clean; build succeeds; entry-chunk delta ≈ 1–2 KB; prerendered `dist/index.html` substance unchanged (no beacon markup injected server-side).
+├─ Verification: gates + live browser check post-deploy (beacon `<script>` present in DOM at runtime) + IndexNow re-ping.
+└─ Stop/Go: manual prerequisite remains — enable both products in the Vercel dashboard (human step, no code).

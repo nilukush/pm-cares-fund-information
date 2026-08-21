@@ -16,11 +16,15 @@ import { Section } from './components/Section'
 import { Sources } from './components/Sources'
 import { Spending } from './components/Spending'
 import { Timeline } from './components/Timeline'
+import { Analytics } from '@vercel/analytics/react'
+import { SpeedInsights } from '@vercel/speed-insights/react'
 
 export default function App() {
   return (
     <>
       <StructuredData />
+      <Analytics />
+      <SpeedInsights />
       <ScrollChrome />
       <a
         href="#main"
