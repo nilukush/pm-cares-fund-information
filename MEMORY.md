@@ -1,6 +1,6 @@
 # MEMORY.md — Project Memory (compacted 2026-08-16, end of session)
 
-## Status: v1.8 · DEPLOYED · SEO/GEO audit PASS · No pending work
+## Status: v1.9 · DEPLOYED · Analytics beacons live · No pending work (manual: enable Analytics+Speed Insights in Vercel dashboard)
 
 Public-information website about India's PM CARES Fund, sourced from the English Wikipedia
 article https://en.wikipedia.org/wiki/PM_CARES_Fund (accessed 16 Aug 2026; verified
@@ -12,7 +12,7 @@ byte-identical across all audits that day).
 
 ## Run / verify
 - `npm run dev` → :5199 · `npm run preview` → :4199 (strictPort, non-standard by constraint)
-- `npm test` → 85/85 (fund data 34 · App 24 · format 14 · references 3 · StructuredData 4 · ChartCard 2 · ChartSlot 2 · index-html 1 · about 1)
+- `npm test` → 86/86 (fund data 34 · App 24 · format 14 · references 3 · StructuredData 4 · ChartCard 2 · ChartSlot 2 · index-html 1 · analytics 1 · about 1)
 - `npx tsc --noEmit` clean · `npm run build` = tsc + vite build + **prerender** (`scripts/prerender.mjs`, esbuild CJS bundle + renderToString injected into dist/index.html ≈ 198 KB content)
 
 ## Stack & architecture (decided — do not re-litigate)
@@ -30,6 +30,9 @@ Vite 8 + React 19 + TS strict + Tailwind v4 (`@theme` tokens in src/index.css) +
 
 ## SEO / GEO (v1.3+)
 Prerendered full HTML (crawlers/LLM bots without JS see everything); JSON-LD (WebSite/WebPage/FAQPage 12/Dataset); question-format H1; keyword title/description; Twitter card + og-image.png 1200×630; robots.txt explicitly welcomes AI crawlers (GPTBot/ClaudeBot/PerplexityBot/CCBot/Google-Extended/etc.); llms.txt (11 sections); noscript. Registered: GSC URL-prefix property (HTML-file verified, sitemap submitted), Bing imported from GSC, IndexNow (key 0e7c80d58618f01b8673e21f543f7f13; re-ping command in git history/MEMORY v1.3 note — POST with JSON body; GET-style params on POST = HTTP 411).
+
+## Analytics (v1.9, 2026-08-21)
+Vercel Web Analytics + Speed Insights beacons (`@vercel/analytics@2`, `@vercel/speed-insights@2` — **v2 API: React components are named exports on `/react` subpaths**, root default exports are imperative `inject` bundles, not components). Cookieless, no consent banner; +1.5 KB gzipped; prerender unchanged (beacons inject at runtime — verified live: `/_vercel/insights/script.js` + `/_vercel/speed-insights/script.js`). GA4 rejected (135 KB + consent-mode). First GSC data 18 Aug: 13 impr / 0 clicks / pos 70→27; queries match FAQ intent ("audit report" pos 22 best). Do NOT chase "bank account details" — article has no account specifics. Optional phase 2: custom section-view events via scrollspy observer.
 
 ## Ops notes
 - Deploy = `git push` → Vercel (auto, primary) + GitHub Actions → Pages mirror (runs tests). Vite base = `GITHUB_ACTIONS ? '/pm-cares-fund-information/' : '/'` (NOT `CI` — Vercel sets CI too).
