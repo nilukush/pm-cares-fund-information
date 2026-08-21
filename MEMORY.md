@@ -33,6 +33,7 @@ Prerendered full HTML (crawlers/LLM bots without JS see everything); JSON-LD (We
 
 ## Analytics (v1.9, 2026-08-21)
 Vercel Web Analytics + Speed Insights beacons (`@vercel/analytics@2`, `@vercel/speed-insights@2` — **v2 API: React components are named exports on `/react` subpaths**, root default exports are imperative `inject` bundles, not components). Cookieless, no consent banner; +1.5 KB gzipped; prerender unchanged (beacons inject at runtime — verified live: `/_vercel/insights/script.js` + `/_vercel/speed-insights/script.js`). GA4 rejected (135 KB + consent-mode). First GSC data 18 Aug: 13 impr / 0 clicks / pos 70→27; queries match FAQ intent ("audit report" pos 22 best). Do NOT chase "bank account details" — article has no account specifics. Optional phase 2: custom section-view events via scrollspy observer.
+**Dashboard state:** Web Analytics ENABLED (confirmed collecting). Speed Insights BLOCKED — Hobby allows it on only 1 project and the slot is used by another project. Decision: keep the other project's slot; CWV via pagespeed.web.dev (manual, free) or PSI API with a free API key (anonymous PSI quota persistently exhausted — not a reliable fallback). Revisit if the other project goes dormant or this site's traffic grows (real-user CWV needs meaningful traffic anyway).
 
 ## Ops notes
 - Deploy = `git push` → Vercel (auto, primary) + GitHub Actions → Pages mirror (runs tests). Vite base = `GITHUB_ACTIONS ? '/pm-cares-fund-information/' : '/'` (NOT `CI` — Vercel sets CI too).
