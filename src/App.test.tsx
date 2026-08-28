@@ -1,4 +1,4 @@
-import { render, screen } from '@testing-library/react'
+import { render, screen, within } from '@testing-library/react'
 import { describe, expect, it } from 'vitest'
 import App from './App'
 import { about, faq, timeline } from './data/fund'
@@ -49,7 +49,8 @@ describe('Key figures are visible with correct formatting', () => {
     render(<App />)
     expect(screen.getAllByText('₹3,076.62 cr').length).toBeGreaterThan(0)
     expect(screen.getAllByText('₹10,990.17 cr').length).toBeGreaterThan(0)
-    expect(screen.getAllByText('₹7,013.99 cr').length).toBeGreaterThan(0)
+    // FY2020-21 closing balance: Hero note (₹-formatted) + six-year table
+    expect(screen.getAllByText(/7,013\.99/).length).toBeGreaterThanOrEqual(2)
   })
 
   it('marks estimated data as estimates', () => {
@@ -275,5 +276,46 @@ describe('v2.1 — six-year record, donations and news coverage', () => {
     expect(screen.getByText('FY2020-21 receipts (as published)')).toBeInTheDocument()
     expect(screen.getAllByText(/new money that year/i).length).toBeGreaterThan(0)
     expect(screen.queryByText(/Total across both years/)).toBeNull()
+  })
+})
+
+describe('v2.2 — Finances consolidation', () => {
+  it('retires the two-year chart and swaps KPI 2 to six-year payments', () => {
+    render(<App />)
+    expect(screen.queryByText('Money in vs money left')).toBeNull()
+    expect(screen.queryByText('Year-end balance · 31 Mar 2021')).toBeNull()
+    expect(screen.getAllByText('Payments over six years (derived)').length).toBeGreaterThanOrEqual(1)
+    expect(screen.getAllByText('₹8,146.81 cr').length).toBeGreaterThanOrEqual(1)
+  })
+
+  it('six-year table shows printed receipts-side totals incl. the article figure 10,990.17', () => {
+    render(<App />)
+    expect(screen.getByRole('columnheader', { name: /receipts-side total, printed/i })).toBeInTheDocument()
+    expect(screen.getAllByText('10,990.17').length).toBeGreaterThanOrEqual(1)
+    expect(screen.getAllByText(/two-thirds of the corpus remains unspent/i).length).toBeGreaterThanOrEqual(1)
+    expect(screen.getAllByText(/September 2020/i).length).toBeGreaterThanOrEqual(1)
+    expect(screen.getAllByText(/receipts-side total including/i).length).toBeGreaterThanOrEqual(1)
+  })
+
+  it('exposes exactly four chart images after retiring the two-year chart', () => {
+    render(<App />)
+    expect(screen.getAllByRole('img', { name: /chart/i })).toHaveLength(4)
+  })
+
+  it('folds the FY2024-25 statement into an open deep-dive inside the six-year record', () => {
+    render(<App />)
+    const h3 = screen.getByRole('heading', { level: 3, name: /audited statement — FY2024-25/i })
+    const details = h3.closest('details')
+    expect(details).not.toBeNull()
+    expect(details).toHaveAttribute('open')
+    expect(document.getElementById('finances')!.contains(details)).toBe(true)
+  })
+
+  it('moves coverage & reactions into the debate section', () => {
+    render(<App />)
+    const debate = document.getElementById('debate')!
+    const finances = document.getElementById('finances')!
+    expect(within(debate).getByRole('heading', { level: 3, name: /coverage & reactions/i })).toBeInTheDocument()
+    expect(within(finances).queryByRole('heading', { level: 3, name: /coverage & reactions/i })).toBeNull()
   })
 })

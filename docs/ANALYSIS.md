@@ -100,3 +100,20 @@ Adjudications beyond the Analyzer brief (docs/research/2026-08-28-audit-sources.
 3. **R4 RESOLVED** from fetch records: Bhardwaj quotes → The Hindu + Scroll; Batra, Nayak, rotation observation → Frontline; Khera/Saxena → The Telegraph; Modani, Vaghani → India Today.
 4. **R2** as briefed: The Hindu's 18.4% ships attributed-only (naïve statement arithmetic gives 49.1%; their denominator is unstated — never re-derive on-site).
 5. Policy amendments: three source tiers (article/primary/news — AGENTS.md updated); "excluded-by-absence" rule for PM CARES-for-Children superseded (news + primary payments lines now cover it).
+
+## Addendum I — v2.2: consolidation of the Finances section (2026-08-28, user-approved)
+
+Problem: tier separation (v2.0/v2.1) accreted four stacked blocks in #finances with
+redundancy — a 2-year article chart directly above a 6-year primary chart; FY2020-21
+figures in both; donations story in two places. User approved consolidation:
+(1) retire the two-year "Money in vs money left" chart — its figures already live,
+correctly labeled, in the six-year table; (2) fold the FY2024-25 detail card into the
+six-year record as an expandable deep-dive; (3) move Coverage & reactions to #debate
+(the thematically correct home; the card carries its own news-tier label).
+
+Constraints: DATA LAYER UNCHANGED (fund.ts untouched except no changes planned) — this
+is presentational. Nothing rendered today may be silently lost: the retired chart's
+notes (unspentQuote, corpusStatementNote, fy202021ReceiptsNote) must land in rendered
+surfaces; the article's printed figure (10,990.17 side-total) must stay visible for
+article fidelity. Expandable pattern must be accessible (native <details>, default
+open so content stays in the accessibility tree and tests/jsdom see it).

@@ -1,9 +1,17 @@
-import { auditedSeries, auditedSeriesTotals, donationsByYear, donationsByYearNote } from '../data/fund'
+import {
+  auditedSeries,
+  auditedSeriesTotals,
+  donationsByYear,
+  donationsByYearNote,
+  finances,
+} from '../data/fund'
 import { formatCrore, formatINR } from '../lib/format'
+import { AuditedStatement } from './AuditedStatement'
 import { ChartCard } from './ChartCard'
 import { ChartSlot } from './ChartSlot'
 
-/** Six-year audited record: closing-balance chart + donations-decline table (primary tier). */
+/** Six-year audited record: closing-balance chart + donations-decline table (primary tier),
+ * with the FY2024-25 statement folded in as an expandable deep-dive. */
 export function SixYearRecord() {
   return (
     <div className="flex flex-col gap-6">
@@ -11,9 +19,12 @@ export function SixYearRecord() {
         title="Six years of audited balances"
         subtitle="Closing balance at each 31 March, ₹ crore — the fund's own audited Receipts & Payments Accounts (pmcares.gov.in, primary tier). FY2019-20 and FY2020-21 also appear in the Wikipedia article."
         badge="Primary sources"
-        ariaLabel="Bar chart: closing balance at 31 March of each financial year, FY2019-20 through FY2024-25, in crore rupees, from the fund's audited statements. 2020: 3,076.62; 2021: 7,013.99; 2022: 5,415.66; 2023: 6,283.68; 2024: 7,173.03; 2025: 8,452.07."
+        ariaLabel="Bar chart: closing balance at 31 March of each financial year, FY2019-20 through FY2024-25, in crore rupees, from the fund's audited statements. 2020: 3,076.62; 2021: 7,013.99; 2022: 5,415.66; 2023: 6,283.68; 2024: 7,173.03; 2025: 8,452.07. The data table also lists each year's printed receipts-side total, including the widely-quoted ₹10,990.17 crore for FY2020-21, which includes the opening balance."
         note={
           <>
+            Receipts-side totals are as printed in each audited statement and include the
+            opening balance; “receipts during the year” = printed total − opening.{' '}
+            {finances.fy202021ReceiptsNote} {finances.corpusStatementNote} {finances.unspentQuote}{' '}
             PM CARES for Children, announced 30 May 2022 for children orphaned by COVID-19,
             provides ₹4,000/month for daily needs, ₹10 lakh at age 23, education-loan support
             and Ayushman Bharat cover (scheme design per Frontline). Payments to this scheme
@@ -24,10 +35,18 @@ export function SixYearRecord() {
             {formatCrore(auditedSeriesTotals.paymentsCrore)} (both derived).
           </>
         }
-        tableHeaders={['Fiscal year', 'Receipts during year (₹ cr)', 'Payments (₹ cr)', 'Closing balance (₹ cr)']}
-        numericColumns={[1, 2, 3]}
+        tableHeaders={[
+          'Fiscal year',
+          'Receipts-side total, printed (₹ cr)',
+          'Receipts during year (₹ cr)',
+          'Payments (₹ cr)',
+          'Closing balance (₹ cr)',
+        ]}
+        numericColumns={[1, 2, 3, 4]}
+        tableCaption="Six-year audited record: printed receipts-side totals, receipts during the year, payments and closing balances, in crore rupees"
         tableRows={auditedSeries.map((y) => [
           y.fiscalYear,
+          formatINR(y.receiptsSideTotalCrore),
           `${formatINR(y.receiptsDuringCrore)}${y.receiptsDerived ? ' (derived)' : ''}`,
           formatINR(y.paymentsTotalCrore),
           formatINR(y.closingBalanceCrore),
@@ -71,6 +90,20 @@ export function SixYearRecord() {
           <p className="mt-3 text-sm leading-relaxed text-primary-foreground/80">{donationsByYearNote}</p>
         </div>
       </div>
+
+      <details open className="group">
+        <summary className="flex w-full cursor-pointer items-center justify-between gap-4 rounded-xl border border-white/15 bg-white/5 px-4 py-3 text-left marker:content-none select-none sm:px-6">
+          <span className="text-sm font-semibold text-primary-foreground">
+            Deep dive — FY2024-25 statement (primary source)
+          </span>
+          <span aria-hidden="true" className="shrink-0 font-display text-xl leading-none text-chart-2 transition-transform duration-200 group-open:rotate-45">
+            +
+          </span>
+        </summary>
+        <div className="mt-3">
+          <AuditedStatement />
+        </div>
+      </details>
     </div>
   )
 }

@@ -1,5 +1,4 @@
 import { About } from './components/About'
-import { AuditedStatement } from './components/AuditedStatement'
 import { AuditCard } from './components/AuditCard'
 import { CoverageReactions } from './components/CoverageReactions'
 import { Debate } from './components/Debate'
@@ -55,14 +54,12 @@ export default function App() {
           id="finances"
           icon="finances"
           title="Finances — money in, money left"
-          lead="Receipts and year-end balances as published on pmcares.gov.in and reproduced by Wikipedia, plus an estimate of who donated. The fund's accounts are audited privately, not by the CAG. Below: the six-year audited record, the detailed FY2024-25 statement, and August 2026 news coverage — each a clearly labeled source tier."
+          lead="Receipts and year-end balances as published on pmcares.gov.in and reproduced by Wikipedia, plus an estimate of who donated. The fund's accounts are audited privately, not by the CAG. Below: the six-year audited record, with the detailed FY2024-25 statement as an expandable deep-dive — each block a clearly labeled source tier."
           dark
         >
           <div className="flex flex-col gap-6">
             <Finances />
             <SixYearRecord />
-            <AuditedStatement />
-            <CoverageReactions />
           </div>
         </Section>
 
@@ -97,10 +94,13 @@ export default function App() {
           id="debate"
           icon="debate"
           title="The debate — transparency contested"
-          lead="The fund's structure has been widely debated. Wikipedia documents both the criticism and the government's response; both are presented here without editorial verdict."
+          lead="The fund's structure has been widely debated. Wikipedia documents both the criticism and the government's response; both are presented here without editorial verdict. August 2026 news coverage of the audited statements — attributed reactions beside the government's position — follows as a clearly labeled news tier."
           dark
         >
-          <Debate />
+          <div className="flex flex-col gap-6">
+            <Debate />
+            <CoverageReactions />
+          </div>
         </Section>
 
         <Section

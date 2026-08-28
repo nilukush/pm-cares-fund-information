@@ -134,3 +134,11 @@ Max 3 failed attempts per step, then STOP and ask the human.
 - Implementation: fund.ts (auditedSeries + totals, donationsByYear, newsSources/newsReactions/newsDefence/newsDisclosureLag/newsAnalysisNotes, finances.fy202021ReceiptsNote, DELETE totalReceiptsCrore, audit.primarySourceUpdate→auditor history, priorYearNote rewrite, FAQ updates + Q18, timeline +3, sources +7 news +5 statement PDFs, caveats rewrite, about three-tiers); new SixYearRecord.tsx + CoverageReactions.tsx; AuditedBalanceBarChart in charts.tsx (lazy chunk); Finances KPI + Hero stat relabel; App wiring (#finances: Finances → SixYearRecord → AuditedStatement → CoverageReactions); StructuredData + llms.txt; AGENTS.md 3-tier policy.
 - Acceptance: all tests pass (red→green), tsc clean, build + prerender OK; Debugger + Verifier parallel gate → consensus → re-verify; release ritual (lastmod, push, live-check, IndexNow).
 - Stop/Go: R1-style digit disputes → identity checks + high-DPI re-read + news triangulation; unresolved → drop the figure (conservative wins).
+
+## Step 29: v2.2 — Finances consolidation (2026-08-28)
+
+- Objective: three-block #finances (KPI+donut → six-year record with expandable FY24-25 deep-dive → nothing else) + coverage card in #debate; zero content loss; data layer untouched.
+- Test First: App.test adjustments (chart-count assertions, AuditedStatement heading now inside <details open>, coverage card now under #debate, KPI 2 swap, retired-chart strings absent); all red before implementation where behavior changes.
+- Implementation: Finances.tsx (drop 2-year ChartCard; KPI 2 → six-year payments), SixYearRecord.tsx (add "Receipts-side total (printed)" column; absorb unspentQuote/corpusStatementNote/fy202021ReceiptsNote into note slot; embed AuditedStatement as <details open> deep-dive), App.tsx (remove AuditedStatement slot; CoverageReactions → #debate after <Debate />), charts.tsx (remove dead FinancesBarChart export).
+- Acceptance: every previously rendered fact still rendered or consciously relocated (checklist in tests); a11y: details/summary keyboard+SR native; gates green; Debugger + Verifier consensus; release ritual.
+- Stop/Go: if folding breaks any FY24-25 test irreparably (jsdom/hidden issues), fall back to keeping the card as its own block directly under SixYearRecord (still consolidated visually).
