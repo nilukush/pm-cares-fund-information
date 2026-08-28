@@ -17,6 +17,9 @@ export function AuditCard() {
             <li key={d.slice(0, 28)}>{d}</li>
           ))}
         </ul>
+        <p className="mt-4 border-t border-border pt-3 text-sm leading-relaxed text-foreground/90">
+          {audit.primarySourceUpdate}
+        </p>
       </div>
     </div>
   )

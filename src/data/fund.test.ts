@@ -3,6 +3,7 @@ import {
   WIKIPEDIA_URL,
   about,
   audit,
+  auditedStatementFY202425,
   criticism,
   dataCaveats,
   defence,
@@ -324,5 +325,103 @@ describe('completeness pass — content added from the full-article audit', () =
     const psuNote = institutionalDonations.find((d) => d.label === '32 PSUs')!.note
     expect(psuNote).toMatch(/Prime Minister’s Office was denied/)
     expect(relatedFundsNote).toMatch(/disclosing details of funding and spending/)
+  })
+})
+
+describe('audited statement — FY2024-25 primary tier', () => {
+  it('is marked as a primary source with URL, accessed date and auditor', () => {
+    expect(auditedStatementFY202425.sourceTier).toBe('primary')
+    expect(auditedStatementFY202425.sourceUrl).toBe(
+      'https://pmcares.gov.in/assets/donation/pdf/Audited_Statement_2024_25.pdf',
+    )
+    expect(auditedStatementFY202425.accessedDisplay).toContain('28 August 2026')
+    expect(auditedStatementFY202425.auditorFirm).toContain('KKC & Associates')
+    expect(auditedStatementFY202425.reportDated).toContain('7 August 2026')
+  })
+
+  it('carries the identity-verified figures exactly', () => {
+    expect(auditedStatementFY202425.openingBalanceCrore).toBeCloseTo(7173.03, 2)
+    expect(auditedStatementFY202425.receiptsTotalCrore).toBeCloseTo(1279.91, 2)
+    expect(auditedStatementFY202425.paymentsTotalRupee).toBe(8785291)
+    expect(auditedStatementFY202425.paymentsTotalCrore).toBeCloseTo(0.88, 2)
+    expect(auditedStatementFY202425.closingBalanceCrore).toBeCloseTo(8452.07, 2)
+    expect(auditedStatementFY202425.priorYearClosingCrore).toBeCloseTo(7173.03, 2)
+  })
+
+  it('satisfies the statement’s accounting identity within scan tolerance', () => {
+    const { openingBalanceCrore, receiptsTotalCrore, paymentsTotalCrore, closingBalanceCrore } =
+      auditedStatementFY202425
+    // stored figures are 2dp-rounded, so the rupee-exact identity holds within ±0.02 crore
+    expect(Math.abs(openingBalanceCrore + receiptsTotalCrore - paymentsTotalCrore - closingBalanceCrore)).toBeLessThanOrEqual(0.02)
+    expect(
+      Math.abs(
+        auditedStatementFY202425.openingSplit.savingsBankCrore +
+          auditedStatementFY202425.openingSplit.fixedDepositsCrore -
+          openingBalanceCrore,
+      ),
+    ).toBeLessThanOrEqual(0.02)
+    expect(
+      Math.abs(
+        auditedStatementFY202425.closingSplit.savingsBankCrore +
+          auditedStatementFY202425.closingSplit.fixedDepositsCrore -
+          closingBalanceCrore,
+      ),
+    ).toBeLessThanOrEqual(0.02)
+  })
+
+  it('payments itemization sums to the rupee-exact total', () => {
+    const itemized = auditedStatementFY202425.paymentsItemized.reduce(
+      (acc, item) => acc + (item.amountRupee ?? 0),
+      0,
+    )
+    expect(itemized).toBe(auditedStatementFY202425.paymentsTotalRupee)
+  })
+
+  it('receipts itemization is consistent with the derived total', () => {
+    const itemized = auditedStatementFY202425.receiptsItemized.reduce(
+      (acc, item) => acc + item.amountCrore,
+      0,
+    )
+    // six 2dp-rounded lines can drift from the exact sum by at most 0.03 crore
+    expect(Math.abs(itemized - auditedStatementFY202425.receiptsTotalCrore)).toBeLessThanOrEqual(0.03)
+  })
+
+  it('double-anchors the FY2023-24 closing balance and labels derived receipts', () => {
+    expect(auditedStatementFY202425.priorYearClosingCrore).toBe(
+      auditedStatementFY202425.openingBalanceCrore,
+    )
+    expect(auditedStatementFY202425.receiptsDerived).toBe(true)
+    expect(auditedStatementFY202425.receiptsNote).toMatch(/derived/i)
+    for (const item of auditedStatementFY202425.receiptsItemized) {
+      expect(item.amountCrore).toBeGreaterThan(0)
+    }
+  })
+
+  it('keeps article rows and the primary tier separate (no mixed finances.years)', () => {
+    expect(finances.years).toHaveLength(2)
+    for (const y of finances.years) {
+      expect(y.sourceTier).toBe('article')
+    }
+  })
+
+  it('adds the five query-aligned FAQ aliases', () => {
+    expect(faq.length).toBe(17)
+    expect(faq.some((f) => /full form of PM CARES/i.test(f.q))).toBe(true)
+    expect(faq.some((f) => /private or government/i.test(f.q))).toBe(true)
+    expect(faq.some((f) => /controversy/i.test(f.q))).toBe(true)
+    expect(faq.some((f) => /how was the money utilized/i.test(f.q))).toBe(true)
+    expect(faq.some((f) => /how much money is in the PM CARES Fund now/i.test(f.q))).toBe(true)
+    const utilizationFaq = faq.find((f) => /how was the money utilized/i.test(f.q))
+    expect(utilizationFaq).toBeDefined()
+    const utilization = utilizationFaq?.a ?? ''
+    expect(utilization).toContain('₹87,85,291')
+    expect(utilization).toContain('PM CARES for Children')
+    expect(utilization).toContain('324.66')
+  })
+
+  it('declares the primary source in sources and the caveats', () => {
+    expect(sources.some((s) => s.url.includes('Audited_Statement_2024_25'))).toBe(true)
+    expect(dataCaveats.some((c) => /primary source/i.test(c))).toBe(true)
+    expect(about.principles.some((p) => /two labeled tiers/i.test(p.title))).toBe(true)
   })
 })

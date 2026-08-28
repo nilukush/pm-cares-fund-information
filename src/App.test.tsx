@@ -211,3 +211,33 @@ describe('About & methodology section', () => {
     expect(screen.getByText(/snapshot of one article/i)).toBeInTheDocument()
   })
 })
+
+describe('Audited FY2024-25 statement — primary-source tier', () => {
+  it('renders the card with the closing balance, auditor and source link', () => {
+    render(<App />)
+    expect(screen.getByRole('heading', { level: 3, name: /audited statement/i })).toBeInTheDocument()
+    expect(screen.getAllByText(/8,452\.07/).length).toBeGreaterThan(0)
+    expect(screen.getAllByText(/KKC & Associates/).length).toBeGreaterThan(0)
+    const pdf = screen.getByRole('link', { name: /Audited_Statement_2024_25\.pdf/i })
+    expect(pdf).toHaveAttribute('rel', 'noopener noreferrer')
+    expect(screen.getAllByText(/accessed 28 August 2026/i).length).toBeGreaterThan(0)
+  })
+
+  it('labels derived receipts and the FY2023-24 balance-only row', () => {
+    render(<App />)
+    expect(screen.getAllByText(/derived/i).length).toBeGreaterThan(0)
+    expect(screen.getAllByText(/7,173\.03/).length).toBeGreaterThan(0)
+    expect(screen.getAllByText(/could not be verified/i).length).toBeGreaterThan(0)
+  })
+
+  it('shows the latest balance in the Hero stat strip', () => {
+    render(<App />)
+    expect(screen.getByText('Latest balance · 31 March 2025')).toBeInTheDocument()
+    expect(screen.getAllByText('₹8,452.07 cr').length).toBeGreaterThanOrEqual(2)
+  })
+
+  it('adds the auditor-change addendum to the audit card', () => {
+    render(<App />)
+    expect(screen.getByText(/Primary-source update/i)).toBeInTheDocument()
+  })
+})

@@ -46,4 +46,15 @@ describe('StructuredData — schema.org JSON-LD', () => {
     expect(String(dataset.name)).toMatch(/PM CARES Fund/i)
     expect(dataset.isBasedOn).toBe(WIKIPEDIA_URL)
   })
+
+  it('extends the Dataset to FY2024-25 with the primary-source balance', () => {
+    render(<StructuredData />)
+    const graph = getGraph()['@graph'] as Array<Record<string, unknown>>
+    const dataset = graph.find((n) => n['@type'] === 'Dataset') as Record<string, unknown>
+    expect(String(dataset.name)).toMatch(/FY2024-25/)
+    expect(dataset.temporalCoverage).toBe('2020-03/2025-03')
+    const variables = dataset.variableMeasured as string[]
+    const primary = variables.find((v) => /primary source/i.test(v))
+    expect(primary).toMatch(/8452\.07/)
+  })
 })

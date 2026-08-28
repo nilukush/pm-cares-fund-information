@@ -1,4 +1,4 @@
-import { donorMix, finances, identity, totalReceiptsCrore } from '../data/fund'
+import { auditedStatementFY202425, donorMix, finances, identity, totalReceiptsCrore } from '../data/fund'
 import { formatCrore, formatINR } from '../lib/format'
 import { ChartCard } from './ChartCard'
 import { ChartSlot } from './ChartSlot'
@@ -7,7 +7,7 @@ import { ChartSlot } from './ChartSlot'
 export function Finances() {
   return (
     <div className="flex flex-col gap-6">
-      <div className="grid gap-4 sm:grid-cols-3" aria-label="Key financial facts">
+      <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4" aria-label="Key financial facts">
         <div className="rounded-xl border border-white/15 bg-white/5 p-4">
           <p className="text-sm text-primary-foreground/80">Received, both years</p>
           <p className="tnum mt-1 text-2xl font-bold text-primary-foreground">
@@ -26,6 +26,13 @@ export function Finances() {
             {identity.auditor}
             <span className="font-normal text-primary-foreground/80"> — not the CAG</span>
           </p>
+        </div>
+        <div className="rounded-xl border border-white/15 bg-white/5 p-4">
+          <p className="text-sm text-primary-foreground/80">Latest balance · 31 Mar 2025</p>
+          <p className="tnum mt-1 text-2xl font-bold text-primary-foreground">
+            {formatCrore(auditedStatementFY202425.closingBalanceCrore)}
+          </p>
+          <p className="mt-1 text-xs text-primary-foreground/70">Primary source — audited statement, below</p>
         </div>
       </div>
 

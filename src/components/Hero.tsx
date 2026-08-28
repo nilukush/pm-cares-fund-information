@@ -1,4 +1,4 @@
-import { finances, identity, totalReceiptsCrore } from '../data/fund'
+import { auditedStatementFY202425, finances, identity, totalReceiptsCrore } from '../data/fund'
 import { formatCrore } from '../lib/format'
 import { StatCard } from './StatCard'
 
@@ -8,7 +8,7 @@ export function Hero() {
     <div className="bg-primary text-primary-foreground">
       <div className="mx-auto max-w-6xl px-4 py-14 sm:px-6 md:py-20">
         <p className="font-display text-sm font-semibold tracking-wide text-chart-2">
-          PUBLIC INFORMATION · SOURCED FROM WIKIPEDIA
+          PUBLIC INFORMATION · SOURCED FROM WIKIPEDIA + PMCARES.GOV.IN
         </p>
         <h1 className="mt-3 max-w-3xl text-3xl font-extrabold leading-tight tracking-tight sm:text-4xl md:text-5xl">
           What is the PM CARES Fund?
@@ -38,9 +38,9 @@ export function Hero() {
             note={`Total across both years: ${formatCrore(totalReceiptsCrore)}`}
           />
           <StatCard
-            label="Balance · 31 March 2021"
-            value={formatCrore(finances.years[1].balanceCrore)}
-            note="Roughly two-thirds of the corpus unspent (as of 2022)"
+            label="Latest balance · 31 March 2025"
+            value={formatCrore(auditedStatementFY202425.closingBalanceCrore)}
+            note={`Audited statement (primary source) · ${formatCrore(finances.years[1].balanceCrore)} on 31 Mar 2021 via Wikipedia`}
           />
         </div>
 

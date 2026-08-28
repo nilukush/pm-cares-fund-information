@@ -1,4 +1,5 @@
 import { About } from './components/About'
+import { AuditedStatement } from './components/AuditedStatement'
 import { AuditCard } from './components/AuditCard'
 import { Debate } from './components/Debate'
 import { Litigation } from './components/Litigation'
@@ -52,10 +53,13 @@ export default function App() {
           id="finances"
           icon="finances"
           title="Finances — money in, money left"
-          lead="Receipts and year-end balances as published on pmcares.gov.in and reproduced by Wikipedia, plus an estimate of who donated. The fund's accounts are audited privately (SARC & Associates), not by the CAG."
+          lead="Receipts and year-end balances as published on pmcares.gov.in and reproduced by Wikipedia, plus an estimate of who donated. The fund's accounts are audited privately, not by the CAG. The fund's own audited FY2024-25 statement is presented below as a clearly labeled primary source."
           dark
         >
-          <Finances />
+          <div className="flex flex-col gap-6">
+            <Finances />
+            <AuditedStatement />
+          </div>
         </Section>
 
         <Section

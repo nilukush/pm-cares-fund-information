@@ -1,8 +1,11 @@
 # PM CARES Fund — Facts, Figures & Timeline
 
 > Independent, non-commercial public-information page about India's PM CARES Fund.
-> Every figure is sourced from the English Wikipedia article
+> Article-sourced figures come from the English Wikipedia article
 > (https://en.wikipedia.org/wiki/PM_CARES_Fund, accessed 16 August 2026).
+> The FY2024-25 audited-statement block additionally comes from the fund's own
+> published statement (https://pmcares.gov.in/assets/donation/pdf/Audited_Statement_2024_25.pdf,
+> accessed 28 August 2026).
 > Criticism and the government's defence are presented side by side; no editorial verdict.
 
 URL: https://pm-cares-fund-information.vercel.app/
@@ -13,7 +16,8 @@ URL: https://pm-cares-fund-information.vercel.app/
 - Chaired by the Prime Minister (Narendra Modi); Defence, Home and Finance ministers are ex-officio trustees. Operates from the PMO, South Block. Minimum donation ₹10.
 - Money received: ₹3,076.62 crore in the last five days of FY2019-20 and ₹10,990.17 crore in FY2020-21; year-end balance 31 March 2021: ₹7,013.99 crore. The Hindu reported (per the 2020-21 audit) about one-third of ₹10,990 crore was spent; Wikipedia's lead notes roughly two-thirds of the corpus unspent as of 2022.
 - First allocation, 13 May 2020: ₹3,100 crore — 50,000 made-in-India ventilators (₹2,000 cr share is derived arithmetic), ₹1,000 crore for migrant-worker welfare via states, ₹100 crore for vaccine-development support.
-- Audit: private chartered accountants SARC & Associates (June 2020, three years); the CAG does not audit the fund.
+- Audit: private chartered accountants SARC & Associates (June 2020, three years); the CAG does not audit the fund. By FY2024-25 the auditor was KKC & Associates LLP (see primary source below).
+- Latest balance (audited, primary source): ₹8,452.07 crore on 31 March 2025 (savings ₹605.41 cr + fixed deposits ₹7,846.65 cr). FY2024-25: receipts ₹1,279.91 cr (derived: printed total ₹8,452.95 cr − opening ₹7,173.03 cr; incl. ₹469.38 cr fixed-deposit interest), payments ₹0.88 cr (₹87,85,291 — PM CARES for Children ₹87,84,840 + bank/SMS charges ₹451), ₹324.66 cr refunded by implementing agencies. FY2023-24 closing balance: ₹7,173.03 cr (balance only; comparative columns not verified).
 - RTI: the PMO refused RTI requests and told the Delhi High Court the fund is "not a public authority"; critics cite the national emblem and ministerial trustees to argue otherwise.
 - FCRA: exempted from all FCRA 2010 provisions, permitting foreign contributions; corporate donations counted as CSR; 80G income-tax exemption for donations before 30 June 2020.
 - Delivery gaps reported: only 2,923 of 50,000 ventilators made by 24 June 2020; of 162 sanctioned oxygen plants, 11 installed (5 operational) per Scroll (April 2021) vs a government claim of 33; for Delhi, 8 sanctioned, 1 built (told to the Delhi High Court, 22 April 2021).
@@ -31,6 +35,13 @@ URL: https://pm-cares-fund-information.vercel.app/
 - Sources & caveats: https://pm-cares-fund-information.vercel.app/#sources
 - References (all 119 citations): https://pm-cares-fund-information.vercel.app/#references
 - About & methodology: https://pm-cares-fund-information.vercel.app/#about
+
+## Primary source — audited FY2024-25 statement
+
+- URL: https://pmcares.gov.in/assets/donation/pdf/Audited_Statement_2024_25.pdf (accessed 28 August 2026)
+- Audited by KKC & Associates LLP (formerly Khimji Kunverji & Co LLP), FRN 105146W/W100621; report dated 7 August 2026.
+- Receipts total is derived from the statement's printed totals; itemized lines are as printed. The FY2023-24 comparative columns could not be verified from the scan and are omitted; only its double-printed closing balance is shown.
+- Shown separately from Wikipedia-sourced figures; the two tiers are never mixed in one chart or total.
 
 ## Data caveats
 

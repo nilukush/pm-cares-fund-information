@@ -15,6 +15,7 @@
 
 ## Content rules
 - All facts from `src/data/fund.ts` only — components must not hard-code facts or figures.
+- Sourcing tiers (policy extended 2026-08-28, user-approved): article facts come from the Wikipedia article; the only other permitted source is the fund's own audited statements on pmcares.gov.in, shown in a clearly-labeled primary-source tier (separate export, never mixed with article figures in one chart or total), each figure verified against the statement's own accounting identities at rupee precision, computed values labeled "derived".
 - Keep neutrality: criticism AND defence, both sourced; footer disclaimer stays.
 - PSU donation figures are not additive; estimates are labeled "estimate"; derived arithmetic labeled "derived".
 

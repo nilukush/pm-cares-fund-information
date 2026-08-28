@@ -8,10 +8,10 @@ export function Footer() {
       <div className="mx-auto max-w-6xl px-4 py-10 sm:px-6">
         <p className="max-w-4xl text-sm leading-relaxed text-primary-foreground/85">
           <strong className="font-semibold text-primary-foreground">Neutrality note:</strong>{' '}
-          this is an independent, non-commercial public-information page summarizing the
-          Wikipedia article on the PM CARES Fund. It is not affiliated with the Government of
-          India or the PM CARES Fund. Criticism and the government&rsquo;s defence are both
-          presented as reported by the source.
+          this is an independent, non-commercial public-information page based on the Wikipedia
+          article on the PM CARES Fund and the fund’s own audited FY2024-25 statement. It is not
+          affiliated with the Government of India or the PM CARES Fund. Criticism and the
+          government&rsquo;s defence are both presented as reported by the source.
         </p>
         <nav aria-label="Sections" className="mt-6 flex flex-wrap gap-x-4 gap-y-2 text-sm">
           {NAV_ITEMS.map((item) => (

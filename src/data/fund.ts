@@ -1,8 +1,11 @@
 /**
  * Single source of truth for all site content.
- * Every figure below is taken from the English Wikipedia article "PM CARES Fund"
+ * Article-sourced facts come from the English Wikipedia article "PM CARES Fund"
  * (accessed 15 August 2026), which itself reproduces figures from pmcares.gov.in,
  * news reports and official statements. Estimates and derived values are flagged.
+ * One labeled primary-source addition exists: the fund's own audited FY2024-25
+ * statement (pmcares.gov.in, accessed 28 August 2026), kept in a separate export
+ * and never mixed with article figures.
  * Corrected against the raw wikitext per the Verifier agent's cross-check.
  */
 
@@ -78,17 +81,23 @@ export const audit = {
     'The government stated (30 July 2020) that "independent auditors who will be appointed by the trustees" would audit the fund, and agreed to start issuing donation receipts. The article elsewhere describes the auditor as a private party appointed directly by the Government of India — both wordings appear in the source.',
     'The CAG does not audit the fund: its officials said they were not allowed to audit it, since the fund is "based on donations of individuals and organisations".',
   ],
+  /** Primary-source update (pmcares.gov.in audited FY2024-25 statement, accessed 28 Aug 2026). */
+  primarySourceUpdate:
+    'Primary-source update: by FY2024-25 the fund’s auditor was KKC & Associates LLP (formerly Khimji Kunverji & Co LLP; FRN 105146W/W100621), which signed the audited Receipts & Payments Account dated 7 August 2026. The article records SARC & Associates as appointed in June 2020 for three years; the date of the change is not stated in either source.',
 }
 
 // ---------------------------------------------------------------------------
 // Finances — receipts & balances as published on pmcares.gov.in (via Wikipedia)
 // ---------------------------------------------------------------------------
 
+export type SourceTier = 'article' | 'primary'
+
 export interface FiscalYearFinance {
   fiscalYear: string
   period: string
   receiptsCrore: number
   balanceCrore: number
+  sourceTier: SourceTier
 }
 
 export const finances = {
@@ -98,12 +107,14 @@ export const finances = {
       period: '27–31 March 2020 only',
       receiptsCrore: 3076.62,
       balanceCrore: 3076.62,
+      sourceTier: 'article',
     },
     {
       fiscalYear: '2020–21',
       period: 'full financial year',
       receiptsCrore: 10990.17,
       balanceCrore: 7013.99,
+      sourceTier: 'article',
     },
   ] as FiscalYearFinance[],
   /** Wikipedia lead, as of 2022: "two-thirds of the corpus remains unspent". */
@@ -119,6 +130,97 @@ export const finances = {
 }
 
 export const totalReceiptsCrore = finances.years.reduce((acc, y) => acc + y.receiptsCrore, 0)
+
+// ---------------------------------------------------------------------------
+// Primary-source tier — the fund's own audited FY2024-25 statement.
+// Kept SEPARATE from finances.years (article tier): the two tiers are never
+// mixed in one chart or one total. Every figure below was verified against the
+// statement's own accounting identities at rupee precision before inclusion.
+// ---------------------------------------------------------------------------
+
+export const AUDITED_STATEMENT_URL =
+  'https://pmcares.gov.in/assets/donation/pdf/Audited_Statement_2024_25.pdf'
+export const AUDITED_STATEMENT_ACCESSED = '28 August 2026'
+
+export interface AuditedBalanceSplit {
+  savingsBankCrore: number
+  fixedDepositsCrore: number
+}
+
+export interface AuditedLineItem {
+  label: string
+  amountCrore: number
+  /** Exact rupee amount as printed, for lines too small for crore rounding. */
+  amountRupee?: number
+}
+
+export interface AuditedStatementFY202425 {
+  sourceTier: 'primary'
+  fiscalYear: string
+  period: string
+  sourceUrl: string
+  accessedDisplay: string
+  auditorFirm: string
+  auditorRegistration: string
+  reportDated: string
+  openingBalanceCrore: number
+  openingSplit: AuditedBalanceSplit
+  receiptsTotalCrore: number
+  receiptsDerived: true
+  receiptsNote: string
+  receiptsItemized: AuditedLineItem[]
+  paymentsTotalRupee: number
+  paymentsTotalCrore: number
+  paymentsItemized: AuditedLineItem[]
+  closingBalanceCrore: number
+  closingSplit: AuditedBalanceSplit
+  priorYearFiscalYear: string
+  priorYearClosingCrore: number
+  priorYearNote: string
+  paymentsContextNote: string
+  sourceNote: string
+}
+
+export const auditedStatementFY202425: AuditedStatementFY202425 = {
+  sourceTier: 'primary',
+  fiscalYear: '2024–25',
+  period: 'year ended 31 March 2025',
+  sourceUrl: AUDITED_STATEMENT_URL,
+  accessedDisplay: AUDITED_STATEMENT_ACCESSED,
+  auditorFirm: 'KKC & Associates LLP (formerly Khimji Kunverji & Co LLP)',
+  auditorRegistration: 'FRN 105146W/W100621',
+  reportDated: '7 August 2026',
+  openingBalanceCrore: 7173.03,
+  openingSplit: { savingsBankCrore: 531.47, fixedDepositsCrore: 6641.57 },
+  receiptsTotalCrore: 1279.91,
+  receiptsDerived: true,
+  receiptsNote:
+    'Receipts during FY2024-25 are derived: the statement’s printed receipts-side total of ₹8,452.95 crore minus the ₹7,173.03 crore opening balance = ₹1,279.91 crore (₹12,79,91,28,444). Itemized lines are reproduced as printed; rounded to two decimals they appear to sum to slightly more, but in exact rupees they reconcile to the total.',
+  receiptsItemized: [
+    { label: 'Domestic donations (net)', amountCrore: 479.05 },
+    { label: 'Foreign donations (net)', amountCrore: 0.93 },
+    { label: 'Interest received on savings-bank accounts', amountCrore: 5.77 },
+    { label: 'Interest received on fixed deposits', amountCrore: 469.38 },
+    { label: 'Refund of TDS', amountCrore: 0.13 },
+    { label: 'Refunds from implementing agencies', amountCrore: 324.66 },
+  ],
+  paymentsTotalRupee: 8785291,
+  paymentsTotalCrore: 0.88,
+  paymentsItemized: [
+    { label: 'PM CARES for Children Scheme', amountCrore: 0.88, amountRupee: 8784840 },
+    { label: 'Bank and SMS charges', amountCrore: 0, amountRupee: 451 },
+  ],
+  closingBalanceCrore: 8452.07,
+  closingSplit: { savingsBankCrore: 605.41, fixedDepositsCrore: 7846.65 },
+  priorYearFiscalYear: '2023–24',
+  priorYearClosingCrore: 7173.03,
+  priorYearNote:
+    'The statement’s comparative column also shows the FY2023-24 closing balance of ₹7,173.03 crore — the same figure printed as the FY2024-25 opening balance. The FY2023-24 receipts and payments columns could not be verified from the scan and are not reproduced here.',
+  paymentsContextNote:
+    'Payments during FY2024-25 totalled ₹87,85,291 (₹0.88 crore): ₹87,84,840 under the PM CARES for Children Scheme and ₹451 in bank and SMS charges. During the same year, implementing agencies refunded ₹324.66 crore to the fund, and the closing balance on 31 March 2025 was ₹8,452.07 crore. Context from the article-sourced record: the fund’s stated purposes cover disaster management and research for future “distressing situations”; its first major allocation was ₹3,100 crore on 13 May 2020; and Wikipedia’s lead (as of 2022) noted roughly two-thirds of the corpus was then unspent.',
+  sourceNote:
+    'Primary source — PM CARES Fund audited Receipts & Payments Account for FY2024-25 (year ended 31 March 2025), audited by KKC & Associates LLP (formerly Khimji Kunverji & Co LLP), FRN 105146W/W100621, report dated 7 August 2026. Shown separately from the Wikipedia-sourced figures above; the two tiers are never mixed in one chart.',
+}
 
 /** Estimated donor mix of the first two months of donations (ToI, 19 May 2020). */
 export const donorMix = [
@@ -892,6 +994,26 @@ export const faq = [
     q: 'What tax benefits did donors get?',
     a: 'An April 2020 ordinance granted income-tax exemption under section 80G for donations made before 30 June 2020.',
   },
+  {
+    q: 'What is the full form of PM CARES?',
+    a: 'Prime Minister’s Citizen Assistance and Relief in Emergency Situations Fund. It was created on 27 March 2020 during the COVID-19 pandemic and is chaired by the Prime Minister, with the Defence, Home and Finance Ministers as ex-officio trustees.',
+  },
+  {
+    q: 'Is the PM CARES Fund private or government?',
+    a: 'Both descriptions appear in official documents. Its trust deed (published December 2020) describes a private trust neither owned, controlled nor substantially financed by any government — yet it is chaired by the Prime Minister with three ministers as trustees, operates from the PMO, and holds a government domain (pmcares.gov.in). The PMO has told the Delhi High Court the fund is not a “public authority” under the RTI Act, and the CAG does not audit it.',
+  },
+  {
+    q: 'What is the PM CARES Fund controversy?',
+    a: 'The documented concerns are: refusal of RTI requests; no CAG audit (a private firm audits it); FCRA exemption despite rules usually tying that exemption to CAG audit; salary deductions that were opt-out rather than opt-in in several departments; undisclosed spending and procurement guidelines; and reports of faulty ventilators and slow oxygen-plant delivery. The government’s responses: trustees appoint independent auditors, the fund has a defined emergency purpose, and the Supreme Court rejected a petition seeking transfer to the NDRF and CAG audit (August 2020).',
+  },
+  {
+    q: 'How was the money utilized?',
+    a: 'The first major allocation was ₹3,100 crore on 13 May 2020: 50,000 made-in-India ventilators (₹2,000 crore share, derived), ₹1,000 crore for migrant-worker welfare via states, and ₹100 crore for vaccine-development support. Per the 2020-21 audit reported by The Hindu, about one-third of the ₹10,990 crore received that year was spent. Independent reports flagged delivery gaps: only 2,923 of 50,000 ventilators manufactured by 24 June 2020, and of 162 sanctioned oxygen plants 11 were installed (5 operational) per Scroll.in (April 2021) against a government claim of 33. In FY2024-25, per the fund’s audited statement (primary source), payments totalled ₹87,85,291 (₹0.88 crore) — the PM CARES for Children Scheme (₹87,84,840) plus bank/SMS charges (₹451) — while implementing agencies refunded ₹324.66 crore to the fund.',
+  },
+  {
+    q: 'How much money is in the PM CARES Fund now?',
+    a: 'The most recent published figure is ₹8,452.07 crore on 31 March 2025 (savings bank ₹605.41 crore + fixed deposits ₹7,846.65 crore), from the fund’s audited Receipts & Payments Account for FY2024-25 — KKC & Associates LLP, report dated 7 August 2026 (pmcares.gov.in, accessed 28 August 2026). Earlier: ₹7,013.99 crore on 31 March 2021 (pmcares.gov.in figures via Wikipedia).',
+  },
 ]
 
 // ---------------------------------------------------------------------------
@@ -899,8 +1021,12 @@ export const faq = [
 // ---------------------------------------------------------------------------
 
 export const sources = [
-  { label: 'PM CARES Fund — Wikipedia (primary source for this site)', url: WIKIPEDIA_URL },
+  { label: 'PM CARES Fund — Wikipedia (article source for this site)', url: WIKIPEDIA_URL },
   { label: 'pmcares.gov.in — official fund website', url: 'https://www.pmcares.gov.in' },
+  {
+    label: 'pmcares.gov.in — audited Receipts & Payments Account FY2024-25 (primary source, accessed 28 August 2026)',
+    url: AUDITED_STATEMENT_URL,
+  },
   {
     label: 'The Hindu (7 Feb 2022) — "One-third of ₹10,990 crore spent: 2020-21 audit" (as cited by Wikipedia)',
     url: WIKIPEDIA_URL,
@@ -912,6 +1038,9 @@ export const sources = [
 ]
 
 export const dataCaveats = [
+  'FY2024-25 audited-statement figures are a primary source (pmcares.gov.in, accessed 28 August 2026), shown separately from Wikipedia-sourced figures; the two tiers are never mixed in one chart or total.',
+  'The FY2024-25 receipts total (₹1,279.91 crore) is derived from the statement’s printed totals (₹8,452.95 − ₹7,173.03); itemized lines are reproduced as printed.',
+  'The statement’s FY2023-24 comparative columns could not be verified from the scan; only its closing balance (₹7,173.03 crore, double-printed as the FY2024-25 opening) is shown.',
   'The ventilator share (₹2,000 crore) of the 13 May 2020 allocation is derived arithmetic (3,100 − 1,000 − 100); the article itself does not state it explicitly.',
   'The ₹10,600 crore two-month figure and the 53/42/5 donor mix are Times of India estimates, not audited accounts.',
   'The two PSU figures (32 PSUs, ₹2,105 cr, Aug 2020; 101 PSUs, ₹2,400 cr CSR + ₹155 cr salaries, Dec 2020) cover different counts and periods — they must not be summed.',
@@ -934,9 +1063,9 @@ export const about = {
   feedbackUrl: 'https://github.com/nilukush/pm-cares-fund-information/issues',
   principles: [
     {
-      title: 'Single source',
+      title: 'Two labeled tiers',
       detail:
-        'Every fact on this site comes from one source: the English Wikipedia article on the PM CARES Fund (accessed 16 August 2026). Nothing is added from memory, opinion or other outlets.',
+        'Article facts come from one source: the English Wikipedia article on the PM CARES Fund (accessed 16 August 2026). The only addition is the fund’s own audited FY2024-25 statement (pmcares.gov.in, accessed 28 August 2026), presented in a clearly marked primary-source block and never mixed with article figures.',
     },
     {
       title: 'Labeled uncertainty',
@@ -958,12 +1087,12 @@ export const about = {
     {
       title: '1 · Extraction',
       detail:
-        'Every figure, date, name and quotation was extracted from the article into a single typed data file. The website renders exclusively from that file — no facts are hard-coded in pages or charts.',
+        'Article figures, dates, names and quotations were extracted from the article into a single typed data file; the audited FY2024-25 statement figures come from the fund’s published PDF into the same file. The website renders exclusively from that file — no facts are hard-coded in pages or charts.',
     },
     {
       title: '2 · Independent cross-check',
       detail:
-        'The extracted facts were verified against the article’s raw source text (wikitext) by an independent reviewer over three rounds. Seven factual errors and a number of unsupported statements found in earlier drafts were corrected; the final review confirmed every figure, date, actor and quote is supported by the article.',
+        'The extracted facts were verified against the article’s raw source text (wikitext) by an independent reviewer over three rounds. Seven factual errors and a number of unsupported statements found in earlier drafts were corrected; the final review confirmed every article-tier figure, date, actor and quote is supported by the article.',
     },
     {
       title: '3 · Automated checks',

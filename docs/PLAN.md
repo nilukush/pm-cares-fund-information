@@ -114,3 +114,15 @@ Max 3 failed attempts per step, then STOP and ask the human.
 ├─ Acceptance: new test + all 85 existing tests pass; `tsc --noEmit` clean; build succeeds; entry-chunk delta ≈ 1–2 KB; prerendered `dist/index.html` substance unchanged (no beacon markup injected server-side).
 ├─ Verification: gates + live browser check post-deploy (beacon `<script>` present in DOM at runtime) + IndexNow re-ping.
 └─ Stop/Go: manual prerequisite remains — enable both products in the Vercel dashboard (human step, no code).
+
+---
+
+## Step 27: Primary-source audited FY2024-25 statement + 5 FAQ aliases (2026-08-28)
+
+- Objective: publish the fund's audited FY2024-25 figures as a labeled primary-source tier and align FAQ language with real query demand; zero regressions to article-sourced content.
+- Prerequisites: user approval (28 Aug); figures identity-verified at rupee precision; Analyzer brief adopted (separate export, not finances.years).
+- Test First: unit/integration — fund.test.ts new describe (tier marker, exact figures 7173.03/1279.91/8785291/0.88/8452.07/7173.03, identity tolerance ≤0.01, payments itemization exact 8784840+451=8785291, FAQ 17 + 5 regexes, sources/caveats updates); App.test.tsx (AuditedStatement card: h3, ₹8,452.07 cr, KKC & Associates, PDF link rel=noopener, accessed date; Hero latest-balance; AuditCard addendum); StructuredData.test.tsx (Dataset name FY2024-25, temporalCoverage 2020-03/2025-03); new src/llms.test.ts (PDF URL, 8,452.07, 'derived'). Expected: all fail — feature absent.
+- Implementation: fund.ts (constants, AuditedStatementFY202425 interface+data, sourceTier on FiscalYearFinance rows, faq +5, sources +1, dataCaveats +3, about.principles[0], header comment); new AuditedStatement.tsx (bordered card, badge, summary + itemized tables in overflow-x-auto with tnum, notes as text); App.tsx (component inside #finances + lead sentence); Finances.tsx (KPI grid 2/4 + 4th card); Hero.tsx (4th StatCard → latest balance); AuditCard.tsx (auditor addendum); StructuredData.tsx (Dataset fields); llms.txt (header line, key fact, primary-source section).
+- Acceptance: all new tests pass; 86 existing tests pass unmodified (assertions verified: no FAQ-count hardcode; totalReceiptsCrore untouched; isBasedOn untouched); tsc --noEmit clean; build succeeds; prerender includes the card.
+- Verification: Debugger (code/a11y: table semantics, contrast on badge, heading levels) + Verifier (facts vs PDF image + wikitext + engineering checks) in parallel; consensus required; then release ritual (sitemap lastmod, push, live-check, IndexNow).
+- Stop/Go: max 3 attempts per step; on Verifier dissent about any figure, that figure is dropped (conservative wins).
