@@ -1,7 +1,7 @@
 # CLAUDE.md — Project Context
 
 ## What this is
-A single-page public-information website presenting India's **PM CARES Fund** facts graphically (charts, stat cards, timeline). Content comes from three labeled tiers (see AGENTS.md): the English Wikipedia article https://en.wikipedia.org/wiki/PM_CARES_Fund (accessed 16 Aug 2026), the fund's own audited statements FY2019-20 → FY2024-25 (pmcares.gov.in, accessed 28 Aug 2026 — every figure verified against the statements' accounting identities), and attributed August 2026 news coverage. The site is neutral: criticism and the government's defence are shown side by side; no editorial verdicts.
+A single-page public-information website presenting India's **PM CARES Fund** facts graphically (charts, stat cards, timeline). Content comes from three labeled tiers (see AGENTS.md): the English Wikipedia article https://en.wikipedia.org/wiki/PM_CARES_Fund (accessed 16 Aug 2026), the fund's own audited statements FY2019-20 → FY2024-25 (pmcares.gov.in, accessed 28 Aug 2026 — every figure verified against the statements' accounting identities), and attributed August 2026 news coverage. The site is neutral: criticism and the government's defence are shown side by side; no editorial verdicts. License: MIT for code (`LICENSE`) + CC BY-SA 4.0 for site content (`LICENSE-CONTENT`); facts carry no copyright. Repo docs (README/CONTRIBUTING) audited & refreshed 28 Aug 2026 — keep counts out of README/CI step names (they rot; exact counts live here and in MEMORY.md).
 
 ## Stack (decided — do not re-litigate)
 - Vite 8 + React 19 + TypeScript (strict) — SPA, no router, no backend

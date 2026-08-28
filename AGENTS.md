@@ -12,6 +12,7 @@
 - Accessibility (WCAG 2.1 AA): single h1; heading levels never skip; skip-link first; focus-visible never removed; text contrast ≥4.5:1 (check chips/labels on tinted backgrounds); charts get aria-label + table alternative + text note (in the `note` slot, outside `role="img"`); `prefers-reduced-motion` respected (global CSS override exists).
 - Mobile-first; no horizontal page scroll at 375px; tables wrap in `overflow-x-auto`.
 - Comments only for constraints code can't express (e.g. why the note slot exists).
+- Repo docs: keep README/CONTRIBUTING in sync with the three-tier policy; never embed test/FAQ/event counts in README or CI step names — exact counts live only in CLAUDE.md/MEMORY.md (the 2026-08-28 docs audit caught four rotted counts in README/CI).
 
 ## Content rules
 - All facts from `src/data/fund.ts` only — components must not hard-code facts or figures.
