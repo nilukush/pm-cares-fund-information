@@ -148,17 +148,18 @@ describe('Completeness pass — new sections and enriched content', () => {
 })
 
 describe('UI/UX audit pass — additive improvements', () => {
-  it('Finance KPI strip surfaces the headline story (total, balance, auditor)', () => {
+  it('Finance KPI strip surfaces the headline story (six-year total, balance, auditor)', () => {
     render(<App />)
-    expect(screen.getAllByText('₹14,066.79 cr').length).toBeGreaterThanOrEqual(1)
+    expect(screen.getAllByText('₹16,598.87 cr').length).toBeGreaterThanOrEqual(1)
+    expect(screen.queryByText('₹14,066.79 cr')).toBeNull()
     expect(screen.getAllByText(/Audited by/i).length).toBeGreaterThanOrEqual(1)
     expect(screen.getAllByText(/not the CAG/i).length).toBeGreaterThanOrEqual(1)
   })
 
-  it('Timeline groups its 42 events by year with counts', () => {
+  it('Timeline groups its events by year with counts', () => {
     render(<App />)
     expect(screen.getAllByText(/2020/).length).toBeGreaterThan(0)
-    expect(screen.getByText(/\d+ events · 27 Mar 2020 – 7 Feb 2022/)).toBeInTheDocument()
+    expect(screen.getByText(/\d+ events · 27 Mar 2020 – 18 Aug 2026/)).toBeInTheDocument()
     const y2020 = screen.getByText((_, el) =>
       el?.tagName === 'H3' ? el.textContent?.startsWith('2020') ?? false : false,
     )
@@ -223,11 +224,11 @@ describe('Audited FY2024-25 statement — primary-source tier', () => {
     expect(screen.getAllByText(/accessed 28 August 2026/i).length).toBeGreaterThan(0)
   })
 
-  it('labels derived receipts and the FY2023-24 balance-only row', () => {
+  it('labels derived receipts and links the FY2023-24 row to the six-year record', () => {
     render(<App />)
     expect(screen.getAllByText(/derived/i).length).toBeGreaterThan(0)
     expect(screen.getAllByText(/7,173\.03/).length).toBeGreaterThan(0)
-    expect(screen.getAllByText(/could not be verified/i).length).toBeGreaterThan(0)
+    expect(screen.getAllByText(/six-year record above/i).length).toBeGreaterThan(0)
   })
 
   it('shows the latest balance in the Hero stat strip', () => {
@@ -236,8 +237,43 @@ describe('Audited FY2024-25 statement — primary-source tier', () => {
     expect(screen.getAllByText('₹8,452.07 cr').length).toBeGreaterThanOrEqual(2)
   })
 
-  it('adds the auditor-change addendum to the audit card', () => {
+  it('adds the auditor-history addendum to the audit card', () => {
     render(<App />)
-    expect(screen.getByText(/Primary-source update/i)).toBeInTheDocument()
+    expect(screen.getByText(/Auditor history \(primary sources\)/i)).toBeInTheDocument()
+    expect(screen.getAllByText(/22084884AXGCSU1642/).length).toBeGreaterThan(0)
+  })
+})
+
+describe('v2.1 — six-year record, donations and news coverage', () => {
+  it('renders the six-year audited record with all six closing balances', () => {
+    render(<App />)
+    expect(screen.getByRole('heading', { level: 3, name: /six years of audited balances/i })).toBeInTheDocument()
+    expect(screen.getAllByText(/3,076\.62/).length).toBeGreaterThan(0)
+    expect(screen.getAllByText(/5,415\.66/).length).toBeGreaterThan(0)
+    expect(screen.getAllByText(/6,283\.68/).length).toBeGreaterThan(0)
+    expect(screen.getAllByText(/7,173\.03/).length).toBeGreaterThan(0)
+  })
+
+  it('renders coverage & reactions with attributed quotes and the defence', () => {
+    render(<App />)
+    expect(screen.getByRole('heading', { level: 3, name: /coverage & reactions/i })).toBeInTheDocument()
+    expect(screen.getAllByText(/Anjali Bhardwaj/).length).toBeGreaterThan(0)
+    expect(screen.getAllByText(/Lokesh Batra/).length).toBeGreaterThan(0)
+    expect(screen.getAllByText(/Venkatesh Nayak/).length).toBeGreaterThan(0)
+    expect(screen.getAllByText(/reserved for crises/i).length).toBeGreaterThan(0)
+  })
+
+  it('renders the donations-by-year table with derived YoY labels', () => {
+    render(<App />)
+    expect(screen.getByRole('heading', { level: 3, name: /donations by year/i })).toBeInTheDocument()
+    expect(screen.getAllByText(/7,183\.78/).length).toBeGreaterThan(0)
+    expect(screen.getAllByText(/−29\.7%|-29\.7%/).length).toBeGreaterThan(0)
+  })
+
+  it('Hero relabels the FY2020-21 receipts stat and drops the two-year sum', () => {
+    render(<App />)
+    expect(screen.getByText('FY2020-21 receipts (as published)')).toBeInTheDocument()
+    expect(screen.getAllByText(/new money that year/i).length).toBeGreaterThan(0)
+    expect(screen.queryByText(/Total across both years/)).toBeNull()
   })
 })

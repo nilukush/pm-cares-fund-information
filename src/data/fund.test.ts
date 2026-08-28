@@ -3,9 +3,12 @@ import {
   WIKIPEDIA_URL,
   about,
   audit,
+  auditedSeries,
+  auditedSeriesTotals,
   auditedStatementFY202425,
   criticism,
   dataCaveats,
+  donationsByYear,
   defence,
   donorMix,
   faq,
@@ -15,13 +18,16 @@ import {
   institutionalDonations,
   litigation,
   militaryBreakdown,
+  newsAnalysisNotes,
+  newsDefence,
+  newsReactions,
+  newsSources,
   oxygenProgramme,
   pmnrfComparison,
   popularCulture,
   relatedFundsNote,
   sources,
   timeline,
-  totalReceiptsCrore,
   ventilatorProgramme,
   voluntaryDonors,
 } from './fund'
@@ -66,10 +72,11 @@ describe('finances — receipts and balances (pmcares.gov.in figures via Wikiped
     }
   })
 
-  it('exposes the sum of receipts as the total corpus figure', () => {
-    const sum = finances.years.reduce((acc, y) => acc + y.receiptsCrore, 0)
-    expect(totalReceiptsCrore).toBeCloseTo(sum, 1)
-    expect(totalReceiptsCrore).toBeCloseTo(14066.79, 1)
+  it('labels the FY2020-21 receipts figure as a side-total that includes the opening balance', () => {
+    expect(finances.fy202021ReceiptsNote).toMatch(/10,990\.17/)
+    expect(finances.fy202021ReceiptsNote).toMatch(/3,076\.62/)
+    expect(finances.fy202021ReceiptsNote).toMatch(/7,913\.55/)
+    expect(finances.fy202021ReceiptsNote).toMatch(/derived/i)
   })
 
   it('donor-mix estimate shares add to 100% and are flagged as estimates', () => {
@@ -404,13 +411,14 @@ describe('audited statement — FY2024-25 primary tier', () => {
     }
   })
 
-  it('adds the five query-aligned FAQ aliases', () => {
-    expect(faq.length).toBe(17)
+  it('adds the five query-aligned FAQ aliases and the recent-spending FAQ', () => {
+    expect(faq.length).toBe(18)
     expect(faq.some((f) => /full form of PM CARES/i.test(f.q))).toBe(true)
     expect(faq.some((f) => /private or government/i.test(f.q))).toBe(true)
     expect(faq.some((f) => /controversy/i.test(f.q))).toBe(true)
     expect(faq.some((f) => /how was the money utilized/i.test(f.q))).toBe(true)
     expect(faq.some((f) => /how much money is in the PM CARES Fund now/i.test(f.q))).toBe(true)
+    expect(faq.some((f) => /what has the PM CARES Fund spent in recent years/i.test(f.q))).toBe(true)
     const utilizationFaq = faq.find((f) => /how was the money utilized/i.test(f.q))
     expect(utilizationFaq).toBeDefined()
     const utilization = utilizationFaq?.a ?? ''
@@ -422,6 +430,191 @@ describe('audited statement — FY2024-25 primary tier', () => {
   it('declares the primary source in sources and the caveats', () => {
     expect(sources.some((s) => s.url.includes('Audited_Statement_2024_25'))).toBe(true)
     expect(dataCaveats.some((c) => /primary source/i.test(c))).toBe(true)
-    expect(about.principles.some((p) => /two labeled tiers/i.test(p.title))).toBe(true)
+    expect(about.principles.some((p) => /three labeled tiers/i.test(p.title))).toBe(true)
+  })
+})
+
+describe('auditedSeries — six-year primary record', () => {
+  it('has six fiscal years FY2019-20 → FY2024-25 in order', () => {
+    expect(auditedSeries.map((y) => y.fiscalYear)).toEqual([
+      '2019–20',
+      '2020–21',
+      '2021–22',
+      '2022–23',
+      '2023–24',
+      '2024–25',
+    ])
+  })
+
+  it('each year satisfies opening + receipts-during − payments = closing within 0.02 crore', () => {
+    for (const y of auditedSeries) {
+      expect(
+        Math.abs(y.openingBalanceCrore + y.receiptsDuringCrore - y.paymentsTotalCrore - y.closingBalanceCrore),
+      ).toBeLessThanOrEqual(0.02)
+    }
+  })
+
+  it('closing balances match the verified figures', () => {
+    const closings = auditedSeries.map((y) => y.closingBalanceCrore)
+    expect(closings[0]).toBeCloseTo(3076.62, 2)
+    expect(closings[1]).toBeCloseTo(7013.99, 2)
+    expect(closings[2]).toBeCloseTo(5415.66, 2)
+    expect(closings[3]).toBeCloseTo(6283.68, 2)
+    expect(closings[4]).toBeCloseTo(7173.03, 2)
+    expect(closings[5]).toBeCloseTo(8452.07, 2)
+  })
+
+  it('receipts-during match and carry derived flags', () => {
+    const rows = auditedSeries.map((y) => [y.receiptsDuringCrore, y.receiptsDerived] as const)
+    expect(rows[0][0]).toBeCloseTo(3076.62, 2)
+    expect(rows[0][1]).toBe(false)
+    expect(rows[1][0]).toBeCloseTo(7913.55, 2)
+    expect(rows[1][1]).toBe(true)
+    expect(rows[2][0]).toBeCloseTo(2117.95, 2)
+    expect(rows[3][0]).toBeCloseTo(1305.9, 2)
+    expect(rows[4][0]).toBeCloseTo(904.94, 2)
+    expect(rows[5][0]).toBeCloseTo(1279.91, 2)
+  })
+
+  it('chain continuity: each opening equals the prior closing', () => {
+    for (let i = 1; i < auditedSeries.length; i++) {
+      expect(auditedSeries[i].openingBalanceCrore).toBe(auditedSeries[i - 1].closingBalanceCrore)
+    }
+  })
+
+  it('FY2022-23 PM CARES for Children payment is 346.00 crore (printed), not 34.60', () => {
+    const fy2223 = auditedSeries.find((y) => y.fiscalYear === '2022–23')
+    const children = fy2223?.paymentsItemized?.find((p) => /children/i.test(p.label))
+    expect(children).toBeDefined()
+    expect(children?.amountCrore).toBeCloseTo(346.0, 2)
+    expect(children?.amountCrore).not.toBeCloseTo(34.6, 1)
+    const oxygen = fy2223?.paymentsItemized?.find((p) => /concentrators/i.test(p.label))
+    expect(oxygen?.amountCrore).toBeCloseTo(91.87, 2)
+  })
+
+  it('FY2022-23 payments itemization sums to 437.87 within 0.02', () => {
+    const fy2223 = auditedSeries.find((y) => y.fiscalYear === '2022–23')
+    const sum = (fy2223?.paymentsItemized ?? []).reduce((a, p) => a + p.amountCrore, 0)
+    expect(Math.abs(sum - (fy2223?.paymentsTotalCrore ?? 0))).toBeLessThanOrEqual(0.02)
+  })
+
+  it('auditors: SARC with UDINs for FY2021-22/FY2022-23; KKC without UDIN for FY2023-24/FY2024-25', () => {
+    const byFy = (fy: string) => auditedSeries.find((y) => y.fiscalYear === fy)?.auditor
+    expect(byFy('2021–22')?.firm).toContain('SARC')
+    expect(byFy('2021–22')?.udin).toBe('22084884AXGCSU1642')
+    expect(byFy('2022–23')?.udin).toBe('24084884BKIKDZ2614')
+    expect(byFy('2023–24')?.firm).toContain('KKC')
+    expect(byFy('2023–24')?.udin).toBeUndefined()
+    expect(byFy('2024–25')?.udin).toBeUndefined()
+  })
+
+  it('omits itemization where scan digits are garbled, with notes', () => {
+    const fy2021 = auditedSeries.find((y) => y.fiscalYear === '2020–21')
+    const fy2122 = auditedSeries.find((y) => y.fiscalYear === '2021–22')
+    expect(fy2021?.receiptsItemized).toBeUndefined()
+    expect(fy2021?.receiptsItemizationNote).toBeTruthy()
+    expect(fy2122?.receiptsItemized).toBeUndefined()
+    expect(fy2122?.receiptsItemizationNote).toBeTruthy()
+  })
+
+  it('FY2024-25 row equals the auditedStatementFY202425 card figures (anti-drift)', () => {
+    const fy2425 = auditedSeries.find((y) => y.fiscalYear === '2024–25')
+    expect(fy2425?.openingBalanceCrore).toBe(auditedStatementFY202425.openingBalanceCrore)
+    expect(fy2425?.receiptsDuringCrore).toBe(auditedStatementFY202425.receiptsTotalCrore)
+    expect(fy2425?.paymentsTotalCrore).toBe(auditedStatementFY202425.paymentsTotalCrore)
+    expect(fy2425?.closingBalanceCrore).toBe(auditedStatementFY202425.closingBalanceCrore)
+  })
+
+  it('every row links a verified pmcares.gov.in statement URL', () => {
+    for (const y of auditedSeries) {
+      expect(y.statementUrl).toMatch(/^https:\/\/pmcares\.gov\.in\/assets\/donation\/pdf\//)
+    }
+  })
+
+  it('derived six-year totals equal the sums', () => {
+    const receipts = auditedSeries.reduce((a, y) => a + y.receiptsDuringCrore, 0)
+    const payments = auditedSeries.reduce((a, y) => a + y.paymentsTotalCrore, 0)
+    expect(Math.abs(auditedSeriesTotals.receiptsCrore - receipts)).toBeLessThanOrEqual(0.02)
+    expect(Math.abs(auditedSeriesTotals.paymentsCrore - payments)).toBeLessThanOrEqual(0.02)
+    expect(auditedSeriesTotals.receiptsCrore).toBeCloseTo(16598.87, 1)
+    expect(auditedSeriesTotals.paymentsCrore).toBeCloseTo(8146.81, 1)
+  })
+})
+
+describe('donationsByYear — primary-tier decline series', () => {
+  it('declines monotonically FY2020-21 → FY2024-25 (domestic and foreign)', () => {
+    for (let i = 1; i < donationsByYear.length; i++) {
+      expect(donationsByYear[i].domesticCrore).toBeLessThan(donationsByYear[i - 1].domesticCrore)
+      expect(donationsByYear[i].foreignCrore).toBeLessThan(donationsByYear[i - 1].foreignCrore)
+    }
+  })
+
+  it('FY2024-25 YoY ≈ −29.7% and totals are consistent', () => {
+    const last = donationsByYear[donationsByYear.length - 1]
+    expect(last.yoyChangePercent).toBeCloseTo(-29.7, 0)
+    expect(last.totalCrore).toBeCloseTo(last.domesticCrore + last.foreignCrore, 2)
+  })
+
+  it('excludes FY2019-20 with an explanatory note', () => {
+    expect(donationsByYear.some((d) => d.fiscalYear === '2019–20')).toBe(false)
+    expect(donationsByYear[0].fiscalYear).toBe('2020–21')
+  })
+})
+
+describe('news tier — August 2026 coverage', () => {
+  it('lists seven news sources with outlet and date', () => {
+    expect(newsSources).toHaveLength(7)
+    for (const s of newsSources) {
+      expect(s.outlet).toBeTruthy()
+      expect(s.url).toMatch(/^https:\/\//)
+      expect(s.publishedDisplay).toBeTruthy()
+    }
+  })
+
+  it('every reaction carries a quote, attribution and a source id', () => {
+    for (const r of newsReactions) {
+      expect(r.quote).toBeTruthy()
+      expect(r.attribution).toMatch(/,/)
+      expect(newsSources.some((s) => s.id === r.sourceId)).toBe(true)
+      expect(['criticism', 'defence', 'audit-observation']).toContain(r.kind)
+    }
+  })
+
+  it('includes the government defence adjacent to criticism', () => {
+    expect(newsDefence).toMatch(/reserved for crises/i)
+    expect(newsDefence).toMatch(/Telegraph/)
+    expect(newsReactions.some((r) => r.kind === 'criticism')).toBe(true)
+    expect(newsReactions.some((r) => r.kind === 'audit-observation')).toBe(true)
+  })
+
+  it('drops news figures that conflict with the statements', () => {
+    const allNewsText = [...newsReactions.map((r) => r.quote), ...newsAnalysisNotes].join(' ')
+    expect(allNewsText).not.toContain('407.50')
+    expect(allNewsText).not.toContain('34.60') // the mis-scaled children figure never appears
+  })
+})
+
+describe('v2.1 — timeline, sources and caveats', () => {
+  it('covers the 2022 Children scheme and the 2026 disclosure events', () => {
+    const dates = timeline.map((e) => e.date)
+    expect(dates).toContain('2022-05-30')
+    expect(dates).toContain('2026-08-08')
+    expect(dates).toContain('2026-08-18')
+    const release = timeline.find((e) => e.date === '2026-08-18')
+    expect(release?.event).toContain('8,452.07')
+    expect(release?.event).toContain('KKC')
+  })
+
+  it('declares seven news sources and the statement PDFs in sources', () => {
+    const newsCount = sources.filter((s) => /news tier|The Hindu|Scroll|India Today|Frontline|Telegraph|India This Week|Newslaundry/.test(s.label)).length
+    expect(newsCount).toBeGreaterThanOrEqual(7)
+    const pdfCount = sources.filter((s) => s.url.includes('pmcares.gov.in/assets/donation/pdf')).length
+    expect(pdfCount).toBeGreaterThanOrEqual(6)
+  })
+
+  it('caveats explain the FY2020-21 relabel and the news tier', () => {
+    expect(dataCaveats.some((c) => /double-count|14,066\.79/.test(c))).toBe(true)
+    expect(dataCaveats.some((c) => /news tier/i.test(c))).toBe(true)
+    expect(about.principles.some((p) => /three labeled tiers/i.test(p.title))).toBe(true)
   })
 })

@@ -57,4 +57,14 @@ describe('StructuredData — schema.org JSON-LD', () => {
     const primary = variables.find((v) => /primary source/i.test(v))
     expect(primary).toMatch(/8452\.07/)
   })
+
+  it('carries the six-year audited series in variableMeasured', () => {
+    render(<StructuredData />)
+    const graph = getGraph()['@graph'] as Array<Record<string, unknown>>
+    const dataset = graph.find((n) => n['@type'] === 'Dataset') as Record<string, unknown>
+    const variables = dataset.variableMeasured as string[]
+    const series = variables.find((v) => /audited statements\)/i.test(v))
+    expect(series).toMatch(/2022–23: 6283\.68/)
+    expect(series).toMatch(/2021–22: 5415\.66/)
+  })
 })

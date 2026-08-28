@@ -1,4 +1,4 @@
-import { auditedStatementFY202425, donorMix, finances, identity, totalReceiptsCrore } from '../data/fund'
+import { auditedSeriesTotals, auditedStatementFY202425, donorMix, finances, identity } from '../data/fund'
 import { formatCrore, formatINR } from '../lib/format'
 import { ChartCard } from './ChartCard'
 import { ChartSlot } from './ChartSlot'
@@ -9,9 +9,12 @@ export function Finances() {
     <div className="flex flex-col gap-6">
       <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4" aria-label="Key financial facts">
         <div className="rounded-xl border border-white/15 bg-white/5 p-4">
-          <p className="text-sm text-primary-foreground/80">Received, both years</p>
+          <p className="text-sm text-primary-foreground/80">Received over six years (derived)</p>
           <p className="tnum mt-1 text-2xl font-bold text-primary-foreground">
-            {formatCrore(totalReceiptsCrore)}
+            {formatCrore(auditedSeriesTotals.receiptsCrore)}
+          </p>
+          <p className="mt-1 text-xs text-primary-foreground/70">
+            Sum of receipts during FY2019-20 → FY2024-25, per the fund’s audited statements
           </p>
         </div>
         <div className="rounded-xl border border-white/15 bg-white/5 p-4">
@@ -43,7 +46,7 @@ export function Finances() {
         ariaLabel="Bar chart: receipts versus year-end balance for FY2019-20 and FY2020-21, in crore rupees. FY2019-20: receipts and balance both ₹3,076.62 crore. FY2020-21: receipts ₹10,990.17 crore, balance ₹7,013.99 crore."
         note={
           <>
-            {finances.unspentQuote} {finances.corpusStatementNote}
+            {finances.unspentQuote} {finances.corpusStatementNote} {finances.fy202021ReceiptsNote}
           </>
         }
         tableHeaders={['Fiscal year', 'Receipts (₹ cr)', 'Year-end balance (₹ cr)']}

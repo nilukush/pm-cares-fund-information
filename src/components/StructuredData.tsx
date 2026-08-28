@@ -4,6 +4,7 @@ import {
   SITE_NAME,
   SITE_URL,
   WIKIPEDIA_URL,
+  auditedSeries,
   auditedStatementFY202425,
   faq,
   finances,
@@ -65,6 +66,12 @@ export function StructuredData() {
           'Year-end balance (₹ crore) — ' + finances.years.map((y) => `${y.fiscalYear}: ${y.balanceCrore}`).join('; '),
           'Audited closing balance (₹ crore, primary source) — ' +
             `${auditedStatementFY202425.priorYearFiscalYear}: ${auditedStatementFY202425.priorYearClosingCrore}; ${auditedStatementFY202425.fiscalYear}: ${auditedStatementFY202425.closingBalanceCrore}`,
+          'Closing balance (₹ crore, audited statements) — ' +
+            auditedSeries.map((y) => `${y.fiscalYear}: ${y.closingBalanceCrore}`).join('; '),
+          'Receipts during year (₹ crore, audited statements) — ' +
+            auditedSeries.map((y) => `${y.fiscalYear}: ${y.receiptsDuringCrore}`).join('; '),
+          'Payments (₹ crore, audited statements) — ' +
+            auditedSeries.map((y) => `${y.fiscalYear}: ${y.paymentsTotalCrore}`).join('; '),
         ],
       },
     ],

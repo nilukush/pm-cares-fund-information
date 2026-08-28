@@ -20,6 +20,7 @@ import {
   YAxis,
 } from 'recharts'
 import {
+  auditedSeries,
   donorMix,
   finances,
   firstAllocation,
@@ -84,6 +85,48 @@ export function FinancesBarChart() {
 }
 
 const DONUT_COLORS = ['var(--color-chart-1)', 'var(--color-chart-2)', 'var(--color-chart-4)']
+
+export function AuditedBalanceBarChart() {
+  const barData = auditedSeries.map((y) => ({
+    year: y.fiscalYear.slice(2),
+    Balance: y.closingBalanceCrore,
+    balanceLabel: formatINR(y.closingBalanceCrore),
+  }))
+
+  return (
+    <ResponsiveContainer width="100%" height={300}>
+      <BarChart
+        data={barData}
+        margin={{ top: 24, right: 8, left: 8, bottom: 4 }}
+        accessibilityLayer
+      >
+        <XAxis dataKey="year" tick={{ fontSize: 13 }} stroke="var(--color-secondary)" />
+        <YAxis
+          tick={{ fontSize: 12 }}
+          stroke="var(--color-secondary)"
+          tickFormatter={(v) => formatINR(Number(v))}
+        />
+        <Tooltip
+          formatter={(v) => formatCrore(Number(v))}
+          cursor={{ fill: 'var(--color-muted)' }}
+        />
+        <Legend wrapperStyle={{ fontSize: 13 }} />
+        <Bar
+          dataKey="Balance"
+          fill="var(--color-chart-3)"
+          radius={[4, 4, 0, 0]}
+          maxBarSize={72}
+        >
+          <LabelList
+            dataKey="balanceLabel"
+            position="top"
+            style={{ fontSize: 11, fill: 'var(--color-secondary)' }}
+          />
+        </Bar>
+      </BarChart>
+    </ResponsiveContainer>
+  )
+}
 
 export function FinancesDonutChart() {
   const donutData = donorMix.map((d) => ({

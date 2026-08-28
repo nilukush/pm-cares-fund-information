@@ -19,4 +19,18 @@ describe('llms.txt — AI-assistant grounding file', () => {
   it('keeps the Wikipedia attribution intact', () => {
     expect(llms).toContain('https://en.wikipedia.org/wiki/PM_CARES_Fund')
   })
+
+  it('carries the six-year record and the corrected FY2020-21 framing', () => {
+    expect(llms).toContain('6,283.68')
+    expect(llms).toContain('5,415.66')
+    expect(llms).toContain('7,913.55')
+    expect(llms).toContain('16,598.87')
+    expect(llms).toContain('346.00')
+    expect(llms).not.toContain('14,066.79')
+  })
+
+  it('declares the news tier', () => {
+    expect(llms).toMatch(/news tier/i)
+    expect(llms).toContain('18 August 2026')
+  })
 })

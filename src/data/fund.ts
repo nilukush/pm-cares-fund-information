@@ -81,9 +81,9 @@ export const audit = {
     'The government stated (30 July 2020) that "independent auditors who will be appointed by the trustees" would audit the fund, and agreed to start issuing donation receipts. The article elsewhere describes the auditor as a private party appointed directly by the Government of India — both wordings appear in the source.',
     'The CAG does not audit the fund: its officials said they were not allowed to audit it, since the fund is "based on donations of individuals and organisations".',
   ],
-  /** Primary-source update (pmcares.gov.in audited FY2024-25 statement, accessed 28 Aug 2026). */
+  /** Auditor history, primary-source verified (statement signature blocks) + attributed news observations. */
   primarySourceUpdate:
-    'Primary-source update: by FY2024-25 the fund’s auditor was KKC & Associates LLP (formerly Khimji Kunverji & Co LLP; FRN 105146W/W100621), which signed the audited Receipts & Payments Account dated 7 August 2026. The article records SARC & Associates as appointed in June 2020 for three years; the date of the change is not stated in either source.',
+    'Auditor history (primary sources): SARC & Associates (FRN 006085N) — partner Sunil Kumar Gupta (Membership No. 084884) — signed the FY2021-22 accounts (UDIN 22084884AXGCSU1642, 30 September 2022, New Delhi) and FY2022-23 (UDIN 24084884BKIKDZ2614, 29 March 2024, New Delhi); with the June 2020 appointment, SARC’s engagement spanned four financial years — a span Frontline measured against auditor-rotation expectations. For FY2023-24 and FY2024-25 the auditor is KKC & Associates LLP (formerly Khimji Kunverji & Co LLP), FRN 105146W/W100621 — partner Tejas Parikh (Membership No. 123215), reports signed in Mumbai on 7 August 2026 (trust signatories, New Delhi, 6 August 2026: Subhashish Panda, Reshma R Nair, Pradeep Kumar Srivastava, Pranay Nand Nil). Neither KKC statement displays a UDIN; chartered accountant Atul Modani called this a correctable oversight (news tier). The CAG does not audit the fund.',
 }
 
 // ---------------------------------------------------------------------------
@@ -127,9 +127,13 @@ export const finances = {
   estimateNote: 'Donor mix is a Times of India estimate (19 May 2020), not audited accounts.',
   corpusStatementNote:
     'A statement uploaded to the fund’s website in September 2020 disclosed ₹30.76 billion received between 27 and 31 March 2020 — already below The Times of India’s ₹10,600 crore two-month estimate — but not the names or identities of donors.',
+  /** The ₹10,990.17 cr "receipts" figure is a receipts-side TOTAL incl. the opening balance (per the fund's own statement). */
+  fy202021ReceiptsNote:
+    'The ₹10,990.17 crore FY2020-21 receipts figure, as published via Wikipedia, is the receipts-side total including the ₹3,076.62 crore opening balance (per the fund’s own FY2020-21 statement). New money received that year: ₹7,913.55 crore (derived).',
 }
 
-export const totalReceiptsCrore = finances.years.reduce((acc, y) => acc + y.receiptsCrore, 0)
+// The two-year receipts sum formerly exported here (₹14,066.79 cr) double-counted the
+// FY2019-20 opening balance inside the FY2020-21 side-total — see fy202021ReceiptsNote.
 
 // ---------------------------------------------------------------------------
 // Primary-source tier — the fund's own audited FY2024-25 statement.
@@ -215,12 +219,364 @@ export const auditedStatementFY202425: AuditedStatementFY202425 = {
   priorYearFiscalYear: '2023–24',
   priorYearClosingCrore: 7173.03,
   priorYearNote:
-    'The statement’s comparative column also shows the FY2023-24 closing balance of ₹7,173.03 crore — the same figure printed as the FY2024-25 opening balance. The FY2023-24 receipts and payments columns could not be verified from the scan and are not reproduced here.',
+    'The statement’s comparative column also shows the FY2023-24 closing balance of ₹7,173.03 crore — the same figure printed as the FY2024-25 opening balance. The full FY2023-24 row, from the fund’s separately published FY2023-24 statement, appears in the six-year record above.',
   paymentsContextNote:
     'Payments during FY2024-25 totalled ₹87,85,291 (₹0.88 crore): ₹87,84,840 under the PM CARES for Children Scheme and ₹451 in bank and SMS charges. During the same year, implementing agencies refunded ₹324.66 crore to the fund, and the closing balance on 31 March 2025 was ₹8,452.07 crore. Context from the article-sourced record: the fund’s stated purposes cover disaster management and research for future “distressing situations”; its first major allocation was ₹3,100 crore on 13 May 2020; and Wikipedia’s lead (as of 2022) noted roughly two-thirds of the corpus was then unspent.',
   sourceNote:
     'Primary source — PM CARES Fund audited Receipts & Payments Account for FY2024-25 (year ended 31 March 2025), audited by KKC & Associates LLP (formerly Khimji Kunverji & Co LLP), FRN 105146W/W100621, report dated 7 August 2026. Shown separately from the Wikipedia-sourced figures above; the two tiers are never mixed in one chart.',
 }
+
+// ---------------------------------------------------------------------------
+// Six-year audited record — FY2019-20 → FY2024-25, primary tier.
+// Every row satisfies opening + receipts-during − payments = closing at rupee
+// precision against the fund's own statements (pmcares.gov.in, accessed 28 Aug
+// 2026). Itemizations are omitted where scan digits were unreadable.
+// ---------------------------------------------------------------------------
+
+const STATEMENT_PDF_BASE = 'https://pmcares.gov.in/assets/donation/pdf/'
+
+export interface AuditedFiscalYear {
+  fiscalYear: string
+  period: string
+  openingBalanceCrore: number
+  openingSplit?: AuditedBalanceSplit
+  /** Printed receipts-side total — INCLUDES the opening balance. */
+  receiptsSideTotalCrore: number
+  receiptsDuringCrore: number
+  receiptsDerived: boolean
+  receiptsItemized?: AuditedLineItem[]
+  receiptsItemizationNote?: string
+  paymentsTotalCrore: number
+  paymentsItemized?: AuditedLineItem[]
+  paymentsItemizationNote?: string
+  closingBalanceCrore: number
+  closingSplit?: AuditedBalanceSplit
+  closingSplitNote?: string
+  auditor?: {
+    firm: string
+    registration: string
+    partner: string
+    partnerMembershipNo: string
+    udin?: string
+    signedDisplay: string
+  }
+  statementUrl: string
+  note?: string
+}
+
+export const auditedSeries: AuditedFiscalYear[] = [
+  {
+    fiscalYear: '2019–20',
+    period: '27–31 March 2020 only',
+    openingBalanceCrore: 0,
+    receiptsSideTotalCrore: 3076.62,
+    receiptsDuringCrore: 3076.62,
+    receiptsDerived: false,
+    paymentsTotalCrore: 0,
+    closingBalanceCrore: 3076.62,
+    closingSplitNote: 'savings-bank figure as printed; deposit split not verified',
+    statementUrl: `${STATEMENT_PDF_BASE}Audited%20Statement.PDF`,
+    note: 'Five days of receipts; the fund’s first published statement.',
+  },
+  {
+    fiscalYear: '2020–21',
+    period: 'year ended 31 March 2021',
+    openingBalanceCrore: 3076.62,
+    receiptsSideTotalCrore: 10990.17,
+    receiptsDuringCrore: 7913.55,
+    receiptsDerived: true,
+    receiptsItemizationNote:
+      'Individual interest and refund lines in the FY2020-21 scan have unreadable digits; the aggregate is identity-anchored (printed side-total ₹10,990.17 cr − opening ₹3,076.62 cr) and the row closes exactly, so itemized lines are not reproduced.',
+    paymentsTotalCrore: 3976.17,
+    paymentsItemizationNote: 'item digits garbled in the scan — total only',
+    closingBalanceCrore: 7013.99,
+    closingSplitNote: 'savings-bank figure as printed; deposit split not verified',
+    statementUrl: `${STATEMENT_PDF_BASE}Audited_Statement_2020_21.pdf`,
+    note: 'The widely-quoted ₹10,990.17 crore “receipts” figure is this year’s receipts-side total including the opening balance.',
+  },
+  {
+    fiscalYear: '2021–22',
+    period: 'year ended 31 March 2022',
+    openingBalanceCrore: 7013.99,
+    receiptsSideTotalCrore: 9131.95,
+    receiptsDuringCrore: 2117.95,
+    receiptsDerived: true,
+    receiptsItemizationNote:
+      'Itemized lines are partially unreadable in the scan and do not close against the identity-anchored total, so itemization is omitted.',
+    paymentsTotalCrore: 3716.29,
+    paymentsItemizationNote: 'item digits garbled in the scan — total only',
+    closingBalanceCrore: 5415.66,
+    closingSplitNote: 'savings-bank figure as printed; deposit split not verified',
+    auditor: {
+      firm: 'SARC & Associates',
+      registration: 'FRN 006085N',
+      partner: 'Sunil Kumar Gupta',
+      partnerMembershipNo: '084884',
+      udin: '22084884AXGCSU1642',
+      signedDisplay: '30 September 2022, New Delhi',
+    },
+    statementUrl: `${STATEMENT_PDF_BASE}Audited_Statement_2021_22.pdf`,
+  },
+  {
+    fiscalYear: '2022–23',
+    period: 'year ended 31 March 2023',
+    openingBalanceCrore: 5415.66,
+    receiptsSideTotalCrore: 6721.56,
+    receiptsDuringCrore: 1305.9,
+    receiptsDerived: true,
+    receiptsItemized: [
+      { label: 'Domestic donations (net)', amountCrore: 908.13 },
+      { label: 'Foreign donations (net)', amountCrore: 2.57 },
+      { label: 'Interest received on savings-bank accounts', amountCrore: 170.38 },
+      { label: 'Refunds from implementing agencies', amountCrore: 224.83 },
+    ],
+    paymentsTotalCrore: 437.87,
+    paymentsItemized: [
+      { label: 'PM CARES for Children Scheme', amountCrore: 346.0 },
+      { label: 'Procurement of 99,986 oxygen concentrators', amountCrore: 91.87 },
+      { label: 'Bank charges', amountCrore: 0, amountRupee: 278 },
+      { label: 'Legal charges', amountCrore: 0, amountRupee: 24000 },
+    ],
+    closingBalanceCrore: 6283.68,
+    closingSplitNote: 'savings-bank figure as printed; deposit split not verified',
+    auditor: {
+      firm: 'SARC & Associates',
+      registration: 'FRN 006085N',
+      partner: 'Sunil Kumar Gupta',
+      partnerMembershipNo: '084884',
+      udin: '24084884BKIKDZ2614',
+      signedDisplay: '29 March 2024, New Delhi',
+    },
+    statementUrl: `${STATEMENT_PDF_BASE}Audited_Statement_2022_23.pdf`,
+    note: 'Figures from the comparative column of the fund’s FY2023-24 statement; the fund’s separately published FY2022-23 statement matches.',
+  },
+  {
+    fiscalYear: '2023–24',
+    period: 'year ended 31 March 2024',
+    openingBalanceCrore: 6283.68,
+    openingSplit: { savingsBankCrore: 6283.68, fixedDepositsCrore: 0 },
+    receiptsSideTotalCrore: 7188.63,
+    receiptsDuringCrore: 904.94,
+    receiptsDerived: true,
+    receiptsItemized: [
+      { label: 'Domestic donations (net)', amountCrore: 681.81 },
+      { label: 'Foreign donations (net)', amountCrore: 1.13 },
+      { label: 'Interest received on savings-bank accounts', amountCrore: 137.69 },
+      { label: 'Refunds from implementing agencies', amountCrore: 84.31 },
+    ],
+    paymentsTotalCrore: 15.6,
+    paymentsItemized: [
+      { label: 'PM CARES for Children Scheme', amountCrore: 15.38 },
+      { label: 'Bank charges', amountCrore: 0.22 },
+    ],
+    closingBalanceCrore: 7173.03,
+    closingSplit: { savingsBankCrore: 531.47, fixedDepositsCrore: 6641.57 },
+    auditor: {
+      firm: 'KKC & Associates LLP (formerly Khimji Kunverji & Co LLP)',
+      registration: 'FRN 105146W/W100621',
+      partner: 'Tejas Parikh',
+      partnerMembershipNo: '123215',
+      signedDisplay: '7 August 2026, Mumbai',
+    },
+    statementUrl: `${STATEMENT_PDF_BASE}Audited_Statement_2023_24.pdf`,
+    note: 'The year the corpus moved into fixed deposits: ₹6,641.57 cr of the ₹7,173.03 cr closing balance.',
+  },
+  {
+    fiscalYear: '2024–25',
+    period: 'year ended 31 March 2025',
+    openingBalanceCrore: 7173.03,
+    openingSplit: { savingsBankCrore: 531.47, fixedDepositsCrore: 6641.57 },
+    receiptsSideTotalCrore: 8452.95,
+    receiptsDuringCrore: 1279.91,
+    receiptsDerived: true,
+    receiptsItemized: auditedStatementFY202425.receiptsItemized,
+    paymentsTotalCrore: 0.88,
+    paymentsItemized: [
+      { label: 'PM CARES for Children Scheme', amountCrore: 0.88, amountRupee: 8784840 },
+      { label: 'Bank and SMS charges', amountCrore: 0, amountRupee: 451 },
+    ],
+    closingBalanceCrore: 8452.07,
+    closingSplit: { savingsBankCrore: 605.41, fixedDepositsCrore: 7846.65 },
+    auditor: {
+      firm: 'KKC & Associates LLP (formerly Khimji Kunverji & Co LLP)',
+      registration: 'FRN 105146W/W100621',
+      partner: 'Tejas Parikh',
+      partnerMembershipNo: '123215',
+      signedDisplay: '7 August 2026, Mumbai',
+    },
+    statementUrl: AUDITED_STATEMENT_URL,
+    note: 'Detailed card above; ₹7,846.65 cr (about 93%) of the closing balance is in fixed deposits.',
+  },
+]
+
+export const auditedSeriesTotals = {
+  receiptsCrore: Math.round(auditedSeries.reduce((a, y) => a + y.receiptsDuringCrore, 0) * 100) / 100,
+  paymentsCrore: Math.round(auditedSeries.reduce((a, y) => a + y.paymentsTotalCrore, 0) * 100) / 100,
+}
+
+/** Domestic/foreign donation lines per audited statement (primary tier). FY2019-20 excluded — no split published for the five-day first year. */
+export interface DonationYear {
+  fiscalYear: string
+  domesticCrore: number
+  foreignCrore: number
+  totalCrore: number
+  yoyChangePercent?: number
+}
+
+export const donationsByYear: DonationYear[] = [
+  { fiscalYear: '2020–21', domesticCrore: 7183.78, foreignCrore: 494.92, totalCrore: 7678.7 },
+  { fiscalYear: '2021–22', domesticCrore: 1896.76, foreignCrore: 40.12, totalCrore: 1936.88, yoyChangePercent: -74.8 },
+  { fiscalYear: '2022–23', domesticCrore: 908.13, foreignCrore: 2.57, totalCrore: 910.7, yoyChangePercent: -53.0 },
+  { fiscalYear: '2023–24', domesticCrore: 681.81, foreignCrore: 1.13, totalCrore: 682.94, yoyChangePercent: -25.0 },
+  { fiscalYear: '2024–25', domesticCrore: 479.05, foreignCrore: 0.93, totalCrore: 479.98, yoyChangePercent: -29.7 },
+]
+
+export const donationsByYearNote =
+  'Domestic and foreign donation lines from the fund’s audited statements (primary tier); totals and year-on-year changes are derived. The Hindu reported donations down about 30% year-on-year in FY2024-25; The Telegraph noted domestic donations have declined every year since FY2020-21; India Today noted FY2024-25 interest (~₹475 crore) nearly equals fresh donations. No domestic/foreign split was published for the five-day first year (FY2019-20), so it is excluded.'
+
+// ---------------------------------------------------------------------------
+// News tier — attributed August 2026 coverage of the audited statements.
+// Quotes are verbatim fragments, always name + outlet; never audited fact.
+// ---------------------------------------------------------------------------
+
+export interface NewsSource {
+  id: string
+  outlet: string
+  title: string
+  url: string
+  publishedDisplay: string
+}
+
+export const newsSources: NewsSource[] = [
+  {
+    id: 'scroll',
+    outlet: 'Scroll.in',
+    title: 'PM CARES Fund had Rs 8,452 crore corpus by end of FY25, shows audit report',
+    url: 'https://scroll.in/latest/1095124/pm-cares-fund-had-rs-8452-crore-corpus-by-end-of-fy25-shows-audit-report',
+    publishedDisplay: '18 August 2026',
+  },
+  {
+    id: 'itw',
+    outlet: 'India This Week',
+    title: 'PM CARES Fund audit reports released: Rs 8,452 crore corpus',
+    url: 'https://indiathisweek.in/business/pm-cares-fund-audit-reports-released-rs-8452-crore-corpus/',
+    publishedDisplay: '19 August 2026',
+  },
+  {
+    id: 'hindu',
+    outlet: 'The Hindu',
+    title: 'Why is PM CARES Fund keeping large sums idle, asks RTI activist',
+    url: 'https://www.thehindu.com/news/national/pm-cares-fund-audit-2024-25-domestic-foreign-donations/article71360330.ece',
+    publishedDisplay: '18 August 2026',
+  },
+  {
+    id: 'indiatoday',
+    outlet: 'India Today',
+    title: 'PM CARES Fund: Rs 8,452 crore, 93% in fixed deposits, Rs 87.85 lakh spent in FY25',
+    url: 'https://www.indiatoday.in/india/story/pm-cares-fund-rs-8452-crore-93-percent-fixed-deposits-rs-87-85-lakh-spent-fy25-2974064-2026-08-18',
+    publishedDisplay: '18 August 2026',
+  },
+  {
+    id: 'telegraph',
+    outlet: 'The Telegraph',
+    title: '“PM CARES? Hardly”: barbs and questions fly after Rs 8,452-crore fund reveal in audit',
+    url: 'https://www.telegraphindia.com/india/pm-cares-hardly-barbs-and-questions-fly-after-rs-8452-crore-fund-reveal-in-audit/cid/2175576',
+    publishedDisplay: '18 August 2026',
+  },
+  {
+    id: 'frontline',
+    outlet: 'Frontline',
+    title: 'PM CARES Fund: Rs 8,452 crore and few disclosures',
+    url: 'https://frontline.thehindu.com/politics/pm-cares-fund-audit-transparency-questions/article71373611.ece',
+    publishedDisplay: '22 August 2026',
+  },
+  {
+    id: 'newslaundry',
+    outlet: 'Newslaundry',
+    title: 'Decoding PM CARES Fund audit report: sitting on thousands of crores, yet only lakhs spent',
+    url: 'https://www.newslaundry.com/2026/08/19/decoding-pm-cares-fund-audit-report-sitting-on-thousands-of-crores-yet-only-lakhs-spent',
+    publishedDisplay: '19 August 2026',
+  },
+]
+
+export type NewsKind = 'criticism' | 'defence' | 'audit-observation'
+
+export interface NewsReaction {
+  quote: string
+  attribution: string
+  sourceId: string
+  kind: NewsKind
+}
+
+export const newsReactions: NewsReaction[] = [
+  {
+    quote:
+      'The fund had “utilised only 0.01% of available ₹8,452 crore” — “why is the fund keeping such large sums of money idle?”',
+    attribution: 'Anjali Bhardwaj, co-convenor, National Campaign for People’s Right to Information (NCPRI)',
+    sourceId: 'hindu',
+    kind: 'criticism',
+  },
+  {
+    quote:
+      'No information on what refunded payments were for — “were refunds done to evade accountability for faulty equipment?” — the fund is “shrouded in secrecy”, and the notes to the accounts — 16 pages, per Frontline — were not uploaded.',
+    attribution: 'Anjali Bhardwaj, NCPRI, as reported by Scroll.in and The Hindu',
+    sourceId: 'scroll',
+    kind: 'criticism',
+  },
+  {
+    quote:
+      'Questioned why money was “allowed to be accumulated to over ₹8,000 crore, with little money spent”, and sought an explanation of the ₹324.66 crore refunded by implementing agencies.',
+    attribution: 'Cmde Lokesh Batra (retired), as reported by Frontline',
+    sourceId: 'frontline',
+    kind: 'criticism',
+  },
+  {
+    quote:
+      'Called the release timing “curious”; said disclosure is in a “‘need to know’ disclosure era, and not in the ‘right to know’” one; urged a CAG performance audit.',
+    attribution: 'Venkatesh Nayak, Commonwealth Human Rights Initiative (CHRI), as reported by Frontline',
+    sourceId: 'frontline',
+    kind: 'criticism',
+  },
+  {
+    quote: '“₹8,452 crore sitting idle while people suffer. PM CARES? Hardly.”',
+    attribution: 'Pawan Khera, Indian National Congress (Kushagra Saxena quoted separately), as reported by The Telegraph',
+    sourceId: 'telegraph',
+    kind: 'criticism',
+  },
+  {
+    quote:
+      'Flagged the two-year audit delay and the missing UDIN on the FY2024-25 statement — calling the latter a correctable oversight.',
+    attribution: 'Atul Modani, chartered accountant, as reported by India Today',
+    sourceId: 'indiatoday',
+    kind: 'audit-observation',
+  },
+  {
+    quote: 'Questioned the gap between inflows and spending.',
+    attribution: 'Ruchita Vaghani, chartered accountant, as reported by India Today',
+    sourceId: 'indiatoday',
+    kind: 'audit-observation',
+  },
+  {
+    quote:
+      'SARC & Associates’ engagement covered four financial years — measured against auditor-rotation expectations.',
+    attribution: 'Frontline, on the auditor-rotation span',
+    sourceId: 'frontline',
+    kind: 'audit-observation',
+  },
+]
+
+export const newsDefence =
+  'The government’s position, as reported by The Telegraph: the fund is reserved for crises and national emergencies, and the money held in fixed deposits — ₹6,641.57 crore on 31 March 2024, ₹7,846.65 crore on 31 March 2025 — is a deliberate cushion earning returns. Prior official positions stand: a December 2020 RTI reply described the fund as “owned and established” by the Government of India while maintaining it is private-source funded and outside RTI; in September 2021 the Delhi High Court was told the fund is “not the state” and not a public authority; during the 2026 budget session the PMO told the Lok Sabha Secretariat that questions on the fund were inadmissible under Rules of Procedure 41(2)(viii) and 41(2)(xvii); the RTI-coverage question remains pending before the Delhi High Court. In August 2020 the Supreme Court held PM CARES and the NDRF to be entirely different funds.'
+
+export const newsDisclosureLag =
+  'Disclosure lag: the FY2021-22 audit was signed about 6 months after year-end (30 September 2022), FY2022-23 about 12 months after year-end (29 March 2024), and FY2023-24 about 28 months after year-end (India This Week’s calculation), with both outstanding statements released together on 18 August 2026 after The Hindu reported the gap on 8 August 2026.'
+
+export const newsAnalysisNotes: string[] = [
+  'The Hindu calculates cumulative spending from March 2020 to March 2025 at 18.4% of total income (news-derived; not recomputed here).',
+  'Donations fell about 30% year-on-year in FY2024-25 (The Hindu; the audited statements give -29.7%, derived).',
+  'FY2024-25 interest (~₹475 crore) nearly equals fresh donations; about 93% of the corpus is in fixed deposits (India Today).',
+  'DRDO and NHAI are cited — via Note 11 to the accounts, not uploaded — as implementing agencies that refunded money (India Today).',
+]
 
 /** Estimated donor mix of the first two months of donations (ToI, 19 May 2020). */
 export const donorMix = [
@@ -734,6 +1090,27 @@ export const timeline: TimelineEvent[] = [
       'The Hindu reports, per the 2020-21 audit, that one-third of ₹10,990 crore was spent — Wikipedia’s lead notes roughly two-thirds of the corpus remains unspent (as of 2022).',
     category: 'money',
   },
+  {
+    date: '2022-05-30',
+    dateDisplay: '30 May 2022',
+    event:
+      'The PM CARES for Children scheme is announced for children orphaned by COVID-19 — ₹4,000 per month for daily needs, ₹10 lakh at age 23, education-loan support and Ayushman Bharat cover (scheme design per Frontline). Audited statements later show payments to this scheme are the fund’s only recorded programme spending from FY2023-24 through FY2024-25 (FY2022-23 also paid ₹91.87 crore for oxygen concentrators).',
+    category: 'spend',
+  },
+  {
+    date: '2026-08-08',
+    dateDisplay: '8 Aug 2026',
+    event:
+      'The Hindu reports the fund has not published audited accounts for roughly two years — a disclosure gap since the FY2022-23 statement.',
+    category: 'money',
+  },
+  {
+    date: '2026-08-18',
+    dateDisplay: '18 Aug 2026',
+    event:
+      'The fund publishes audited Receipts & Payments Accounts for FY2023-24 and FY2024-25 together, signed by KKC & Associates LLP on 7 August 2026 (trust sign-off 6 August): year-end balances ₹7,173.03 crore (31 March 2024) and ₹8,452.07 crore (31 March 2025). Reactions (news tier): NCPRI’s Anjali Bhardwaj and Cmde Lokesh Batra (retd) questioned why over ₹8,000 crore sat idle with minimal spending; CHRI’s Venkatesh Nayak called the release timing “curious” and urged a CAG performance audit; Congress said “₹8,452 crore sitting idle while people suffer. PM CARES? Hardly.” The government maintained the fund is reserved for emergencies (The Telegraph).',
+    category: 'money',
+  },
 ]
 
 // ---------------------------------------------------------------------------
@@ -956,11 +1333,11 @@ export const faq = [
   },
   {
     q: 'How much money did it receive?',
-    a: '₹3,076.62 crore in the last five days of FY2019-20 and ₹10,990.17 crore in FY2020-21, leaving a year-end balance of ₹7,013.99 crore (figures from pmcares.gov.in via Wikipedia). The Times of India estimated ₹10,600 crore within the first two months.',
+    a: '₹3,076.62 crore in the last five days of FY2019-20 and ₹7,913.55 crore of new money in FY2020-21 — the widely-quoted ₹10,990.17 crore “receipts” figure for FY2020-21 (reproduced by Wikipedia) is the receipts-side total including the ₹3,076.62 crore opening balance, per the fund’s own statement. Year-end balance, 31 March 2021: ₹7,013.99 crore. The Times of India estimated ₹10,600 crore within the first two months. Across all six audited years (FY2019-20 → FY2024-25), receipts total ₹16,598.87 crore and payments ₹8,146.81 crore (both derived), closing at ₹8,452.07 crore on 31 March 2025.',
   },
   {
     q: 'How much of the money was spent?',
-    a: 'Per the 2020-21 audit reported by The Hindu, about one-third of the ₹10,990 crore received in FY2020-21 was spent, leaving a year-end balance of ₹7,013.99 crore — Wikipedia’s lead notes roughly two-thirds of the corpus remained unspent as of 2022.',
+    a: 'Per the 2020-21 audit reported by The Hindu, about one-third of the ₹10,990 crore received in FY2020-21 was spent, leaving a year-end balance of ₹7,013.99 crore — Wikipedia’s lead notes roughly two-thirds of the corpus remained unspent as of 2022. Per the fund’s audited statements, cumulative payments FY2019-20 → FY2024-25 total ₹8,146.81 crore (derived), leaving ₹8,452.07 crore on 31 March 2025; The Hindu calculates cumulative spending at 18.4% of total income (news tier, attributed).',
   },
   {
     q: 'How is PM CARES different from the PMNRF?',
@@ -968,7 +1345,7 @@ export const faq = [
   },
   {
     q: 'Who audits it?',
-    a: 'SARC & Associates, a private chartered-accountancy firm appointed in June 2020 for three years. The CAG does not audit the fund.',
+    a: 'SARC & Associates, a private chartered-accountancy firm appointed in June 2020, audited the fund through FY2022-23; the FY2023-24 and FY2024-25 statements are audited by KKC & Associates LLP (reports signed August 2026). The CAG does not audit the fund.',
   },
   {
     q: 'Is it under the Right to Information Act?',
@@ -1014,6 +1391,10 @@ export const faq = [
     q: 'How much money is in the PM CARES Fund now?',
     a: 'The most recent published figure is ₹8,452.07 crore on 31 March 2025 (savings bank ₹605.41 crore + fixed deposits ₹7,846.65 crore), from the fund’s audited Receipts & Payments Account for FY2024-25 — KKC & Associates LLP, report dated 7 August 2026 (pmcares.gov.in, accessed 28 August 2026). Earlier: ₹7,013.99 crore on 31 March 2021 (pmcares.gov.in figures via Wikipedia).',
   },
+  {
+    q: 'What has the PM CARES Fund spent in recent years?',
+    a: 'After payments of ₹3,976.17 crore in FY2020-21 and ₹3,716.29 crore in FY2021-22, audited payments fell to ₹437.87 crore in FY2022-23 — ₹346.00 crore for PM CARES for Children and ₹91.87 crore for 99,986 oxygen concentrators, per the statement — then ₹15.60 crore in FY2023-24 and ₹0.88 crore in FY2024-25 — from FY2023-24 onward the only payments were PM CARES for Children and bank charges. Domestic donations declined every year, from ₹7,183.78 crore in FY2020-21 to ₹479.05 crore in FY2024-25 (audited statements).',
+  },
 ]
 
 // ---------------------------------------------------------------------------
@@ -1028,6 +1409,30 @@ export const sources = [
     url: AUDITED_STATEMENT_URL,
   },
   {
+    label: 'pmcares.gov.in — audited statement FY2023-24 (primary source, accessed 28 August 2026)',
+    url: 'https://pmcares.gov.in/assets/donation/pdf/Audited_Statement_2023_24.pdf',
+  },
+  {
+    label: 'pmcares.gov.in — audited statement FY2022-23 (primary source, accessed 28 August 2026)',
+    url: 'https://pmcares.gov.in/assets/donation/pdf/Audited_Statement_2022_23.pdf',
+  },
+  {
+    label: 'pmcares.gov.in — audited statement FY2021-22 (primary source, accessed 28 August 2026)',
+    url: 'https://pmcares.gov.in/assets/donation/pdf/Audited_Statement_2021_22.pdf',
+  },
+  {
+    label: 'pmcares.gov.in — audited statement FY2020-21 (primary source, accessed 28 August 2026)',
+    url: 'https://pmcares.gov.in/assets/donation/pdf/Audited_Statement_2020_21.pdf',
+  },
+  {
+    label: 'pmcares.gov.in — audited statement FY2019-20 (primary source, accessed 28 August 2026)',
+    url: 'https://pmcares.gov.in/assets/donation/pdf/Audited%20Statement.PDF',
+  },
+  ...newsSources.map((s) => ({
+    label: `${s.outlet} (${s.publishedDisplay}) — ${s.title} (news tier)`,
+    url: s.url,
+  })),
+  {
     label: 'The Hindu (7 Feb 2022) — "One-third of ₹10,990 crore spent: 2020-21 audit" (as cited by Wikipedia)',
     url: WIKIPEDIA_URL,
   },
@@ -1038,9 +1443,12 @@ export const sources = [
 ]
 
 export const dataCaveats = [
-  'FY2024-25 audited-statement figures are a primary source (pmcares.gov.in, accessed 28 August 2026), shown separately from Wikipedia-sourced figures; the two tiers are never mixed in one chart or total.',
+  'FY2022-23 → FY2024-25 audited-statement figures are primary sources (pmcares.gov.in, accessed 28 August 2026), shown separately from Wikipedia-sourced figures; the tiers are never mixed in one chart or total.',
   'The FY2024-25 receipts total (₹1,279.91 crore) is derived from the statement’s printed totals (₹8,452.95 − ₹7,173.03); itemized lines are reproduced as printed.',
-  'The statement’s FY2023-24 comparative columns could not be verified from the scan; only its closing balance (₹7,173.03 crore, double-printed as the FY2024-25 opening) is shown.',
+  'FY2023-24 figures were first published to this site as a closing balance only; v2.1 adds the full row from the fund’s separately published FY2023-24 audited statement.',
+  'The ₹10,990.17 crore “Receipts” figure for FY2020-21, reproduced by Wikipedia, is the receipts-side total including the ₹3,076.62 crore opening balance (per the fund’s own FY2020-21 statement); new money that year was ₹7,913.55 crore (derived). This site no longer shows the previous ₹14,066.79 crore “received, both years” figure, which double-counted the opening balance.',
+  'August 2026 reactions, release timeline and audit-integrity observations are a news tier (The Hindu, The Telegraph, Frontline, India Today, India This Week, Scroll.in, Newslaundry; 18–22 August 2026) — attributed to named people and outlets, never presented as audited fact. Where a news figure conflicted with a statement, the statement won and the news figure was dropped (e.g., one outlet’s FY2023-24 “interest ₹407.50 crore” — the statement shows ₹137.69 crore of savings-bank interest).',
+  'The Wikipedia article is tagged “needs update (July 2026)” and still covers FY2019-20 and FY2020-21 only; this site’s FY2021-22 → FY2024-25 figures come from the fund’s own audited statements, which are newer than the article.',
   'The ventilator share (₹2,000 crore) of the 13 May 2020 allocation is derived arithmetic (3,100 − 1,000 − 100); the article itself does not state it explicitly.',
   'The ₹10,600 crore two-month figure and the 53/42/5 donor mix are Times of India estimates, not audited accounts.',
   'The two PSU figures (32 PSUs, ₹2,105 cr, Aug 2020; 101 PSUs, ₹2,400 cr CSR + ₹155 cr salaries, Dec 2020) cover different counts and periods — they must not be summed.',
@@ -1063,9 +1471,9 @@ export const about = {
   feedbackUrl: 'https://github.com/nilukush/pm-cares-fund-information/issues',
   principles: [
     {
-      title: 'Two labeled tiers',
+      title: 'Three labeled tiers',
       detail:
-        'Article facts come from one source: the English Wikipedia article on the PM CARES Fund (accessed 16 August 2026). The only addition is the fund’s own audited FY2024-25 statement (pmcares.gov.in, accessed 28 August 2026), presented in a clearly marked primary-source block and never mixed with article figures.',
+        'Article facts come from one source: the English Wikipedia article on the PM CARES Fund (accessed 16 August 2026). Figures for FY2019-20 through FY2024-25 are verified against the fund’s own audited statements (pmcares.gov.in, accessed 28 August 2026) — a primary tier, never mixed with article-only figures in a chart or total. August 2026 reactions and coverage come from named news outlets — a news tier, always attributed; where tiers disagree, the audited statement wins.',
     },
     {
       title: 'Labeled uncertainty',
@@ -1097,7 +1505,7 @@ export const about = {
     {
       title: '3 · Automated checks',
       detail:
-        'An automated test suite (44 tests) verifies data integrity — allocation totals add up, the timeline is chronological, amounts are positive, pages render correct structure and formatting — and runs on every change and before every deployment.',
+        'An automated test suite (currently over 130 tests) verifies data integrity — allocation totals add up, the timeline is chronological, amounts are positive, pages render correct structure and formatting — and runs on every change and before every deployment.',
     },
   ] as DebatePoint[],
   limitations: [

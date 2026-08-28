@@ -1,6 +1,7 @@
 import { About } from './components/About'
 import { AuditedStatement } from './components/AuditedStatement'
 import { AuditCard } from './components/AuditCard'
+import { CoverageReactions } from './components/CoverageReactions'
 import { Debate } from './components/Debate'
 import { Litigation } from './components/Litigation'
 import { References } from './components/References'
@@ -14,6 +15,7 @@ import { Header } from './components/Header'
 import { Hero } from './components/Hero'
 import { IdentityCard } from './components/IdentityCard'
 import { Section } from './components/Section'
+import { SixYearRecord } from './components/SixYearRecord'
 import { Sources } from './components/Sources'
 import { Spending } from './components/Spending'
 import { Timeline } from './components/Timeline'
@@ -53,12 +55,14 @@ export default function App() {
           id="finances"
           icon="finances"
           title="Finances — money in, money left"
-          lead="Receipts and year-end balances as published on pmcares.gov.in and reproduced by Wikipedia, plus an estimate of who donated. The fund's accounts are audited privately, not by the CAG. The fund's own audited FY2024-25 statement is presented below as a clearly labeled primary source."
+          lead="Receipts and year-end balances as published on pmcares.gov.in and reproduced by Wikipedia, plus an estimate of who donated. The fund's accounts are audited privately, not by the CAG. Below: the six-year audited record, the detailed FY2024-25 statement, and August 2026 news coverage — each a clearly labeled source tier."
           dark
         >
           <div className="flex flex-col gap-6">
             <Finances />
+            <SixYearRecord />
             <AuditedStatement />
+            <CoverageReactions />
           </div>
         </Section>
 

@@ -45,7 +45,7 @@ export function AuditedStatement() {
         <p className="text-sm leading-relaxed text-foreground">
           The fund’s own audited Receipts &amp; Payments Account for the year ended 31 March 2025 —
           audited by {s.auditorFirm} ({s.auditorRegistration}), report dated {s.reportDated}. This
-          block is the only non-Wikipedia source on this page; its figures are never mixed with the
+          block is a clearly labeled primary-source tier; its figures are never mixed with the
           article-sourced charts above.
         </p>
 

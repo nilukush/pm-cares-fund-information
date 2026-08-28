@@ -1,4 +1,4 @@
-import { auditedStatementFY202425, finances, identity, totalReceiptsCrore } from '../data/fund'
+import { auditedStatementFY202425, finances, identity } from '../data/fund'
 import { formatCrore } from '../lib/format'
 import { StatCard } from './StatCard'
 
@@ -33,9 +33,9 @@ export function Hero() {
             note="27–31 March 2020 (FY2019-20)"
           />
           <StatCard
-            label="FY2020-21 receipts"
+            label="FY2020-21 receipts (as published)"
             value={formatCrore(finances.years[1].receiptsCrore)}
-            note={`Total across both years: ${formatCrore(totalReceiptsCrore)}`}
+            note={`Receipts-side total incl. ${formatCrore(finances.years[0].receiptsCrore)} opening — new money that year: ${formatCrore(Math.round((finances.years[1].receiptsCrore - finances.years[0].receiptsCrore) * 100) / 100)} (derived)`}
           />
           <StatCard
             label="Latest balance · 31 March 2025"
