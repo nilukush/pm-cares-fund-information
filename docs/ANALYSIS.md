@@ -132,4 +132,4 @@ one-sentence rewrite + test lock). Two Low: Dataset variableMeasured row-1 label
 dateModified/modifiedDate. Research correction: llms.txt is NOT fetched by any major
 AI crawler (Ahrefs 97%-never-fetched; Mueller) — keep as hedge, not a lever; real GEO
 levers = prerendered HTML + sourced statistics/quotes + AI-crawler allows + rankings.
-No code changed this audit; fixes proposed as PLAN Step 30 (gated).
+No code changed this audit; fixes proposed as PLAN Step 30 — SHIPPED same session as v2.2.1 (user-approved).

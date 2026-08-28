@@ -143,10 +143,10 @@ Max 3 failed attempts per step, then STOP and ask the human.
 - Acceptance: every previously rendered fact still rendered or consciously relocated (checklist in tests); a11y: details/summary keyboard+SR native; gates green; Debugger + Verifier consensus; release ritual.
 - Stop/Go: if folding breaks any FY24-25 test irreparably (jsdom/hidden issues), fall back to keeping the card as its own block directly under SixYearRecord (still consolidated visually).
 
-## Step 30 (PROPOSED, not yet approved): SEO/GEO audit round-2 fixes (2026-08-28)
+## Step 30 (SHIPPED 28 Aug as v2.2.1): SEO/GEO audit round-2 fixes (2026-08-28)
 
 - Objective: close the three consensus findings from docs/research/2026-08-28-seo-geo-audit.md — (a) rewrite index.html `<noscript>` FY2020-21 sentence to the corrected framing ("₹3,076.62 crore in FY2019-20 and ₹7,913.55 crore of new money in FY2020-21"); (b) relabel StructuredData Dataset variableMeasured row 1 to "Receipts-side total as printed (article tier, ₹ crore)"; (c) add WebPage dateModified + Dataset modifiedDate = data-as-of. Optional (A4): weave "total amount"/"utilization" phrasing into existing FAQ wording.
 - Test First: index-html.test.ts gains a noscript lock (corrected figures present, "money received … 10,990.17" framing absent) — red before the rewrite; StructuredData.test.tsx gains row-label + dateModified/modifiedDate assertions — red before StructuredData.tsx changes.
 - Implementation: index.html noscript sentence only; StructuredData.tsx labels + dates (data-as-of from fund.ts, no hard-coding). No fund.ts data changes.
 - Acceptance: npm test all green (137+new), tsc clean, build + prerender; Debugger + Verifier gate; release ritual (lastmod bump, push, live-check, IndexNow re-ping).
-- Stop/Go: awaiting user approval — audit was analysis-only; this step is the gated follow-up.
+- Stop/Go: user approved ("ok") same session; shipped red→green, gate consensus APPROVE, deployed + live-checked + IndexNow'd. Tests 137→141.
