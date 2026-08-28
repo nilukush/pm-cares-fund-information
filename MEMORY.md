@@ -1,10 +1,17 @@
 # MEMORY.md — Project Memory (compacted 2026-08-21, end of session)
 
-## Status: v1.9 · DEPLOYED · Analytics live · All audits PASS · No pending work
+## Status: v2.0 · DEPLOYED (28 Aug) · Primary-source tier live · 103/103 tests · All gates PASS
 
-Public-information website about India's PM CARES Fund, sourced from the English Wikipedia
-article https://en.wikipedia.org/wiki/PM_CARES_Fund (data as of 16 Aug 2026; article last
-revised 2026-08-09 — facts verified current at the 19 Aug audit).
+Public-information website about India's PM CARES Fund. Two labeled source tiers since v2.0:
+the English Wikipedia article (data as of 16 Aug 2026) PLUS the fund's own audited FY2024-25
+statement (pmcares.gov.in PDF, accessed 28 Aug 2026) — the ONLY permitted non-article source
+(policy extension recorded in AGENTS.md, user-approved).
+
+## v2.0 (28 Aug): audited FY2024-25 statement + 5 query-aligned FAQs
+- **Published figures (all identity-verified at rupee precision: opening+items=total, total−payments=closing):** opening ₹7,173.03 cr; receipts during FY ₹1,279.91 cr (derived: printed total 8,452.95 − opening; exact ₹12,79,91,28,444); payments ₹87,85,291 (₹0.88 cr = PM CARES for Children ₹87,84,840 + bank/SMS ₹451); closing ₹8,452.07 cr (SB 605.41 + FD 7,846.65). Itemized: domestic 479.05, foreign **0.93**, int-SB 5.77, int-FD 469.38, TDS **0.13**, agency refunds 324.66. FY2023-24: closing ₹7,173.03 cr ONLY (comparative columns failed verification — omitted by design).
+- **Auditor changed:** SARC & Associates (article, Jun 2020, 3 yrs) → by FY24-25 **KKC & Associates LLP** (formerly Khimji Kunverji & Co LLP), FRN 105146W/W100621, report dated 7 Aug 2026.
+- **Architecture:** separate `auditedStatementFY202425` export + AuditedStatement.tsx card in #finances (NOT in finances.years — totalReceiptsCrore/charts/Dataset map it; extending would fake totals over non-contiguous years). `sourceTier: 'article' | 'primary'` on FiscalYearFinance. FAQ 12→17 (full form / private-or-government / controversy / utilization / how-much-now — the keyword-research aliases). Consistency sweep: Hero kicker "WIKIPEDIA + PMCARES.GOV.IN", 4th hero stat = latest balance, 4th Finances KPI, AuditCard addendum, Dataset FY2019-20→FY2024-25 + temporalCoverage 2020-03/2025-03, llms.txt primary-source section, index.html ×3 metas, Footer, about "Two labeled tiers", methodology. Tests 86→103 (new llms.test.ts; receipts-itemization guard).
+- **Gate history (2 rounds):** Analyzer caught my payments crore slip (0.88 not 0.09); Verifier caught TWO 10× conversion errors (foreign 0.09→0.93, TDS 0.01→0.13 — I divided by 10⁸ not 10⁷); Debugger caught the resulting itemization contradiction + 10 polish fixes. Both re-verified: APPROVE. **LESSON: never convert lakh-range rupee figures in your head — 1 crore = 10⁷; run python.**
 
 - **Primary URL**: https://pm-cares-fund-information.vercel.app/ · **Mirror**: https://nilukush.github.io/pm-cares-fund-information/ (canonical → Vercel)
 - **Repo**: github.com/nilukush/pm-cares-fund-information (public, main; NO domain purchase per user constraint)
@@ -12,7 +19,7 @@ revised 2026-08-09 — facts verified current at the 19 Aug audit).
 
 ## Run / verify
 - `npm run dev` → :5199 · `npm run preview` → :4199 (strictPort, non-standard by constraint)
-- `npm test` → 86/86 (fund 34 · App 24 · format 14 · references 3 · StructuredData 4 · ChartCard 2 · ChartSlot 2 · index-html 1 · analytics 1 · about 1)
+- `npm test` → 103/103 (fund ~45 · App ~29 · format 14 · references 3 · StructuredData 5 · ChartCard 2 · ChartSlot 2 · index-html 1 · analytics 1 · about 1 · llms 3)
 - `npx tsc --noEmit` clean · `npm run build` = tsc + vite build + prerender (~193.7 KB content injected into dist/index.html)
 
 ## Stack & architecture (decided — do not re-litigate)
@@ -33,7 +40,7 @@ Vite 8 + React 19 + TS strict + Tailwind v4 (`@theme` tokens in src/index.css) +
 10. **v1.9 analytics**: cookieless/consent-free beacons (+1.5 KB gz); prerender unchanged (0 beacon markup server-side); runtime injection verified live in browser (h1 + 4 charts healthy). GA4 rejected (135 KB script + consent-mode + brand mismatch).
 
 ## SEO / GEO (v1.3+)
-Prerendered full HTML (crawlers/LLM bots without JS see everything); JSON-LD (WebSite/WebPage/FAQPage/Dataset); question-format H1; keyword title/description; Twitter card + og-image 1200×630; robots.txt welcomes AI crawlers (GPTBot/ClaudeBot/PerplexityBot/CCBot/Google-Extended/etc.); llms.txt (11 sections); noscript. Registered: GSC URL-prefix property (verified, sitemap submitted), Bing imported from GSC, IndexNow (key 0e7c80d58618f01b8673e21f543f7f13; re-ping command in commit 7237c1f — POST JSON body; GET-style params on POST = HTTP 411). sitemap lastmod currently 2026-08-19.
+Prerendered full HTML (crawlers/LLM bots without JS see everything); JSON-LD (WebSite/WebPage/FAQPage/Dataset); question-format H1; keyword title/description; Twitter card + og-image 1200×630; robots.txt welcomes AI crawlers (GPTBot/ClaudeBot/PerplexityBot/CCBot/Google-Extended/etc.); llms.txt (11 sections); noscript. Registered: GSC URL-prefix property (verified, sitemap submitted), Bing imported from GSC, IndexNow (key 0e7c80d58618f01b8673e21f543f7f13; re-ping command in commit 7237c1f — POST JSON body; GET-style params on POST = HTTP 411). sitemap lastmod currently 2026-08-28.
 
 ## Search & analytics state (2026-08-28)
 - **GSC (28 Aug export, web, data 18–25 Aug)**: 26 impr / 0 clicks / avg pos 32.46. Pattern = post-index freshness spike (18–21 Aug ≈5.5 impr/day) decayed to ≈1/day (22–25 Aug, window truncated by 2–3-day lag); earlier "13→26 doubled" was a lag artifact (13 = cumulative through ~19 Aug). Only like-for-like baseline point: "pm cares fund audit report" stable at pos 22. 19/26 impressions anonymized — NO query-level CTR math at this n; pos 6–8 days (n≈2/day) = noise. **0 clicks arithmetically expected** (≈0.2–0.3 expected clicks at CTR-by-position curves; P(0)≈75–80%). **Verdict UNCHANGED: no action.** Still don't chase "bank account details" (no account specifics in article) / "scanner" (navigational noise); NEVER self-link on Wikipedia (COI).
