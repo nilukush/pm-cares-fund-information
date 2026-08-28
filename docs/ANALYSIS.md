@@ -117,3 +117,19 @@ notes (unspentQuote, corpusStatementNote, fy202021ReceiptsNote) must land in ren
 surfaces; the article's printed figure (10,990.17 side-total) must stay visible for
 article fidelity. Expandable pattern must be accessible (native <details>, default
 open so content stays in the accessibility tree and tests/jsdom see it).
+
+## Addendum J — SEO + GEO audit round 2 with GSC data (2026-08-28, audit-only)
+
+Full report: docs/research/2026-08-28-seo-geo-audit.md (3-role gate run directly;
+Agent-tool launches interrupted → proven direct-role fallback). Consensus verdicts:
+Technical SEO PASS; SEO performance PASS-needs-patience (0 clicks at pos 32 is
+arithmetically expected, P(0)≈99.4%; freshness decay 5.5→1.0 impr/day normal);
+GEO PASS-with-concerns. One Med finding: index.html `<noscript>` still frames
+₹10,990.17 cr as FY2020-21 money received — contradicts the v2.1 relabel that the
+body, Dataset JSON-LD and llms.txt all carry (LLM-facing consistency risk; fix is a
+one-sentence rewrite + test lock). Two Low: Dataset variableMeasured row-1 label
+("Receipts" → "Receipts-side total as printed (article tier)"), missing
+dateModified/modifiedDate. Research correction: llms.txt is NOT fetched by any major
+AI crawler (Ahrefs 97%-never-fetched; Mueller) — keep as hedge, not a lever; real GEO
+levers = prerendered HTML + sourced statistics/quotes + AI-crawler allows + rankings.
+No code changed this audit; fixes proposed as PLAN Step 30 (gated).
