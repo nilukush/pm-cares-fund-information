@@ -1,25 +1,4 @@
-PM CARES Fund Information — dual license
-=========================================
-
-This repository contains two kinds of work, licensed separately:
-
-1. **Source code** (everything under `src/`, `scripts/`, configuration and build
-   files) is licensed under the MIT License below.
-
-2. **Site content** — the prose, data compilation and presentation embodied in
-   `src/data/fund.ts`, `public/llms.txt` and the rendered site text — is licensed
-   under the Creative Commons Attribution-ShareAlike 4.0 International License
-   (CC BY-SA 4.0): https://creativecommons.org/licenses/by-sa/4.0/
-   The article-derived portions adapt text from the English Wikipedia article
-   "PM CARES Fund", which is itself CC BY-SA; same-license release keeps the
-   derivative chain clean.
-
-3. **Facts are not copyrightable.** The figures, dates and names themselves
-   (including the fund's audited figures reproduced from Government of India
-   publications) carry no copyright claim and may be reused freely.
-
--------------------------------------------------------------------------------
-MIT License (applies to the source code)
+MIT License
 
 Copyright (c) 2026 Nilesh Kumar
 

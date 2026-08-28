@@ -1,0 +1,20 @@
+# Content License — CC BY-SA 4.0
+
+The **site content** of this repository — the prose, data compilation and
+presentation embodied in `src/data/fund.ts`, `public/llms.txt` and the rendered
+site text — is licensed under the Creative Commons Attribution-ShareAlike 4.0
+International License (CC BY-SA 4.0):
+
+- License deed: https://creativecommons.org/licenses/by-sa/4.0/
+- Legal code: https://creativecommons.org/licenses/by-sa/4.0/legalcode
+
+The article-derived portions adapt text from the English Wikipedia article
+"PM CARES Fund", which is itself licensed CC BY-SA; releasing under the same
+license keeps the derivative chain clean.
+
+**Facts are not copyrightable.** The figures, dates and names themselves
+(including the fund's audited figures reproduced from Government of India
+publications) carry no copyright claim and may be reused freely.
+
+The **source code** of this repository is licensed separately under the MIT
+License — see [LICENSE](LICENSE).

@@ -119,8 +119,9 @@ repository is connected to the Vercel project, so every push to `main` auto-depl
 - **Code** in this repository is released under the [MIT License](LICENSE).
 - **Site content** (prose, data compilation and presentation in `src/data/fund.ts`
   and the rendered text) is released under
-  [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0/) — the same license
-  as the Wikipedia text it partly adapts, which keeps the derivative chain clean.
+  [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0/) — see
+  [LICENSE-CONTENT](LICENSE-CONTENT) — the same license as the Wikipedia text it
+  partly adapts, which keeps the derivative chain clean.
 - The underlying **facts and figures** (amounts, dates, names) are not copyrightable
   and carry no copyright claim; the fund's audited figures are reproduced from
   Government of India publications.
