@@ -1,11 +1,21 @@
 # MEMORY.md — Project Memory (compacted 2026-08-21, end of session)
 
-## Status: v2.0 · DEPLOYED (28 Aug) · Primary-source tier live · 103/103 tests · All gates PASS
+## Status: v2.1 · DEPLOYED (28 Aug) · Three source tiers · 132/132 tests · All gates PASS
 
-Public-information website about India's PM CARES Fund. Two labeled source tiers since v2.0:
-the English Wikipedia article (data as of 16 Aug 2026) PLUS the fund's own audited FY2024-25
-statement (pmcares.gov.in PDF, accessed 28 Aug 2026) — the ONLY permitted non-article source
-(policy extension recorded in AGENTS.md, user-approved).
+Public-information website about India's PM CARES Fund. Three labeled source tiers since v2.1:
+`article` (English Wikipedia, data as of 16 Aug 2026 — stale, tagged "needs update July 2026"),
+`primary` (pmcares.gov.in audited statements FY2019-20→FY2024-25, all six PDFs fetched+verified
+28 Aug 2026), `news` (attributed Aug 2026 coverage). Policy recorded in AGENTS.md (user-approved).
+
+## v2.1 (28 Aug): six-year audited record + news tier + FY20-21 correction
+- **Six-year series (all identity-verified, chain-continuous)**: closings 3,076.62 / 7,013.99 / 5,415.66 / 6,283.68 / 7,173.03 / 8,452.07 cr; receipts-during 16,598.87 cr; payments 8,146.81 cr (derived). FY22-23 payments 437.87 = Children 346.00 + 99,986 oxygen concentrators 91.87 + fees. Donations decline (domestic): 7,183.78→1,896.76→908.13→681.81→479.05.
+- **CORRECTION**: wikitext's FY20-21 "Receipts 10,990.17" is a receipts-side TOTAL incl. 3,076.62 opening (per the fund's own statement) — new money 7,913.55. Old "Received, both years ₹14,066.79" KPI double-counted → removed (totalReceiptsCrore deleted; KPI now six-year 16,598.87; Hero stat relabeled "as published").
+- **Auditors (primary)**: SARC (FRN 006085N, Sunil Kumar Gupta M.No 084884) signed FY21-22 (UDIN 22084884AXGCSU1642, 30.09.2022) + FY22-23 (UDIN 24084884BKIKDZ2614, 29.03.2024) = 4 FYs (Frontline's count); KKC & Associates LLP (Tejas Parikh M.No 123215) FY23-24+FY24-25, Mumbai 7 Aug 2026, no UDIN on either (CA Modani: correctable oversight). Trust signatories 6 Aug: Panda/Nair/Srivastava/Nil.
+- **News tier** (7 outlets, 18-22 Aug): Bhardwaj/NCPRI, Batra, Nayak/CHRI, Khera (criticism) + Telegraph govt defence (reserved for crises; FD cushion) + CA observations + disclosure lag (6/12/28 months; joint release 18 Aug after Hindu gap report 8 Aug). News errors caught by identity checks & dropped: ITW FY23-24 "interest 407.50" (statement: 137.69). Frontline FY22-23 children "₹346 cr" VERIFIED CORRECT (mis-challenged once as 34.60 — grouping double-checked at 600dpi in two statements).
+- **Statement URLs all verified 200**: …/Audited%20Statement.PDF, …/Audited_Statement_2020_21.pdf … _2024_25.pdf.
+- New components: SixYearRecord (AuditedBalanceBarChart + donations table), CoverageReactions. FAQ 17→18 (+"What has it spent in recent years?"). Timeline 45→48 (Children scheme 30.05.2022; gap report 08.08.2026; release 18.08.2026). Tests 103→132. llms.txt: six-year + news sections; zero "14,066.79".
+- **Gate history**: Analyzer (rejected its 34.60/403.27 adoption after 400dpi re-read + Frontline triangulation) → TDD → Debugger BLOCKER (false "only spending since FY22-23" — concentrators!) + Verifier 4 fact fixes (Hindu headline, 16-pages attribution, budget-session date, unquote SC) → both re-verified APPROVE.
+- **PM CARES-for-Children exclusion rule SUPERSEDED** (news+primary cover it).
 
 ## v2.0 (28 Aug): audited FY2024-25 statement + 5 query-aligned FAQs
 - **Published figures (all identity-verified at rupee precision: opening+items=total, total−payments=closing):** opening ₹7,173.03 cr; receipts during FY ₹1,279.91 cr (derived: printed total 8,452.95 − opening; exact ₹12,79,91,28,444); payments ₹87,85,291 (₹0.88 cr = PM CARES for Children ₹87,84,840 + bank/SMS ₹451); closing ₹8,452.07 cr (SB 605.41 + FD 7,846.65). Itemized: domestic 479.05, foreign **0.93**, int-SB 5.77, int-FD 469.38, TDS **0.13**, agency refunds 324.66. FY2023-24: closing ₹7,173.03 cr ONLY (comparative columns failed verification — omitted by design).
@@ -19,7 +29,7 @@ statement (pmcares.gov.in PDF, accessed 28 Aug 2026) — the ONLY permitted non-
 
 ## Run / verify
 - `npm run dev` → :5199 · `npm run preview` → :4199 (strictPort, non-standard by constraint)
-- `npm test` → 103/103 (fund ~45 · App ~29 · format 14 · references 3 · StructuredData 5 · ChartCard 2 · ChartSlot 2 · index-html 1 · analytics 1 · about 1 · llms 3)
+- `npm test` → 132/132 (fund ~60 · App ~34 · format 14 · references 3 · StructuredData 6 · ChartCard 2 · ChartSlot 2 · index-html 1 · analytics 1 · about 1 · llms 5)
 - `npx tsc --noEmit` clean · `npm run build` = tsc + vite build + prerender (~193.7 KB content injected into dist/index.html)
 
 ## Stack & architecture (decided — do not re-litigate)
