@@ -1,6 +1,6 @@
 # MEMORY.md — Project Memory (compacted 2026-08-28, end of session)
 
-## Status: v2.2 · DEPLOYED (28 Aug) · Three source tiers · 137/137 tests · All gates PASS
+## Status: v2.2.1 · DEPLOYED (28 Aug) · Three source tiers · 141/141 tests · All gates PASS · SEO/GEO audit r2 SHIPPED
 
 Public-information website about India's PM CARES Fund, now the most complete public
 compilation of its audited figures (ahead of Wikipedia). **Three labeled tiers**
@@ -29,11 +29,17 @@ payments = closing, rupee precision; chain-continuous):**
 - FAQ 12→18 (v2.0 aliases: full form / private-or-government / controversy / utilization / how-much-now; v2.1: recent-spending). Timeline 42→45 events (Children scheme 30.05.2022; gap report 08.08.2026; release 18.08.2026). dataCaveats 15. PM CARES-for-Children exclusion rule SUPERSEDED (news+primary cover it).
 - **Gate lessons (the reason the gate exists)**: Analyzer caught my payments crore slip (0.88 not 0.09); Verifier caught two 10× conversion errors (foreign 0.93, TDS 0.13 — divided by 10⁸ not 10⁷); Debugger caught a false "only spending since FY22-23" claim + itemization contradiction. **NEVER convert lakh/crore-range rupee figures mentally — 1 crore = 10⁷ — always python. Vision OCR of Indian digit-grouping is unreliable: transcribe, then verify against accounting identities; identities are ground truth; re-read at 400–600dpi on dispute; triangulate with news.**
 - v2.2 was the first round-1 double-APPROVE. NICE leftovers (not done): split the merged six-year note into paragraphs; tighten deep-dive containment test; lone-donut grid wrapper.
-- Research docs: docs/research/2026-08-28-keyword-research.md, docs/research/2026-08-28-audit-sources.md (full fact inventory + news corroboration/errors).
+- Research docs: docs/research/2026-08-28-keyword-research.md, docs/research/2026-08-28-audit-sources.md (full fact inventory + news corroboration/errors), docs/research/2026-08-28-seo-geo-audit.md (audit r2 with GSC data; 3-role consensus).
+
+## Session 2026-08-28 late — SEO/GEO audit round 2 + v2.2.1 fixes (SHIPPED, TDD + gate)
+- **Verdicts (consensus)**: Technical SEO PASS; SEO performance PASS-needs-patience; GEO PASS-with-concerns → concerns fixed same session. GSC cross-foots exactly (devices/countries/daily all = 26; queries table shows 6 of 26 — 20 impr privacy-anonymized, normal). P(0 clicks) ≈ 99.4% at these positions → 0 clicks expected, no action. Freshness decay 5.5→1.0 impr/day confirmed.
+- **v2.2.1 (Step 30, user-approved "ok")**: noscript FY2020-21 sentence → corrected framing (3,076.62 + 7,913.55 new money; 10,990.17 gone, test-locked in index-html.test.ts); Dataset variableMeasured row 1 → "Receipts-side total as printed (article tier, ₹ crore)"; WebPage dateModified + Dataset modifiedDate = DATA_AS_OF_ISO ('2026-08-28', new fund.ts export — vite-node resolves missing exports as undefined, so the test ALSO asserts ISO-format to avoid a false pass); FAQ phrasing aliases: "total amount received across the six audited years … ₹16,598.87 crore (derived)" in the now-FAQ + "entire recorded programme utilization" in recent-years FAQ. Tests 137→141.
+- **llms.txt demoted to hedge (research-backed)**: no major AI crawler fetches it (Ahrefs 137K sites 97% never fetched; 62k-request log audit 0.14%; Mueller "no AI system uses it"). KEEP (zero cost, good briefing doc, 5 tests) but not a lever. Real GEO levers (Princeton GEO paper + Ahrefs 75K brands): sourced statistics (+40% citations), attributed quotes, answer-first structure, top-10 Google rankings (38% of AIO citations), off-site brand mentions (out of scope).
+- Audit verified live: all endpoints 200; live HTML was byte-identical to dist (248,547 B pre-fix); mirror canonical → Vercel; JSON-LD parses, 18 FAQ entities; 1 h1 / 79 headings / zero skips; India best-positioned country (9 impr @ 21.78). Agent-tool launches interrupted again → direct-role fallback used (2nd time).
 
 ## Run / verify
 - `npm run dev` → :5199 · `npm run preview` → :4199 (strictPort, non-standard by constraint)
-- `npm test` → 137/137 (fund ~75 · App ~39 · format 14 · references 3 · StructuredData 6 · ChartCard 2 · ChartSlot 2 · index-html 1 · analytics 1 · about 1 · llms 5 — approximate split)
+- `npm test` → 141/141 (fund ~79 · App ~39 · format 14 · references 3 · StructuredData 8 · ChartCard 2 · ChartSlot 2 · index-html 2 · analytics 1 · about 1 · llms 5 — approximate split)
 - `npx tsc --noEmit` clean · `npm run build` = tsc + vite build + prerender (~243.5 KB content injected into dist/index.html)
 
 ## Stack & architecture (decided — do not re-litigate)
