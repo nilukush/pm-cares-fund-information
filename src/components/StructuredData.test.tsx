@@ -1,6 +1,6 @@
 import { render } from '@testing-library/react'
 import { describe, expect, it } from 'vitest'
-import { SITE_URL, WIKIPEDIA_URL, faq } from '../data/fund'
+import { DATA_AS_OF_ISO, SITE_URL, WIKIPEDIA_URL, faq } from '../data/fund'
 import { StructuredData } from './StructuredData'
 
 function getGraph() {
@@ -66,5 +66,25 @@ describe('StructuredData — schema.org JSON-LD', () => {
     const series = variables.find((v) => /audited statements\)/i.test(v))
     expect(series).toMatch(/2022–23: 6283\.68/)
     expect(series).toMatch(/2021–22: 5415\.66/)
+  })
+
+  it('labels the article-tier receipts row as the printed receipts-side total', () => {
+    render(<StructuredData />)
+    const graph = getGraph()['@graph'] as Array<Record<string, unknown>>
+    const dataset = graph.find((n) => n['@type'] === 'Dataset') as Record<string, unknown>
+    const variables = dataset.variableMeasured as string[]
+    const printed = variables.find((v) => /receipts-side total as printed/i.test(v))
+    expect(printed, 'article-tier row is relabeled, not a bare "Receipts"').toBeDefined()
+    expect(printed).toMatch(/2020–21: 10990\.17/)
+  })
+
+  it('exposes machine-readable freshness dates from the data layer', () => {
+    expect(DATA_AS_OF_ISO, 'exported in fund.ts as an ISO date').toMatch(/^\d{4}-\d{2}-\d{2}$/)
+    render(<StructuredData />)
+    const graph = getGraph()['@graph'] as Array<Record<string, unknown>>
+    const webpage = graph.find((n) => n['@type'] === 'WebPage') as Record<string, unknown>
+    const dataset = graph.find((n) => n['@type'] === 'Dataset') as Record<string, unknown>
+    expect(webpage.dateModified).toBe(DATA_AS_OF_ISO)
+    expect(dataset.modifiedDate).toBe(DATA_AS_OF_ISO)
   })
 })

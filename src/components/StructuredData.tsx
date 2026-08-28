@@ -1,6 +1,7 @@
 import {
   AUDITED_STATEMENT_ACCESSED,
   AUDITED_STATEMENT_URL,
+  DATA_AS_OF_ISO,
   SITE_NAME,
   SITE_URL,
   WIKIPEDIA_URL,
@@ -36,6 +37,7 @@ export function StructuredData() {
           'What is the PM CARES Fund? How much it raised and spent, ventilator and oxygen allocations, audit and RTI status — explained with charts, sourced from Wikipedia and the fund’s audited FY2024-25 statement.',
         inLanguage: 'en',
         isAccessibleForFree: true,
+        dateModified: DATA_AS_OF_ISO,
       },
       {
         '@type': 'FAQPage',
@@ -61,8 +63,10 @@ export function StructuredData() {
         isAccessibleForFree: true,
         keywords: ['PM CARES Fund', 'COVID-19 India', 'donations', 'expenditure', 'transparency'],
         temporalCoverage: '2020-03/2025-03',
+        modifiedDate: DATA_AS_OF_ISO,
         variableMeasured: [
-          'Receipts (₹ crore) — ' + finances.years.map((y) => `${y.fiscalYear}: ${y.receiptsCrore}`).join('; '),
+          'Receipts-side total as printed (article tier, ₹ crore) — ' +
+            finances.years.map((y) => `${y.fiscalYear}: ${y.receiptsCrore}`).join('; '),
           'Year-end balance (₹ crore) — ' + finances.years.map((y) => `${y.fiscalYear}: ${y.balanceCrore}`).join('; '),
           'Audited closing balance (₹ crore, primary source) — ' +
             `${auditedStatementFY202425.priorYearFiscalYear}: ${auditedStatementFY202425.priorYearClosingCrore}; ${auditedStatementFY202425.fiscalYear}: ${auditedStatementFY202425.closingBalanceCrore}`,

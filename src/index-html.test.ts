@@ -15,3 +15,14 @@ describe('Social-card titles are entity-encoded HTML', () => {
     }
   })
 })
+
+describe('noscript carries the corrected FY2020-21 framing', () => {
+  it('states new money received, never the receipts-side total, for FY2020-21', () => {
+    const match = html.match(/<noscript>([\s\S]*?)<\/noscript>/)
+    expect(match, 'noscript block present').not.toBeNull()
+    const noscript = match?.[1] ?? ''
+    expect(noscript).toContain('₹3,076.62 crore in FY2019-20')
+    expect(noscript).toContain('₹7,913.55 crore of new money in FY2020-21')
+    expect(noscript, 'receipts-side total must not be framed as money received').not.toContain('10,990.17')
+  })
+})

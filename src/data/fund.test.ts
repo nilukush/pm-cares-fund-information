@@ -427,6 +427,14 @@ describe('audited statement — FY2024-25 primary tier', () => {
     expect(utilization).toContain('324.66')
   })
 
+  it('uses the total-amount and utilization phrasing people search for', () => {
+    const nowFaq = faq.find((f) => /how much money is in the PM CARES Fund now/i.test(f.q))
+    expect(nowFaq).toBeDefined()
+    expect(nowFaq?.a).toContain('total amount')
+    expect(nowFaq?.a).toContain('16,598.87')
+    expect(faq.some((f) => /utilization/i.test(f.a))).toBe(true)
+  })
+
   it('declares the primary source in sources and the caveats', () => {
     expect(sources.some((s) => s.url.includes('Audited_Statement_2024_25'))).toBe(true)
     expect(dataCaveats.some((c) => /primary source/i.test(c))).toBe(true)

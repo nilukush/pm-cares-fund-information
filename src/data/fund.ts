@@ -13,6 +13,8 @@ export const WIKIPEDIA_URL = 'https://en.wikipedia.org/wiki/PM_CARES_Fund'
 export const SITE_URL = 'https://pm-cares-fund-information.vercel.app/'
 export const SITE_NAME = 'PM CARES Fund — Facts, Figures & Timeline'
 export const DATA_AS_OF = 'Wikipedia, accessed 16 August 2026 (article tagged "needs update – July 2026")'
+// Machine-readable data-as-of (ISO 8601) for schema.org dateModified/modifiedDate.
+export const DATA_AS_OF_ISO = '2026-08-28'
 
 // ---------------------------------------------------------------------------
 // Identity
@@ -1389,11 +1391,11 @@ export const faq = [
   },
   {
     q: 'How much money is in the PM CARES Fund now?',
-    a: 'The most recent published figure is ₹8,452.07 crore on 31 March 2025 (savings bank ₹605.41 crore + fixed deposits ₹7,846.65 crore), from the fund’s audited Receipts & Payments Account for FY2024-25 — KKC & Associates LLP, report dated 7 August 2026 (pmcares.gov.in, accessed 28 August 2026). Earlier: ₹7,013.99 crore on 31 March 2021 (pmcares.gov.in figures via Wikipedia).',
+    a: 'The most recent published figure is ₹8,452.07 crore on 31 March 2025 (savings bank ₹605.41 crore + fixed deposits ₹7,846.65 crore), from the fund’s audited Receipts & Payments Account for FY2024-25 — KKC & Associates LLP, report dated 7 August 2026 (pmcares.gov.in, accessed 28 August 2026). The total amount received across the six audited years (FY2019-20 → FY2024-25) is ₹16,598.87 crore (derived). Earlier: ₹7,013.99 crore on 31 March 2021 (pmcares.gov.in figures via Wikipedia).',
   },
   {
     q: 'What has the PM CARES Fund spent in recent years?',
-    a: 'After payments of ₹3,976.17 crore in FY2020-21 and ₹3,716.29 crore in FY2021-22, audited payments fell to ₹437.87 crore in FY2022-23 — ₹346.00 crore for PM CARES for Children and ₹91.87 crore for 99,986 oxygen concentrators, per the statement — then ₹15.60 crore in FY2023-24 and ₹0.88 crore in FY2024-25 — from FY2023-24 onward the only payments were PM CARES for Children and bank charges. Domestic donations declined every year, from ₹7,183.78 crore in FY2020-21 to ₹479.05 crore in FY2024-25 (audited statements).',
+    a: 'After payments of ₹3,976.17 crore in FY2020-21 and ₹3,716.29 crore in FY2021-22, audited payments fell to ₹437.87 crore in FY2022-23 — ₹346.00 crore for PM CARES for Children and ₹91.87 crore for 99,986 oxygen concentrators, per the statement — then ₹15.60 crore in FY2023-24 and ₹0.88 crore in FY2024-25 — from FY2023-24 onward the only payments (the fund’s entire recorded programme utilization in those years) were PM CARES for Children and bank charges. Domestic donations declined every year, from ₹7,183.78 crore in FY2020-21 to ₹479.05 crore in FY2024-25 (audited statements).',
   },
 ]
 
