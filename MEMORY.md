@@ -1,6 +1,6 @@
 # MEMORY.md — Project Memory (compacted 2026-08-28, end of session, post-v2.2.1)
 
-## Status: v2.2.1 · DEPLOYED (28 Aug) · Three source tiers · 141/141 tests · All gates PASS
+## Status: v2.2.1 · DEPLOYED (28 Aug) · Three source tiers · 141/141 tests · All gates PASS · repo docs audited 28 Aug (3-role)
 
 Public-information website about India's PM CARES Fund, now the most complete public
 compilation of its audited figures (ahead of Wikipedia). **Three labeled tiers**
@@ -33,9 +33,15 @@ conflicting news figures dropped, never averaged).
 - **llms.txt demoted to hedge (research-backed)**: no major AI crawler fetches it (Ahrefs 137K sites: 97% never; log audits ~0.14%; Mueller "no AI system uses it"). KEEP (zero cost, briefing doc, 5 tests) but not a lever. Real GEO levers: sourced statistics (+40% citations, Princeton GEO paper), attributed quotes, answer-first structure, top-10 Google rankings (38% of AI-Overview citations), off-site brand mentions (out of scope here).
 - Research docs: docs/research/2026-08-28-keyword-research.md, 2026-08-28-audit-sources.md (fact inventory), 2026-08-28-seo-geo-audit.md.
 
+### Docs-hygiene audit (same session, later — user-requested; 3-role gate, round-2 double-APPROVE)
+- User asked: audit README/LICENSE/CONTRIBUTING/docs. Verdicts: README materially stale (described the v1.x Wikipedia-only product: "44/50 tests", "11 Q&As", "20-event", chart deleted in v2.2, wrong provenance + 15-Aug date); LICENSE/CONTRIBUTING absent.
+- Shipped: README rewritten (three-tier sourcing section w/ correct dates 16 Aug article / 28 Aug primary; current 4 charts + six-year record; **no brittle counts in README/CI step names — counts live only in CLAUDE/MEMORY, re-count when suite changes**; full project layout incl. references.ts auto-generated, scripts/, public/, docs/research/; build line says prerender; License + Contributing sections). New LICENSE = dual: **MIT (code) + CC BY-SA 4.0 (content)** + facts-not-copyrightable notice — CC BY-SA chosen because article-tier text adapts Wikipedia (same license keeps derivative chain clean); **user should ratify or swap (CC BY 4.0 = one-line change) before/after push**. New CONTRIBUTING.md (issue-first sourced corrections; tier weighing; TDD/gates; ports). deploy.yml step "Test (44 tests)"→"Test". package.json → version 2.2.1 + three-tier description (+ lockfile version sync). CLAUDE/MEMORY test split corrected: exact = fund 67 · App 37 · format 14 · references 3 · StructuredData 8 · ChartCard 2 · ChartSlot 2 · index-html 2 · analytics 1 · llms 5 (old "~79/~39/about 1" summed 156 and invented a file). Second dup-key warning (caveats `The Wikipedia article is` prefix) documented.
+- No site content changed → no redeploy needed; lastmod NOT bumped (dist identical). Committed locally; push/release ritual left to user (LICENSE ratification first).
+- Parked from audit: index.html meta + StructuredData.tsx still say "audited FY2024-25 statement" (singular — six-statement + news-tier phrasing = content-gate owned, next content pass); fund.ts "over 130 tests" (true at 141, next content pass); robots.txt newer AI tokens (cosmetic — `User-agent: *` allows all); git tags (v2.2.1 untagged); Node engines pin. GitHub may badge the dual LICENSE as just "MIT" (cosmetic; file text governs).
+
 ## Run / verify
 - `npm run dev` → :5199 · `npm run preview` → :4199 (strictPort, non-standard by constraint)
-- `npm test` → 141/141 (fund ~79 · App ~39 · format 14 · references 3 · StructuredData 8 · ChartCard 2 · ChartSlot 2 · index-html 2 · analytics 1 · about 1 · llms 5 — approximate split)
+- `npm test` → 141/141 (fund 67 · App 37 · format 14 · references 3 · StructuredData 8 · ChartCard 2 · ChartSlot 2 · index-html 2 · analytics 1 · llms 5 — exact split; re-count when the suite changes)
 - `npx tsc --noEmit` clean · `npm run build` = tsc + vite build + prerender (~244 KB content injected into dist/index.html)
 
 ## Stack & architecture (decided — do not re-litigate)
@@ -50,7 +56,7 @@ Vite 8 + React 19 + TS strict + Tailwind v4 (`@theme` tokens in src/index.css) +
 1. Three tiers (see AGENTS.md); estimates labeled "estimate", computed values "derived", month-level dates when no day given. 2. Never sum 32-PSU vs 101-PSU figures. 3. Charts never color-only. 4. TDD mandatory; agent-gate (Analyzer→implement→Debugger+Verifier parallel→consensus→re-verify; max 3 attempts) for content/release changes; conservative phrasing wins disputes. 5. Vande Bharat, Tata ₹1,500 cr still excluded-by-absence.
 
 ## Audit & verification history (compressed; 2026-08-15 → 08-28)
-v1.4 clause-completeness → v1.5 dual re-audit → v1.6 UI/UX → v1.7 FINAL clause-complete → 19 Aug SEO/GEO 3-role PASS → v1.8 perf (Recharts code-split) → v1.9 analytics → v2.0 aliases → v2.1 six-year+news (first 10× catch) → v2.2 consolidation (first round-1 double-APPROVE) → 28 Aug SEO/GEO audit r2 with GSC data → v2.2.1 fixes same session.
+v1.4 clause-completeness → v1.5 dual re-audit → v1.6 UI/UX → v1.7 FINAL clause-complete → 19 Aug SEO/GEO 3-role PASS → v1.8 perf (Recharts code-split) → v1.9 analytics → v2.0 aliases → v2.1 six-year+news (first 10× catch) → v2.2 consolidation (first round-1 double-APPROVE) → 28 Aug SEO/GEO audit r2 with GSC data → v2.2.1 fixes same session → 28 Aug docs-hygiene audit (README/LICENSE/CONTRIBUTING; round-2 double-APPROVE).
 
 ## SEO / GEO
 Prerendered full HTML; JSON-LD @graph valid (WebSite/WebPage+dateModified/FAQPage-18/Dataset+modifiedDate, temporalCoverage 2020-03/2025-03); robots.txt welcomes AI crawlers (current official tokens); llms.txt = hedge only (see gate lessons above); og-image 1200×630. GSC verified + sitemap; Bing imported; IndexNow key 0e7c80d58618f01b8673e21f543f7f13 (POST JSON body; GET-style params on POST = HTTP 411). sitemap lastmod 2026-08-28.
@@ -63,7 +69,7 @@ Prerendered full HTML; JSON-LD @graph valid (WebSite/WebPage+dateModified/FAQPag
 - **One-time human checks**: `site:` both domains; Bing WMT position glance.
 - Keyword research: docs/research/2026-08-28-keyword-research.md — entity demand TRIPLED in 2026 (Wikipedia PV 1.7k→8.3k/mo); alias FAQs + phrasing ("total amount", "utilization") now shipped.
 - Vercel Web Analytics ON; Speed Insights BLOCKED (Hobby 1-project slot). AI-referral traffic shows in WA referrers, not GSC.
-- Known minor: duplicate React key warning (Timeline 2020-04-13 ×2) — harmless, unfixed by choice.
+- Known minor: two duplicate React key warnings — Timeline `2020-04-13` ×2, and caveats sharing the `The Wikipedia article is` prefix (fund.ts two caveats) — both harmless, unfixed by choice.
 
 ## Ops notes
 - Deploy = `git push` → Vercel + GitHub Actions Pages mirror (runs tests). Vite base = `GITHUB_ACTIONS ? '/pm-cares-fund-information/' : '/'` (NOT `CI`). Explicit devDeps: esbuild, @types/node. Runtime: @vercel/analytics, @vercel/speed-insights.

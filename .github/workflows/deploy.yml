@@ -30,7 +30,7 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
-      - name: Test (44 tests)
+      - name: Test
         run: npm test
 
       - name: Build (CI base path)

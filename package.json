@@ -1,9 +1,9 @@
 {
   "name": "pm-cares-fund-information",
   "private": true,
-  "version": "1.0.0",
+  "version": "2.2.1",
   "type": "module",
-  "description": "Public information website about India's PM CARES Fund — facts, figures, allocations and timeline, sourced from Wikipedia",
+  "description": "Public information website about India's PM CARES Fund — facts, figures, allocations and timeline, sourced from three labeled tiers: the English Wikipedia article, the fund's audited statements (pmcares.gov.in), and attributed news coverage",
   "scripts": {
     "dev": "vite",
     "build": "tsc --noEmit && vite build && node scripts/prerender.mjs",

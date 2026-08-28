@@ -25,7 +25,7 @@ A single-page public-information website presenting India's **PM CARES Fund** fa
 1. Three source tiers, never mixed in one chart or total: `article` (Wikipedia), `primary` (pmcares.gov.in audited statements — wins all conflicts), `news` (attributed only). Estimated/derived values are labeled as such.
 2. Never sum overlapping donation figures (32-PSU vs 101-PSU periods differ).
 3. Charts never rely on color alone: direct labels + legend + table + aria-label.
-4. Tests: 141 (fund ~79, App ~39, format 14, references 3, StructuredData 8, ChartCard 2, ChartSlot 2, index-html 2, analytics 1, about 1, llms 5). TDD is mandatory for any new feature: red → green → refactor.
+4. Tests: 141 (fund 67, App 37, format 14, references 3, StructuredData 8, ChartCard 2, ChartSlot 2, index-html 2, analytics 1, llms 5). TDD is mandatory for any new feature: red → green → refactor.
 5. Where a source gives only month-level dates, show month-level dates (never invent a day).
 
 ## Updating data when sources change
