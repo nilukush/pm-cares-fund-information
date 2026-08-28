@@ -9,8 +9,7 @@ what was allocated, how delivery tracked against promises, and the transparency 
 
 ## Data sourcing — three labeled tiers
 
-Every figure on the site belongs to one of three clearly labeled source tiers
-(policy in [`AGENTS.md`](AGENTS.md)):
+Every figure on the site belongs to one of three clearly labeled source tiers:
 
 - **`article`** — the [English Wikipedia article](https://en.wikipedia.org/wiki/PM_CARES_Fund)
   (accessed 16 Aug 2026; the article itself is tagged "needs update" and its financial
@@ -52,7 +51,7 @@ npm run dev        # http://localhost:5199  (non-standard port, intentional)
 Other commands:
 
 ```bash
-npm test           # Vitest — unit + integration (exact count maintained in CLAUDE.md)
+npm test           # Vitest — unit + integration
 npm run build      # typecheck (tsc --noEmit) + bundle + prerender → dist/
 npm run preview    # http://localhost:4199  (non-standard port, intentional)
 ```
@@ -72,7 +71,6 @@ scripts/
 ├── prerender.mjs           # post-build: injects fully-rendered HTML into dist/index.html
 └── parse-references.mjs    # regenerates src/data/references.ts from live Wikipedia wikitext
 public/                     # robots.txt (welcomes AI crawlers), sitemap.xml, llms.txt, og-image.png
-docs/                       # ANALYSIS.md, PLAN.md (process artifacts), research/ (audits)
 .github/workflows/deploy.yml  # GitHub Pages mirror CI (install → test → build → deploy)
 .env.local|.dev|.staging|.production
 ```
@@ -129,8 +127,7 @@ repository is connected to the Vercel project, so every push to `main` auto-depl
 ## Contributing
 
 Corrections — especially sourced factual ones — are welcome. See
-[`CONTRIBUTING.md`](CONTRIBUTING.md); full working rules for agents and humans are in
-[`AGENTS.md`](AGENTS.md).
+[`CONTRIBUTING.md`](CONTRIBUTING.md).
 
 ## Note on neutrality
 

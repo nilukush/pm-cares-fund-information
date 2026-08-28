@@ -13,7 +13,7 @@ Include, at minimum:
 2. **A source**: a URL (audited statement, Wikipedia wikitext, or a dated news article)
    plus the exact figure or quote from that source.
 
-How sources are weighed (full policy in [`AGENTS.md`](AGENTS.md)):
+How sources are weighed:
 
 - **`primary`** — the fund's audited statements on pmcares.gov.in **win all conflicts**.
 - **`article`** — the English Wikipedia article is the narrative baseline.
@@ -29,7 +29,7 @@ site's behalf.
 - **TDD is mandatory**: failing test first, minimal implementation, then refactor.
   `npm test` must pass, `npx tsc --noEmit` must be clean, `npm run build` must succeed.
 - **Content changes are gated**: they go through an Analyzer → Debugger + Verifier
-  review with consensus required (see `AGENTS.md`). Expect factual PRs to be
+  review with consensus required. Expect factual PRs to be
   verified against the live sources before merging.
 - TypeScript strict (no `any`, no `@ts-ignore`); Tailwind design tokens only
   (`bg-primary`, `text-secondary`, `var(--color-chart-*)`); WCAG 2.1 AA.
