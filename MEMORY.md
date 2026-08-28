@@ -1,11 +1,14 @@
 # MEMORY.md — Project Memory (compacted 2026-08-21, end of session)
 
-## Status: v2.1 · DEPLOYED (28 Aug) · Three source tiers · 132/132 tests · All gates PASS
+## Status: v2.2 · DEPLOYED (28 Aug) · Three tiers · Finances consolidated · 137/137 tests · All gates PASS
 
 Public-information website about India's PM CARES Fund. Three labeled source tiers since v2.1:
 `article` (English Wikipedia, data as of 16 Aug 2026 — stale, tagged "needs update July 2026"),
 `primary` (pmcares.gov.in audited statements FY2019-20→FY2024-25, all six PDFs fetched+verified
 28 Aug 2026), `news` (attributed Aug 2026 coverage). Policy recorded in AGENTS.md (user-approved).
+
+## v2.2 (28 Aug): Finances consolidation (user-approved restructure)
+- Retired the article-tier 2-year chart; printed side-totals (incl. 10,990.17) became a dedicated six-year-table column; the 3 finance notes absorbed into its note slot (nothing-lost checklist verified against dist). KPI 2 = "Payments over six years (derived) ₹8,146.81 cr". AuditedStatement folded into SixYearRecord as <details open> deep-dive (prerendered; card byte-identical). CoverageReactions moved to #debate after Debate. FinancesBarChart deleted. Data layer untouched; tests 132→137 (incl. exact chart-count lock 4). Debugger+Verifier BOTH round-1 APPROVE (first time). Finances section now: KPI+donut → six-year record+donations+deep-dive. Optional NICE leftovers (not done): split merged note into paragraphs; tighten deep-dive containment test; lone-donut grid wrapper.
 
 ## v2.1 (28 Aug): six-year audited record + news tier + FY20-21 correction
 - **Six-year series (all identity-verified, chain-continuous)**: closings 3,076.62 / 7,013.99 / 5,415.66 / 6,283.68 / 7,173.03 / 8,452.07 cr; receipts-during 16,598.87 cr; payments 8,146.81 cr (derived). FY22-23 payments 437.87 = Children 346.00 + 99,986 oxygen concentrators 91.87 + fees. Donations decline (domestic): 7,183.78→1,896.76→908.13→681.81→479.05.
@@ -29,7 +32,7 @@ Public-information website about India's PM CARES Fund. Three labeled source tie
 
 ## Run / verify
 - `npm run dev` → :5199 · `npm run preview` → :4199 (strictPort, non-standard by constraint)
-- `npm test` → 132/132 (fund ~60 · App ~34 · format 14 · references 3 · StructuredData 6 · ChartCard 2 · ChartSlot 2 · index-html 1 · analytics 1 · about 1 · llms 5)
+- `npm test` → 137/137 (fund ~60 · App ~34 · format 14 · references 3 · StructuredData 6 · ChartCard 2 · ChartSlot 2 · index-html 1 · analytics 1 · about 1 · llms 5)
 - `npx tsc --noEmit` clean · `npm run build` = tsc + vite build + prerender (~193.7 KB content injected into dist/index.html)
 
 ## Stack & architecture (decided — do not re-litigate)
